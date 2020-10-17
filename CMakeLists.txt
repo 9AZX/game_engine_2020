@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.12.0)
 
-set(VCPKG_MANIFEST_MODE ON)
-set(VCPKG_MANIFEST_INSTALL ON)
 set(
     CMAKE_TOOLCHAIN_FILE
     ${CMAKE_CURRENT_SOURCE_DIR}/extern/vcpkg/scripts/buildsystems/vcpkg.cmake
