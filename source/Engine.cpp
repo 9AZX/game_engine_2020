@@ -1,13 +1,17 @@
 #include "Engine.hpp"
 
 #include <iostream>
+#include <portaudio.h>
 
-Engine::Engine(const std::string & message):
-    _message(message)
+void Engine::init() const noexcept
 {
-}
+    PaError err = Pa_Initialize();
+    if (err != paNoError) {
+        std::cerr << "Could not initialize portaudio" << Pa_GetErrorText(err) << std::endl;
+    }
 
-void Engine::sayHello() const noexcept
-{
-    std::cout << "Hello " << _message << std::endl;
+    err = Pa_Terminate();
+    if (err != paNoError) {
+        std::cerr << "Could not terminate portaudio" << Pa_GetErrorText(err) << std::endl;
+    }
 }

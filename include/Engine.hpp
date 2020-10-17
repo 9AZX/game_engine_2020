@@ -5,12 +5,9 @@
 
 class Engine {
     public:
-        Engine(const std::string & message);
+        Engine() = default;
 
-        void sayHello() const noexcept;
-
-    private:
-        std::string _message;
+        void init() const noexcept;
 }; /* class Engine */
 
 #endif /* ENGINE_HPP_ */

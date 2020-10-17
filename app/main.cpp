@@ -2,5 +2,7 @@
 
 int main(void)
 {
-    Engine("world").sayHello();
+    Engine engine;
+
+    engine.init();
 }
