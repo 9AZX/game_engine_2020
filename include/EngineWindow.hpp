@@ -1,10 +1,14 @@
 #pragma once
 
+#ifndef Engine_HPP_
+#define Engine_HPP_
+
 #define NOMINMAX
 #include <Windows.h>
 #include <stdlib.h>
 #include <string.h>
 #include <tchar.h>
+#include <stdint.h>
 
 bool isWindowsClosed = false;
 const uint32_t WIDTH = 800;
@@ -16,7 +20,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_GETMINMAXINFO:
     {
-        MINMAXINFO* mmi = (MINMAXINFO*)lParam;
+        MINMAXINFO *mmi = (MINMAXINFO *)lParam;
         mmi->ptMinTrackSize.x = 800;
         mmi->ptMinTrackSize.y = 600;
         break;
@@ -32,21 +36,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-class Core
+class EngineWindow
 {
 public:
-    Core(_In_ HINSTANCE hInstance,
-        _In_opt_ HINSTANCE hPrevInstance,
-        _In_ LPSTR     lpCmdLine,
-        _In_ int       nCmdShow)
+    EngineWindow(_In_ HINSTANCE hInstance,
+                 _In_opt_ HINSTANCE hPrevInstance,
+                 _In_ LPSTR lpCmdLine,
+                 _In_ int nCmdShow)
     {
         _hInstance = hInstance;
         _hPrevInstance = hPrevInstance;
         _lpCmdLine = lpCmdLine;
         _nCmdShow = nCmdShow;
     }
+    EngineWindow() {}
 
-    ~Core()
+    ~EngineWindow()
     {
     }
 
@@ -60,7 +65,8 @@ public:
         wcex.hInstance = _hInstance;
         wcex.hIcon = LoadIcon(_hInstance, IDI_APPLICATION);
         wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-        wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);;
+        wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
+        ;
         wcex.lpszMenuName = NULL;
         wcex.lpszClassName = _T("DesktopApp");
         wcex.hIconSm = LoadIcon(wcex.hInstance, IDI_APPLICATION);
@@ -68,9 +74,9 @@ public:
         if (!RegisterClassEx(&wcex))
         {
             MessageBox(NULL,
-                _T("Call to RegisterClassEx failed!"),
-                _T("Windows Desktop Guided Tour"),
-                NULL);
+                       _T("Call to RegisterClassEx failed!"),
+                       _T("Windows Desktop Guided Tour"),
+                       NULL);
 
             return;
         }
@@ -83,31 +89,20 @@ public:
             NULL,
             NULL,
             _hInstance,
-            NULL
-        );
+            NULL);
 
         if (!_hWnd)
         {
             MessageBox(NULL,
-                _T("Call to CreateWindow failed!"),
-                _T("Windows Desktop Guided Tour"),
-                NULL);
+                       _T("Call to CreateWindow failed!"),
+                       _T("Windows Desktop Guided Tour"),
+                       NULL);
 
             return;
         }
         ShowWindow(_hWnd,
-            _nCmdShow);
+                   _nCmdShow);
         UpdateWindow(_hWnd);
-    }
-
-    constexpr HINSTANCE getHinstance()
-    {
-        return _hInstance;
-    }
-
-    constexpr HWND getHwnd()
-    {
-        return _hWnd;
     }
 
     void run()
@@ -126,17 +121,25 @@ public:
             {
                 //drawFrame();
             }
-
         }
         //vkDeviceWaitIdle(device);
     }
+    constexpr HINSTANCE getHinstance()
+    {
+        return _hInstance;
+    }
 
+    constexpr HWND getHwnd()
+    {
+        return _hWnd;
+    }
 
 private:
     _In_ HINSTANCE _hInstance;
     WNDCLASSEX wcex;
     HWND _hWnd;
     HINSTANCE _hPrevInstance;
-    LPSTR     _lpCmdLine;
-    int       _nCmdShow;
+    LPSTR _lpCmdLine;
+    int _nCmdShow;
 };
+#endif /* Engine_HPP_ */

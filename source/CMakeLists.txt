@@ -8,7 +8,7 @@ file(
 )
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
-    Engine.cpp
+    Core.cpp
     ${HEADER_LIST}
 )
 

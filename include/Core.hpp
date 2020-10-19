@@ -1,0 +1,23 @@
+#pragma once
+
+#ifndef Core_HPP_
+#define Core_HPP_
+#include "EngineWindow.hpp"
+
+class Core
+{
+public:
+    Core() = default;
+
+    void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) const noexcept;
+    //void init() const noexcept;
+
+private:
+    _In_ HINSTANCE _hInstance;
+    HWND _hWnd;
+    HINSTANCE _hPrevInstance;
+    LPSTR _pCmdLine;
+    int _nCmdShow;
+}; /* class Core */
+
+#endif /* Core_HPP_ */

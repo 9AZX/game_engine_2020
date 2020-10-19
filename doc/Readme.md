@@ -1,5 +1,7 @@
-1-Si vous êtes sur visual studio, il faut configurer le projet sous le système windows pour pouvoir utiliser l'API win32
-cliquez Projet -> propriétés du projet-> éditeur de liens -> Système -> Sous-Système -> Windows(\SUBSYSTEM:WINDOWS)
+## Ajouter Vulkan Ã  l'API WIN32
+
+1-Si vous ï¿½tes sur visual studio, il faut configurer le projet sous le systï¿½me windows pour pouvoir utiliser l'API win32
+cliquez Projet -> propriï¿½tï¿½s du projet-> ï¿½diteur de liens -> Systï¿½me -> Sous-Systï¿½me -> Windows(\SUBSYSTEM:WINDOWS)
 
 2-Remplacer le main() par:
   int CALLBACK WinMain(
@@ -9,7 +11,7 @@ cliquez Projet -> propriétés du projet-> éditeur de liens -> Système -> Sous-Sys
     _In_ int       nCmdShow)
 
 
-3-Pour intégrer Vulkan dans la fenêtre windows avec Core.hpp, vous devez créer la surface de cette manière par rapport au tuto pour glfw:
+3-Pour intï¿½grer Vulkan dans la fenï¿½tre windows avec Core.hpp, vous devez crï¿½er la surface de cette maniï¿½re par rapport au tuto pour glfw:
 
 VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
         surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -22,7 +24,7 @@ VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
         }
 
 
-4-Lorsque vous récupérez vos extensions pour créer votre instance avec auto extensions = getRequiredExtensions(), rajoutez à la ligne suivante:
+4-Lorsque vous rï¿½cupï¿½rez vos extensions pour crï¿½er votre instance avec auto extensions = getRequiredExtensions(), rajoutez ï¿½ la ligne suivante:
     extensions.push_back(VK_KHR_WIN32_SURFACE_EXTENSION_NAME);
 
 
@@ -36,6 +38,7 @@ VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
 
 
 6-Dans les fonction chooseSwapExtent et recreateSwapChain, remplacez:
+    
     glfwGetFramebufferSize(window, &width, &height) 
 
     et
