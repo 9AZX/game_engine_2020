@@ -1,4 +1,5 @@
 #include "Core.hpp"
+#include "EngineWindow.hpp"
 
 #include <iostream>
 #include <portaudio.h>
@@ -17,7 +18,7 @@
 // For WINDOWS ONLY
 void Core::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) const noexcept
 {
-    EngineWindow window = EngineWindow(_hInstance, _hPrevInstance, _pCmdLine, _nCmdShow);
+    EngineWindow window = EngineWindow(hInstance, hPrevInstance, pCmdLine, nCmdShow);
 
     window.initWindow();
     window.run();
