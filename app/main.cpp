@@ -1,8 +1,9 @@
-#include "Engine.hpp"
+#include "Engine/Core.hpp"
 
 int main(void)
 {
-    Engine engine;
+    Engine::Core engine;
 
     engine.init();
+    engine.run();
 }

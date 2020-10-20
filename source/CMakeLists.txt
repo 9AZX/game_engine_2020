@@ -8,7 +8,9 @@ file(
 )
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
-    Engine.cpp
+    Engine/Core.cpp
+    Engine/Resource/Resource.cpp
+    Engine/Resource/ResourceManager.cpp
     ${HEADER_LIST}
 )
 
