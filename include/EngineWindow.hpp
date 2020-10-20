@@ -37,16 +37,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 class EngineWindow
 {
 public:
-    EngineWindow(_In_ HINSTANCE hInstance,
-                 _In_opt_ HINSTANCE hPrevInstance,
-                 _In_ LPSTR lpCmdLine,
-                 _In_ int nCmdShow)
-    {
-        _hInstance = hInstance;
-        _hPrevInstance = hPrevInstance;
-        _lpCmdLine = lpCmdLine;
-        _nCmdShow = nCmdShow;
-    }
     EngineWindow() {}
 
     ~EngineWindow()
@@ -60,11 +50,10 @@ public:
         wcex.lpfnWndProc = WndProc;
         wcex.cbClsExtra = 0;
         wcex.cbWndExtra = 0;
-        wcex.hInstance = _hInstance;
-        wcex.hIcon = LoadIcon(_hInstance, IDI_APPLICATION);
+        wcex.hInstance = GetModuleHandleW(NULL);
+        wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
         wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
         wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
-        ;
         wcex.lpszMenuName = NULL;
         wcex.lpszClassName = _T("DesktopApp");
         wcex.hIconSm = LoadIcon(wcex.hInstance, IDI_APPLICATION);
@@ -86,7 +75,7 @@ public:
             WIDTH, HEIGHT,
             NULL,
             NULL,
-            _hInstance,
+            GetModuleHandleW(NULL),
             NULL);
 
         if (!_hWnd)
@@ -99,7 +88,7 @@ public:
             return;
         }
         ShowWindow(_hWnd,
-                   _nCmdShow);
+            SW_SHOWDEFAULT);
         UpdateWindow(_hWnd);
     }
 
@@ -122,10 +111,6 @@ public:
         }
         //vkDeviceWaitIdle(device);
     }
-    constexpr HINSTANCE getHinstance()
-    {
-        return _hInstance;
-    }
 
     constexpr HWND getHwnd()
     {
@@ -133,12 +118,8 @@ public:
     }
 
 private:
-    _In_ HINSTANCE _hInstance;
     WNDCLASSEX wcex;
     HWND _hWnd;
-    HINSTANCE _hPrevInstance;
-    LPSTR _lpCmdLine;
-    int _nCmdShow;
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
 };

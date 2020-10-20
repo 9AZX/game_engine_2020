@@ -12,23 +12,9 @@ void Core::init() const noexcept
 
     window.initWindow();
     window.run();
+
     PaError err = Pa_Initialize();
-}
-
-// For WINDOWS ONLY
-void Core::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) const noexcept
-{
-    EngineWindow window = EngineWindow(hInstance, hPrevInstance, pCmdLine, nCmdShow);
-
-    window.initWindow();
-    window.run();
-
-    // Resources manager
-    //TODO #3
-
-    // Audio init
-    // TODO #2
-    PaError err = Pa_Initialize();
+    
     if (err != paNoError)
     {
         std::cerr << "Could not initialize portaudio" << Pa_GetErrorText(err) << std::endl;
