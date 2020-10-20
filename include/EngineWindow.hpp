@@ -9,6 +9,7 @@
 #include <string.h>
 #include <tchar.h>
 #include <stdint.h>
+#include <string>
 
 bool isWindowsClosed = false;
 
@@ -37,80 +38,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 class EngineWindow
 {
 public:
-    EngineWindow() {}
+    EngineWindow(std::string windowName, int width, int height);
 
     ~EngineWindow()
     {
     }
 
-    void initWindow()
-    {
-        wcex.cbSize = sizeof(WNDCLASSEX);
-        wcex.style = CS_HREDRAW | CS_VREDRAW;
-        wcex.lpfnWndProc = WndProc;
-        wcex.cbClsExtra = 0;
-        wcex.cbWndExtra = 0;
-        wcex.hInstance = GetModuleHandleW(NULL);
-        wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-        wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-        wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
-        wcex.lpszMenuName = NULL;
-        wcex.lpszClassName = _T("DesktopApp");
-        wcex.hIconSm = LoadIcon(wcex.hInstance, IDI_APPLICATION);
+    void initWindow();
 
-        if (!RegisterClassEx(&wcex))
-        {
-            MessageBox(NULL,
-                       _T("Call to RegisterClassEx failed!"),
-                       _T("Windows Desktop Guided Tour"),
-                       NULL);
-
-            return;
-        }
-        _hWnd = CreateWindow(
-            _T("DesktopApp"),
-            _T("Windows Desktop Guided Tour Application"),
-            WS_OVERLAPPEDWINDOW,
-            CW_USEDEFAULT, CW_USEDEFAULT,
-            WIDTH, HEIGHT,
-            NULL,
-            NULL,
-            GetModuleHandleW(NULL),
-            NULL);
-
-        if (!_hWnd)
-        {
-            MessageBox(NULL,
-                       _T("Call to CreateWindow failed!"),
-                       _T("Windows Desktop Guided Tour"),
-                       NULL);
-
-            return;
-        }
-        ShowWindow(_hWnd,
-            SW_SHOWDEFAULT);
-        UpdateWindow(_hWnd);
-    }
-
-    void run()
-    {
-        MSG msg;
-        while (isWindowsClosed == false)
-        {
-            while (PeekMessage(&msg, _hWnd, 0, 0, PM_REMOVE))
-            {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-                if (msg.message == WM_QUIT)
-                    break;
-            }
-            if (isWindowsClosed == false)
-            {
-                //drawFrame();
-            }
-        }
-        //vkDeviceWaitIdle(device);
-    }
+    void run();
 
     constexpr HWND getHwnd()
     {
@@ -118,8 +54,9 @@ public:
     }
 
 private:
-    WNDCLASSEX wcex;
+    WNDCLASSEX _wcex;
     HWND _hWnd;
+    std::string _windowName;
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
 };
