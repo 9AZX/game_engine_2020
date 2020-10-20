@@ -8,7 +8,8 @@ file(
 )
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
-    Engine.cpp
+    Core.cpp
+    EngineWindow.cpp
     ${HEADER_LIST}
 )
 

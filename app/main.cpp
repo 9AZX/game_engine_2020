@@ -1,8 +1,8 @@
-#include "Engine.hpp"
+#include "Core.hpp"
 
 int main(void)
 {
-    Engine engine;
+    Core core = Core("Super jeu");
 
-    engine.init();
+    core.init();
 }
