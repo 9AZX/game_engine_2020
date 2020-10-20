@@ -45,14 +45,14 @@ void EngineWindow::initWindow()
     {
         MessageBox(NULL,
                    _T("Call to RegisterClassEx failed!"),
-                   _T("Windows Desktop Guided Tour"),
+                   _T("3D Game Engine"),
                    NULL);
 
         return;
     }
     _hWnd = CreateWindow(
         _T("DesktopApp"),
-        _T("Windows Desktop Guided Tour Application"),
+        _T("3D Game Engine Application"),
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
         WIDTH, HEIGHT,
@@ -65,11 +65,12 @@ void EngineWindow::initWindow()
     {
         MessageBox(NULL,
                    _T("Call to CreateWindow failed!"),
-                   _T("Windows Desktop Guided Tour"),
+                   _T("3D Game Engine"),
                    NULL);
 
         return;
     }
+    SetWindowTextA(_hWnd, _windowName.c_str());
     ShowWindow(_hWnd,
                SW_SHOWDEFAULT);
     UpdateWindow(_hWnd);

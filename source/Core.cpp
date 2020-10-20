@@ -7,23 +7,14 @@
 // Create crossplatform with GLFW or without
 // TODO #4
 
+Core::Core(std::string gameName) : _gameName(gameName)
+{
+}
+
 void Core::init() const noexcept
 {
-    EngineWindow window = EngineWindow("3D Game Engine", 1920, 1080);
+    EngineWindow window = EngineWindow(_gameName, 1920, 1080);
 
     window.initWindow();
     window.run();
-
-    PaError err = Pa_Initialize();
-
-    if (err != paNoError)
-    {
-        std::cerr << "Could not initialize portaudio" << Pa_GetErrorText(err) << std::endl;
-    }
-
-    err = Pa_Terminate();
-    if (err != paNoError)
-    {
-        std::cerr << "Could not terminate portaudio" << Pa_GetErrorText(err) << std::endl;
-    }
 }

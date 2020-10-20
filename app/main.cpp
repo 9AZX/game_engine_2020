@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    Core core;
+    Core core = Core("Super jeu");
 
     core.init();
 }

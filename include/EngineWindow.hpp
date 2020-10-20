@@ -16,9 +16,7 @@ class EngineWindow
 public:
     EngineWindow(std::string windowName, int width, int height);
 
-    ~EngineWindow()
-    {
-    }
+    ~EngineWindow() = default;
 
     void initWindow();
 

@@ -4,18 +4,19 @@
 #define Core_HPP_
 
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <tchar.h>
 #include <stdint.h>
 
 class Core
 {
 public:
-    Core() = default;
+    Core(std::string gameName);
 
     void init() const noexcept;
 
 private:
+    const std::string _gameName = "";
 }; /* class Core */
 
 #endif /* Core_HPP_ */
