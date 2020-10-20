@@ -15,7 +15,7 @@ public:
     Core() = default;
 
     void init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) const noexcept;
-    //void init() const noexcept;
+    void init() const noexcept;
 
 private:
     _In_ HINSTANCE _hInstance;

@@ -11,5 +11,8 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLin
 #else
 int main(void)
 {
+    Core core;
+
+    core.init();
 }
 #endif

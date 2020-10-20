@@ -11,8 +11,6 @@
 #include <stdint.h>
 
 bool isWindowsClosed = false;
-const uint32_t WIDTH = 800;
-const uint32_t HEIGHT = 600;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -141,5 +139,7 @@ private:
     HINSTANCE _hPrevInstance;
     LPSTR _lpCmdLine;
     int _nCmdShow;
+    const uint32_t WIDTH = 800;
+    const uint32_t HEIGHT = 600;
 };
 #endif /* Engine_HPP_ */

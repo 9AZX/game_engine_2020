@@ -6,14 +6,14 @@
 
 // For Debuging or crossplatform with GLFW
 // TODO #4
-// void Core::init() const noexcept
-// {
-//     EngineWindow window = EngineWindow();
+void Core::init() const noexcept
+{
+    EngineWindow window = EngineWindow();
 
-//     window.initWindow();
-//     window.run();
-//     PaError err = Pa_Initialize();
-// }
+    window.initWindow();
+    window.run();
+    PaError err = Pa_Initialize();
+}
 
 // For WINDOWS ONLY
 void Core::init(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) const noexcept
