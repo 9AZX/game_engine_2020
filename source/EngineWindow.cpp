@@ -1,5 +1,7 @@
 #include "EngineWindow.hpp"
 
+bool EngineWindow::isWindowsClosed = false;
+
 EngineWindow::EngineWindow(std::string windowName, int width, int height) : _windowName(windowName), WIDTH(width), HEIGHT(height)
 {
 }
@@ -28,7 +30,7 @@ void EngineWindow::initWindow()
 {
     _wcex.cbSize = sizeof(WNDCLASSEX);
     _wcex.style = CS_HREDRAW | CS_VREDRAW;
-    _wcex.lpfnWndProc = WndProc;
+    _wcex.lpfnWndProc = EngineWindow::WndProc;
     _wcex.cbClsExtra = 0;
     _wcex.cbWndExtra = 0;
     _wcex.hInstance = GetModuleHandleW(NULL);
@@ -71,4 +73,26 @@ void EngineWindow::initWindow()
     ShowWindow(_hWnd,
                SW_SHOWDEFAULT);
     UpdateWindow(_hWnd);
+}
+
+LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+    case WM_GETMINMAXINFO:
+    {
+        MINMAXINFO *mmi = (MINMAXINFO *)lParam;
+        mmi->ptMinTrackSize.x = 800;
+        mmi->ptMinTrackSize.y = 600;
+        break;
+    }
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        EngineWindow::isWindowsClosed = true;
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+        break;
+    }
+    return 0;
 }

@@ -11,30 +11,6 @@
 #include <stdint.h>
 #include <string>
 
-bool isWindowsClosed = false;
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
-    {
-    case WM_GETMINMAXINFO:
-    {
-        MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-        mmi->ptMinTrackSize.x = 800;
-        mmi->ptMinTrackSize.y = 600;
-        break;
-    }
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        isWindowsClosed = true;
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-        break;
-    }
-    return 0;
-}
-
 class EngineWindow
 {
 public:
@@ -59,5 +35,10 @@ private:
     std::string _windowName;
     const uint32_t WIDTH = 800;
     const uint32_t HEIGHT = 600;
+
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+    static bool isWindowsClosed;
 };
+
 #endif /* Engine_HPP_ */
