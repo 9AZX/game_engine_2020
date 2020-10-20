@@ -1,0 +1,9 @@
+﻿  NotGLM.cpp
+H:\dev\Work\Definitely_not_glm\Definitely_not_glm\NotGLM.cpp(9,1): warning C4273: 'add_func': inconsistent dll linkage
+H:\dev\Work\Definitely_not_glm\Definitely_not_glm\NotGLM.h(9,29): message : see previous definition of 'add_func'
+H:\dev\Work\Definitely_not_glm\Definitely_not_glm\NotGLM.cpp(16,1): warning C4273: 'times_func': inconsistent dll linkage
+H:\dev\Work\Definitely_not_glm\Definitely_not_glm\NotGLM.h(10,29): message : see previous definition of 'times_func'
+H:\dev\Work\Definitely_not_glm\Definitely_not_glm\NotGLM.cpp(23,1): warning C4273: 'devide_func': inconsistent dll linkage
+H:\dev\Work\Definitely_not_glm\Definitely_not_glm\NotGLM.h(11,29): message : see previous definition of 'devide_func'
+     Creating library H:\dev\Work\Definitely_not_glm\Debug\Definitely_not_glm.lib and object H:\dev\Work\Definitely_not_glm\Debug\Definitely_not_glm.exp
+  Definitely_not_glm.vcxproj -> H:\dev\Work\Definitely_not_glm\Debug\Definitely_not_glm.dll
