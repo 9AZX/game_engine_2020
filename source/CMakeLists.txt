@@ -9,8 +9,11 @@ file(
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Core.cpp
+    Engine/Resource/MeshLoader.cpp
     Engine/Resource/Resource.cpp
     Engine/Resource/ResourceManager.cpp
+    Engine/Resource/TextLoader.cpp
+    Engine/Resource/TextureLoader.cpp
     ${HEADER_LIST}
 )
 

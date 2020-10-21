@@ -43,13 +43,13 @@ class ResourceManager {
     private:
         bool isResourceLoaded(const std::filesystem::path & path) const noexcept;
         bool isNameUsed(const std::string & name, ResourceType type) const noexcept;
+        std::unique_ptr<Resource> loadResource(const ResourceDescriptor & descriptor) const noexcept;
 
         void defaultInitialize() noexcept;
         void initializeLoaders() noexcept;
         void initializeResourceContainers() noexcept;
 
-
-        std::array<ResourceLoader, ResourceType::MAX_VALUE> _loaders;
+        std::array<std::map<std::filesystem::path, ResourceLoader>, ResourceType::MAX_VALUE> _loaders;
         std::array<ResourceContainer, ResourceType::MAX_VALUE> _resources;
 
         std::queue<ResourceDescriptor> _loadPendingResources;

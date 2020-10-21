@@ -1,6 +1,8 @@
 #include "Engine/Resource/ResourceManager.hpp"
 
-#include <iostream>
+#include "Engine/Resource/MeshLoader.hpp"
+#include "Engine/Resource/TextLoader.hpp"
+#include "Engine/Resource/TextureLoader.hpp"
 
 Engine::ResourceManager::ResourceManager()
 {
@@ -64,17 +66,13 @@ bool Engine::ResourceManager::loadResources() noexcept
 
     while (!_loadPendingResources.empty()) {
         const ResourceDescriptor & descriptor = _loadPendingResources.front();
+        std::unique_ptr<Resource> resource = loadResource(descriptor);
 
-        std::cout << descriptor.name << std::endl;
-        std::cout << descriptor.path << std::endl;
-        std::cout << descriptor.type << std::endl;
-
-        std::unique_ptr<Resource> resource = _loaders[descriptor.type](descriptor);
-
-        if (resource == nullptr) {
+        if (resource != nullptr) {
+            _resources[descriptor.type][descriptor.name] = std::move(resource);
+        } else {
             success = false;
         }
-        _resources[descriptor.type][descriptor.name] = std::move(resource);
         _loadPendingResources.pop();
     }
     return success;
@@ -112,6 +110,17 @@ bool Engine::ResourceManager::isNameUsed(
     return _resources[type].find(name) != _resources[type].end();
 }
 
+std::unique_ptr<Engine::Resource> Engine::ResourceManager::loadResource(const ResourceDescriptor & descriptor) const noexcept
+{
+    auto loader = _loaders[descriptor.type].find(descriptor.path.extension());
+
+    if (loader != _loaders[descriptor.type].end()) {
+        return loader->second(descriptor);
+    } else {
+        return nullptr;
+    }
+}
+
 void Engine::ResourceManager::defaultInitialize() noexcept
 {
     initializeLoaders();
@@ -120,19 +129,15 @@ void Engine::ResourceManager::defaultInitialize() noexcept
 
 void Engine::ResourceManager::initializeLoaders() noexcept
 {
-    _loaders = {
-        [] (const ResourceDescriptor &) -> std::unique_ptr<Resource> {
-            std::cout << "Empty loader" << std::endl;
-            return nullptr;
-        },
-        [] (const ResourceDescriptor &) -> std::unique_ptr<Resource> {
-            std::cout << "Empty loader" << std::endl;
-            return nullptr;
-        },
-        [] (const ResourceDescriptor &) -> std::unique_ptr<Resource> {
-            std::cout << "Empty loader" << std::endl;
-            return nullptr;
-        }
+    _loaders[ResourceType::Mesh] = {
+        { ".obj", loadMesh },
+    };
+    _loaders[ResourceType::Texture] = {
+        { ".png", loadTexture },
+        { ".jpg", loadTexture },
+    };
+    _loaders[ResourceType::Text] = {
+        { ".txt", loadText },
     };
 }
 
