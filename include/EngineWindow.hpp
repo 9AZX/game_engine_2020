@@ -26,6 +26,7 @@ public:
     {
         return _hWnd;
     }
+    static bool isWindowsClosed;
 
 private:
     WNDCLASSEX _wcex;
@@ -36,7 +37,6 @@ private:
 
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-    static bool isWindowsClosed;
 };
 
 #endif /* Engine_HPP_ */
