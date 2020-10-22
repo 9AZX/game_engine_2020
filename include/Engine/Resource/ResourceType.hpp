@@ -4,9 +4,9 @@
 namespace Engine {
 
 enum ResourceType {
-    Mesh,
-    Text,
-    Texture,
+    MeshType,
+    TextType,
+    TextureType,
     MAX_VALUE
 }; /* enum ResourceType */
 

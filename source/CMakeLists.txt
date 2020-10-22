@@ -9,7 +9,11 @@ file(
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Core.cpp
+    Engine/Exception/Exception.cpp
+    Engine/Exception/ParsingException.cpp
+    Engine/StringUtils.cpp
     Engine/Resource/MeshLoader.cpp
+    Engine/Resource/MeshResource.cpp
     Engine/Resource/Resource.cpp
     Engine/Resource/ResourceManager.cpp
     Engine/Resource/TextLoader.cpp

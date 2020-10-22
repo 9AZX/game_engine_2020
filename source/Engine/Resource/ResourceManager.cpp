@@ -129,14 +129,14 @@ void Engine::ResourceManager::defaultInitialize() noexcept
 
 void Engine::ResourceManager::initializeLoaders() noexcept
 {
-    _loaders[ResourceType::Mesh] = {
+    _loaders[ResourceType::MeshType] = {
         { ".obj", loadMesh },
     };
-    _loaders[ResourceType::Texture] = {
+    _loaders[ResourceType::TextureType] = {
         { ".png", loadTexture },
         { ".jpg", loadTexture },
     };
-    _loaders[ResourceType::Text] = {
+    _loaders[ResourceType::TextType] = {
         { ".txt", loadText },
     };
 }
