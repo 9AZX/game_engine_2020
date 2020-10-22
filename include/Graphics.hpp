@@ -10,9 +10,13 @@ public:
     Graphics(std::string);
     ~Graphics();
 
+    Instance gInstance;
+
 private:
     std::string _appName;
-    Instance _instance;
+#if !defined(NDEBUG)
+    //TODO #8 Vulkan message debuging
+#endif
 };
 
 #endif /* !Graphics_HPP_ */
