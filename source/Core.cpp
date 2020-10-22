@@ -1,5 +1,6 @@
 #include "Core.hpp"
 #include "EngineWindow.hpp"
+#include "Graphics.hpp"
 
 #include <iostream>
 #include <portaudio.h>
@@ -13,8 +14,27 @@ Core::Core(std::string gameName) : _gameName(gameName)
 
 void Core::init() const noexcept
 {
-    EngineWindow window = EngineWindow(_gameName, 1920, 1080);
+    try
+    {
+        EngineWindow window = EngineWindow(_gameName, 1920, 1080);
+        Graphics graphic = Graphics(_gameName);
 
-    window.initWindow();
-    window.run();
+        window.initWindow();
+        window.run();
+    }
+    catch (vk::SystemError &err)
+    {
+        std::cout << "vk::SystemError: " << err.what() << std::endl;
+        exit(-1);
+    }
+    catch (std::exception &err)
+    {
+        std::cout << "std::exception: " << err.what() << std::endl;
+        exit(-1);
+    }
+    catch (...)
+    {
+        std::cout << "unknown error\n";
+        exit(-1);
+    }
 }
