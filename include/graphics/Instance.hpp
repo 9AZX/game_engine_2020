@@ -8,10 +8,11 @@ public:
     Instance(std::string);
     ~Instance();
 
-    vk::UniqueInstance instance;
+    vk::UniqueInstance *getInstance();
 
 private:
     std::string _appName;
+    vk::UniqueInstance _instance;
 
     vk::ApplicationInfo _applicationInfo;
     vk::InstanceCreateInfo _instanceCreateInfo;
