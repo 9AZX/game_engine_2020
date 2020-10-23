@@ -48,7 +48,7 @@ constexpr vector2d<int> HID::mousePosition() noexcept
     return vector2d<int> { mouseX, mouseY };
 }
 
-bool HID::detectEventController()
+bool HID::detectController()
 {
     DWORD dwResult;
     DWORD i = 0;
@@ -140,7 +140,7 @@ constexpr float HID::rightTrigger() noexcept
     return state.Gamepad.bRightTrigger / 255.0f;
 }
 
-HID::BUTTON_ID HID::xButtonIDs() noexcept
+HID::BUTTON_ID HID::buttonControllerID() noexcept
 {
     return _mapControllerButton[state.Gamepad.wButtons];
 }

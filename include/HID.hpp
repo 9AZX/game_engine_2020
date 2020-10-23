@@ -32,7 +32,7 @@ class HID
 
         //Controller methods
 
-        bool detectEventController();
+        bool detectController();
         float joystickLeftMagnitude();
         float joystickRightMagnitude();
         vector2d<float> joystickLeftPosition() noexcept;
@@ -57,7 +57,7 @@ class HID
             Y
         };
         
-        BUTTON_ID xButtonIDs() noexcept;
+        BUTTON_ID buttonControllerID() noexcept;
 
     private:
         static LRESULT CALLBACK CallBackInput(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
