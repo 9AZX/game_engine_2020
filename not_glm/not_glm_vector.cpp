@@ -1,15 +1,13 @@
 #include "not_glm_vector.hpp"
-#include "Constants.hpp"
 
-namespace NotGLM {
-
+namespace NotGLM 
+{
     // constructor
     Vector3::Vector3() :x(0.0), y(0.0), z(0.0) {};
     Vector3::Vector3(float uX, float uY, float uZ) :x(uX), y(uY), z(uZ) {}
 
     // destructor
     Vector3::~Vector3() {}
-
 
     // copy constructors 
     Vector3::Vector3(const Vector3& v) : x(v.x), y(v.y), z(v.z) {}
@@ -55,7 +53,6 @@ namespace NotGLM {
         x *= s;
         y *= s;
         z *= s;
-
     }
 
     Vector3 Vector3::operator*(const float s) const
@@ -66,7 +63,6 @@ namespace NotGLM {
     // divide
     void Vector3::operator /=(const float s)
     {
-
         x = x / s;
         y = y / s;
         z = z / s;
@@ -91,7 +87,6 @@ namespace NotGLM {
     // Angle between vectors
     float Vector3::angle(const Vector3& v)
     {
-
         float theta;
 
         Vector3 u = v;
@@ -102,7 +97,6 @@ namespace NotGLM {
         theta = RadToDegrees(acos(theta));
 
         return theta;
-
     }
 
     // cross product
@@ -138,9 +132,8 @@ namespace NotGLM {
     {
         float mag = std::sqrt(x * x + y * y + z * z);
 
-        if (mag > 0.0f) {
-
-            //normalize it
+        if (mag > 0.0f) 
+        {
             float oneOverMag = 1.0f / mag;
 
             x = x * oneOverMag;
@@ -193,4 +186,19 @@ namespace NotGLM {
         y = -1 * y;
         z = -1 * z;
     }
+
+    // rotate Vector
+    /*Vector3 Vector3::rotateVectorAboutAngleAndAxis(float uAngle, Vector3& uAxis)
+    {
+        Quaternion p(0, (*this));
+        uAxis.normalize();
+        Quaternion q(uAngle, uAxis);
+
+        q.convertToUnitNormQuaternion();
+
+        Quaternion qInverse = q.inverse();
+        Quaternion rotatedVector = q * p * qInverse;
+
+        return rotatedVector.v;
+    }*/
 }
