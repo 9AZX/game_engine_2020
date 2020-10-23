@@ -14,6 +14,7 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     EngineWindow.cpp
     Graphics.cpp
     graphics/Instance.cpp
+    graphics/Device.cpp
     ${HEADER_LIST}
 )
 

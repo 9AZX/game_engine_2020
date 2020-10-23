@@ -3,6 +3,7 @@
 
 #include <vulkan/vulkan.hpp>
 #include "graphics/Instance.hpp"
+#include "graphics/Device.hpp"
 
 class Graphics
 {
@@ -11,6 +12,7 @@ public:
     ~Graphics();
 
     Instance gInstance;
+    Device gDevice;
 
 private:
     std::string _appName;

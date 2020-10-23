@@ -6,6 +6,7 @@ class Instance
 {
 public:
     Instance(std::string);
+    Instance() = default;
     ~Instance();
 
     std::shared_ptr<vk::UniqueInstance> getInstance();
