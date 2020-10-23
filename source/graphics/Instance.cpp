@@ -11,7 +11,7 @@ Instance::~Instance()
 {
 }
 
-vk::UniqueInstance *Instance::getInstance()
+std::shared_ptr<vk::UniqueInstance> Instance::getInstance()
 {
-    return &_instance;
+    return std::make_shared<vk::UniqueInstance>(&_instance);
 }

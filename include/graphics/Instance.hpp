@@ -8,7 +8,7 @@ public:
     Instance(std::string);
     ~Instance();
 
-    vk::UniqueInstance *getInstance();
+    std::shared_ptr<vk::UniqueInstance> getInstance();
 
 private:
     std::string _appName;
