@@ -1,7 +1,7 @@
-#ifndef ENGINE_RESOURCE_RESOURCE_DESCRIPTOR_HPP_
-#define ENGINE_RESOURCE_RESOURCE_DESCRIPTOR_HPP_
+#ifndef ENGINE_RESOURCES_RESOURCE_DESCRIPTOR_HPP_
+#define ENGINE_RESOURCES_RESOURCE_DESCRIPTOR_HPP_
 
-#include "Engine/Resource/ResourceType.hpp"
+#include "Engine/Resources/ResourceType.hpp"
 
 #include <filesystem>
 #include <string>
@@ -16,4 +16,4 @@ struct ResourceDescriptor {
 
 } /* namespace Engine */
 
-#endif /* ENGINE_RESOURCE_RESOURCE_DESCRIPTOR_HPP_ */
+#endif /* ENGINE_RESOURCES_RESOURCE_DESCRIPTOR_HPP_ */

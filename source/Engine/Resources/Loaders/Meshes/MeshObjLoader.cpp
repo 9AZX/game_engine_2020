@@ -1,8 +1,8 @@
-#include "Engine/Resource/MeshLoader.hpp"
+#include "Engine/Resources/Loaders/Meshes/MeshObjLoader.hpp"
 
-#include "Engine/Exception/ParsingException.hpp"
-#include "Engine/Resource/Mesh.hpp"
-#include "Engine/Resource/MeshResource.hpp"
+#include "Engine/Exceptions/ParsingException.hpp"
+#include "Engine/Resources/Mesh.hpp"
+#include "Engine/Resources/MeshResource.hpp"
 #include "Engine/StringUtils.hpp"
 
 #include <fstream>
@@ -11,7 +11,7 @@
 
 #include <iostream>
 
-Engine::vec3<float> parseVertex(
+Engine::vec3<float> Engine::MeshObjLoader::parseVertex(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 4 || elements.size() > 5) {
@@ -24,7 +24,7 @@ Engine::vec3<float> parseVertex(
     };
 }
 
-Engine::vec3<float> parseNormal(
+Engine::vec3<float> Engine::MeshObjLoader::parseNormal(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() != 4) {
@@ -37,7 +37,7 @@ Engine::vec3<float> parseNormal(
     };
 }
 
-Engine::vec2<float> parseUvCoordinates(
+Engine::vec2<float> Engine::MeshObjLoader::parseUvCoordinates(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 3 || elements.size() > 4) {
@@ -49,7 +49,7 @@ Engine::vec2<float> parseUvCoordinates(
     };
 }
 
-void parsePolygon(
+void Engine::MeshObjLoader::parsePolygon(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() != 4) {
@@ -57,8 +57,9 @@ void parsePolygon(
     }
 }
 
-std::unique_ptr<Engine::Resource> Engine::loadMesh(const ResourceDescriptor & descriptor) noexcept
-{
+std::unique_ptr<Engine::Resource> Engine::MeshObjLoader::load(
+    const ResourceDescriptor & descriptor
+) noexcept {
     std::ifstream file(descriptor.path);
 
     if (!file.is_open()) {

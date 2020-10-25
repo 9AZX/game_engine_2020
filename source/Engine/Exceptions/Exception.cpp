@@ -1,4 +1,4 @@
-#include "Engine/Exception/Exception.hpp"
+#include "Engine/Exceptions/Exception.hpp"
 
 Engine::Exception::Exception(std::string message):
     _message(message)

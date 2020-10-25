@@ -1,7 +1,7 @@
 #ifndef ENGINE_CORE_HPP_
 #define ENGINE_CORE_HPP_
 
-#include "Engine/Resource/ResourceManager.hpp"
+#include "Engine/Resources/ResourceManager.hpp"
 
 #include <string>
 

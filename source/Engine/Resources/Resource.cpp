@@ -1,4 +1,4 @@
-#include "Engine/Resource/Resource.hpp"
+#include "Engine/Resources/Resource.hpp"
 
 Engine::Resource::Resource() {}
 

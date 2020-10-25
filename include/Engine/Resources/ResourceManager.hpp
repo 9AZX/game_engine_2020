@@ -1,9 +1,10 @@
-#ifndef ENGINE_RESOURCE_RESOURCE_MANAGER_HPP_
-#define ENGINE_RESOURCE_RESOURCE_MANAGER_HPP_
+#ifndef ENGINE_RESOURCES_RESOURCE_MANAGER_HPP_
+#define ENGINE_RESOURCES_RESOURCE_MANAGER_HPP_
 
-#include "Resource.hpp"
-#include "ResourceDescriptor.hpp"
-#include "ResourceType.hpp"
+#include "Engine/Resources/IResourceLoader.hpp"
+#include "Engine/Resources/Resource.hpp"
+#include "Engine/Resources/ResourceDescriptor.hpp"
+#include "Engine/Resources/ResourceType.hpp"
 
 #include <array>
 #include <filesystem>
@@ -18,7 +19,6 @@ namespace Engine {
 class ResourceManager {
 
     using ResourceContainer = std::map<std::string, std::unique_ptr<Resource>>;
-    using ResourceLoader = std::unique_ptr<Resource> (*)(const ResourceDescriptor & descriptor);
 
     public:
         ResourceManager();
@@ -49,7 +49,7 @@ class ResourceManager {
         void initializeLoaders() noexcept;
         void initializeResourceContainers() noexcept;
 
-        std::array<std::map<std::filesystem::path, ResourceLoader>, ResourceType::MAX_VALUE> _loaders;
+        std::array<std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>, ResourceType::MAX_VALUE> _loaders;
         std::array<ResourceContainer, ResourceType::MAX_VALUE> _resources;
 
         std::queue<ResourceDescriptor> _loadPendingResources;
@@ -66,4 +66,4 @@ class ResourceManager {
 
 } /* namespace Engine */
 
-#endif /* ENGINE_RESOURCE_RESOURCE_MANAGER_HPP_ */
+#endif /* ENGINE_RESOURCES_RESOURCE_MANAGER_HPP_ */

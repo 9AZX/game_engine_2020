@@ -1,4 +1,4 @@
-#include "Engine/Resource/MeshResource.hpp"
+#include "Engine/Resources/MeshResource.hpp"
 
 Engine::MeshResource::MeshResource(
     const std::string & name,

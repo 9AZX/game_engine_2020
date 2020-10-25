@@ -1,5 +1,5 @@
-#ifndef ENGINE_EXCEPTION_EXCEPTION_HPP_
-#define ENGINE_EXCEPTION_EXCEPTION_HPP_
+#ifndef ENGINE_EXCEPTIONS_EXCEPTION_HPP_
+#define ENGINE_EXCEPTIONS_EXCEPTION_HPP_
 
 #include <stdexcept>
 #include <string>
@@ -18,4 +18,4 @@ class Exception: public std::exception {
 
 } /* namespace Engine */
 
-#endif /* ENGINE_EXCEPTION_EXCEPTION_HPP_ */
+#endif /* ENGINE_EXCEPTIONS_EXCEPTION_HPP_ */

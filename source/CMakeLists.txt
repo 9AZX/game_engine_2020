@@ -9,15 +9,15 @@ file(
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Core.cpp
-    Engine/Exception/Exception.cpp
-    Engine/Exception/ParsingException.cpp
+    Engine/Exceptions/Exception.cpp
+    Engine/Exceptions/ParsingException.cpp
     Engine/StringUtils.cpp
-    Engine/Resource/MeshLoader.cpp
-    Engine/Resource/MeshResource.cpp
-    Engine/Resource/Resource.cpp
-    Engine/Resource/ResourceManager.cpp
-    Engine/Resource/TextLoader.cpp
-    Engine/Resource/TextureLoader.cpp
+    Engine/Resources/Loaders/Meshes/MeshObjLoader.cpp
+    Engine/Resources/Loaders/Texts/TextTxtLoader.cpp
+    Engine/Resources/Loaders/Textures/TextureGenericLoader.cpp
+    Engine/Resources/MeshResource.cpp
+    Engine/Resources/Resource.cpp
+    Engine/Resources/ResourceManager.cpp
     ${HEADER_LIST}
 )
 

@@ -1,5 +1,5 @@
-#ifndef ENGINE_RESOURCE_MESH_HPP_
-#define ENGINE_RESOURCE_MESH_HPP_
+#ifndef ENGINE_RESOURCES_MESH_HPP_
+#define ENGINE_RESOURCES_MESH_HPP_
 
 #include <vector>
 
@@ -28,4 +28,4 @@ struct Mesh {
 
 } /* namespace Engine */
 
-#endif /* ENGINE_RESOURCE_MESH_HPP_ */
+#endif /* ENGINE_RESOURCES_MESH_HPP_ */

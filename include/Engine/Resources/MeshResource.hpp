@@ -1,8 +1,8 @@
-#ifndef ENGINE_RESOURCE_MESH_RESOURCE_HPP_
-#define ENGINE_RESSOURC_MESH_RESOURCE_HPP_
+#ifndef ENGINE_RESOURCES_MESH_RESOURCE_HPP_
+#define ENGINE_RESSOURCS_MESH_RESOURCE_HPP_
 
-#include "Engine/Resource/Mesh.hpp"
-#include "Engine/Resource/Resource.hpp"
+#include "Engine/Resources/Mesh.hpp"
+#include "Engine/Resources/Resource.hpp"
 
 namespace Engine {
 
@@ -29,4 +29,4 @@ class MeshResource: public Resource {
 
 } /* namespace Engine */
 
-#endif /* ENGINE_RESOURCE_MESH_RESOURCE_HPP_ */
+#endif /* ENGINE_RESOURCES_MESH_RESOURCE_HPP_ */

@@ -1,8 +1,8 @@
-#include "Engine/Resource/ResourceManager.hpp"
+#include "Engine/Resources/ResourceManager.hpp"
 
-#include "Engine/Resource/MeshLoader.hpp"
-#include "Engine/Resource/TextLoader.hpp"
-#include "Engine/Resource/TextureLoader.hpp"
+#include "Engine/Resources/Loaders/Meshes/MeshObjLoader.hpp"
+#include "Engine/Resources/Loaders/Texts/TextTxtLoader.hpp"
+#include "Engine/Resources/Loaders/Textures/TextureGenericLoader.hpp"
 
 Engine::ResourceManager::ResourceManager()
 {
@@ -115,7 +115,7 @@ std::unique_ptr<Engine::Resource> Engine::ResourceManager::loadResource(const Re
     auto loader = _loaders[descriptor.type].find(descriptor.path.extension());
 
     if (loader != _loaders[descriptor.type].end()) {
-        return loader->second(descriptor);
+        return loader->second->load(descriptor);
     } else {
         return nullptr;
     }
@@ -129,16 +129,26 @@ void Engine::ResourceManager::defaultInitialize() noexcept
 
 void Engine::ResourceManager::initializeLoaders() noexcept
 {
-    _loaders[ResourceType::MeshType] = {
-        { ".obj", loadMesh },
-    };
-    _loaders[ResourceType::TextureType] = {
-        { ".png", loadTexture },
-        { ".jpg", loadTexture },
-    };
-    _loaders[ResourceType::TextType] = {
-        { ".txt", loadText },
-    };
+    _loaders[ResourceType::MeshType]
+        = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
+    _loaders[ResourceType::MeshType][".obj"]
+        = std::make_unique<MeshObjLoader>();
+
+    _loaders[ResourceType::TextureType]
+        = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
+    _loaders[ResourceType::TextureType][".png"]
+        = std::make_unique<TextureGenericLoader>();
+    _loaders[ResourceType::TextureType][".jpg"]
+        = std::make_unique<TextureGenericLoader>();
+    _loaders[ResourceType::TextureType][".jpeg"]
+        = std::make_unique<TextureGenericLoader>();
+    _loaders[ResourceType::TextureType][".tga"]
+        = std::make_unique<TextureGenericLoader>();
+
+    _loaders[ResourceType::TextType]
+        = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
+    _loaders[ResourceType::TextType][".txt"]
+        = std::make_unique<TextTxtLoader>();
 }
 
 void Engine::ResourceManager::initializeResourceContainers() noexcept
