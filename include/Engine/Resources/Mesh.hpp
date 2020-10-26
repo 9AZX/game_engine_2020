@@ -1,6 +1,7 @@
 #ifndef ENGINE_RESOURCES_MESH_HPP_
 #define ENGINE_RESOURCES_MESH_HPP_
 
+#include <cstdint>
 #include <vector>
 
 namespace Engine {
@@ -20,10 +21,12 @@ struct vec2
     T y;
 };
 
-struct Mesh {
-    std::vector<vec2<float>> _uv;
-    std::vector<vec3<float>> _normals;
-    std::vector<vec3<float>> _vertices;
+struct Mesh
+{
+    std::vector<vec3<float>> vertices;
+    std::vector<vec3<float>> normals;
+    std::vector<vec2<float>> texCoordinates;
+    std::vector<std::uint32_t> indices;
 }; /* class Mesh */
 
 } /* namespace Engine */

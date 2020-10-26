@@ -60,6 +60,8 @@ void Engine::ResourceManager::unregisterResource(
     }
 }
 
+#include <iostream>
+
 bool Engine::ResourceManager::loadResources() noexcept
 {
     bool success = true;

@@ -22,7 +22,13 @@ class MeshObjLoader: public IResourceLoader {
         static Engine::vec2<float> parseUvCoordinates(
             const std::vector<std::string> & elements
         );
-        static void parsePolygon(const std::vector<std::string> & elements);
+        static void parsePolygon(
+            const std::vector<std::string> & elements,
+            const std::vector<vec3<float>> & vertices,
+            const std::vector<vec3<float>> & normals,
+            const std::vector<vec2<float>> & texCoords,
+            Mesh & mesh
+        );
 }; /* class ObjLoader */
 
 } /* namespace Engine */

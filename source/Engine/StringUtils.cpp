@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <cctype>
 
-std::vector<std::string> Engine::splitString(const std::string & string, const std::string & delimiters) noexcept
-{
+std::vector<std::string> Engine::splitString(
+    const std::string & string,
+    const std::string & delimiters
+) noexcept {
     if (string.empty()) {
         return std::vector<std::string>();
     }
