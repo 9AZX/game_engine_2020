@@ -2,7 +2,7 @@
 
 Device::Device(std::shared_ptr<Instance> gInstance)
 {
-    _physicalDevice = gInstance->getInstance()->get().enumeratePhysicalDevices().front();
+    _physicalDevice = std::make_shared<vk::PhysicalDevice>(gInstance->getInstance()->get().enumeratePhysicalDevices().front());
 }
 
 Device::~Device()
@@ -11,5 +11,5 @@ Device::~Device()
 
 std::shared_ptr<vk::PhysicalDevice> Device::getPhysicalDevice()
 {
-    return std::make_shared<vk::PhysicalDevice>(_physicalDevice);
+    return _physicalDevice;
 }

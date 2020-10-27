@@ -14,7 +14,7 @@ public:
     std::shared_ptr<vk::PhysicalDevice> getPhysicalDevice();
 
 private:
-    vk::PhysicalDevice _physicalDevice;
+    std::shared_ptr<vk::PhysicalDevice> _physicalDevice;
 };
 
 #endif /* !DEVICE_HPP_ */

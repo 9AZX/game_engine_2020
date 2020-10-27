@@ -13,7 +13,7 @@ public:
 
 private:
     std::string _appName;
-    vk::UniqueInstance _instance;
+    std::shared_ptr<vk::UniqueInstance> _instance;
 
     vk::ApplicationInfo _applicationInfo;
     vk::InstanceCreateInfo _instanceCreateInfo;
