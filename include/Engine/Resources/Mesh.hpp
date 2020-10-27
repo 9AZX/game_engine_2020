@@ -2,30 +2,41 @@
 #define ENGINE_RESOURCES_MESH_HPP_
 
 #include <cstdint>
+#include <functional>
 #include <vector>
 
 namespace Engine {
 
-template <typename T>
-struct vec3
+struct vec3f
 {
-    T x;
-    T y;
-    T z;
+    float x;
+    float y;
+    float z;
+
+    bool operator == (const vec3f & other) const noexcept
+    {
+        return x == other.x
+            && y == other.y
+            && z == other.z;
+    }
 };
 
-template <typename T>
-struct vec2
+struct vec2f
 {
-    T x;
-    T y;
+    float x;
+    float y;
+
+    bool operator == (const vec2f & other) const noexcept
+    {
+        return x == other.x && y == other.y;
+    }
 };
 
 struct Mesh
 {
-    std::vector<vec3<float>> vertices;
-    std::vector<vec3<float>> normals;
-    std::vector<vec2<float>> texCoordinates;
+    std::vector<vec3f> vertices;
+    std::vector<vec3f> normals;
+    std::vector<vec2f> texCoordinates;
     std::vector<std::uint32_t> indices;
 }; /* class Mesh */
 

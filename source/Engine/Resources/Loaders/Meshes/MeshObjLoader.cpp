@@ -20,11 +20,8 @@ std::unique_ptr<Engine::Resource> Engine::MeshObjLoader::load(
     if (!file.is_open()) {
         return nullptr;
     }
-    Mesh mesh;
-    std::vector<vec3<float>> vertices;
-    std::vector<vec3<float>> normals;
-    std::vector<vec2<float>> texCoords;
-    std::size_t lineNumber = 1;
+    ParsingContext context;
+    std::size_t lineNumber = 0;
     std::string line;
 
     try {
@@ -32,24 +29,24 @@ std::unique_ptr<Engine::Resource> Engine::MeshObjLoader::load(
             trimString(line);
             auto elements = splitString(line, " ");
 
+            lineNumber++;
             if (elements.size() < 1) {
                 continue;
             } else if (elements[0].size() > 0 && elements[0][0] == '#') {
                 continue;
             } else if (elements[0] == "v") {
-                vertices.push_back(parseVertex(elements));
+                context.vertices.push_back(parseVertex(elements));
             } else if (elements[0] == "vn") {
-                normals.push_back(parseNormal(elements));
+                context.normals.push_back(parseNormal(elements));
             } else if (elements[0] == "vt") {
-                texCoords.push_back(parseUvCoordinates(elements));
+                context.texCoords.push_back(parseUvCoordinates(elements));
             } else if (elements[0] == "f") {
-                parsePolygon(elements, vertices, normals, texCoords, mesh);
+                parsePolygon(elements, context);
             } else {
                 std::cerr   << "[MeshLoader][" << descriptor.path << "] "
                             << "unsupported parameter at line " << lineNumber
                             << ": " << elements[0] << std::endl;
             }
-            lineNumber++;
         }
     } catch (const std::exception & exception) {
         std::cerr   << "[MeshLoader][" << descriptor.path << "] "
@@ -60,11 +57,11 @@ std::unique_ptr<Engine::Resource> Engine::MeshObjLoader::load(
     return std::make_unique<MeshResource>(
         descriptor.name,
         descriptor.path,
-        std::move(mesh)
+        std::move(context.mesh)
     );
 }
 
-Engine::vec3<float> Engine::MeshObjLoader::parseVertex(
+Engine::vec3f Engine::MeshObjLoader::parseVertex(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 4 || elements.size() > 5) {
@@ -77,7 +74,7 @@ Engine::vec3<float> Engine::MeshObjLoader::parseVertex(
     };
 }
 
-Engine::vec3<float> Engine::MeshObjLoader::parseNormal(
+Engine::vec3f Engine::MeshObjLoader::parseNormal(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() != 4) {
@@ -90,7 +87,7 @@ Engine::vec3<float> Engine::MeshObjLoader::parseNormal(
     };
 }
 
-Engine::vec2<float> Engine::MeshObjLoader::parseUvCoordinates(
+Engine::vec2f Engine::MeshObjLoader::parseUvCoordinates(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 3 || elements.size() > 4) {
@@ -98,42 +95,117 @@ Engine::vec2<float> Engine::MeshObjLoader::parseUvCoordinates(
     }
     return {
         std::stof(elements[1]),
-        std::stof(elements[2])
+        1.0f - std::stof(elements[2])
     };
 }
 
 void Engine::MeshObjLoader::parsePolygon(
     const std::vector<std::string> & elements,
-    const std::vector<vec3<float>> & vertices,
-    const std::vector<vec3<float>> & normals,
-    const std::vector<vec2<float>> & texCoords,
-    Mesh & mesh
+    ParsingContext & context
 ) {
     if (elements.size() != 4) {
         throw Engine::ParsingException("Invalid format for polygon definition");
     }
-    std::regex regex("([0-9]+)\/([0-9]+)?\/([0-9]+)?");
+    std::regex regex("^(\\d+)\/?(\\d*)\/?(\\d*)$");
 
     for (std::size_t i = 1; i < elements.size(); ++i) {
         std::smatch match;
 
         if (!std::regex_match(elements[i], match, regex)) {
-            throw ParsingException("Invalid format for face definition");
+            throw ParsingException("Invalid polygon definition");
         }
-        uint32_t vertexIndex = std::stoi(match[1]);
+        if (context.mesh.indices.size() == 0) {
+            detectPolygonMode(context, match);
+        }
+        VertexIndex index = parseIndices(context, match);
+        validateIndices(context, index);
 
-        mesh.vertices.emplace_back(vertices[vertexIndex - 1]);
+        auto pair = context.vertexMap.find(index);
 
+        if (pair == context.vertexMap.end()) {
+            std::size_t meshIndex = context.mesh.vertices.size();
+
+            context.mesh.vertices.emplace_back(context.vertices[index.vertexIndex]);
+            if (context.hasTexCoordinates) {
+                context.mesh.texCoordinates.emplace_back(context.texCoords[index.texIndex]);
+            }
+            if (context.hasNormals) {
+                context.mesh.normals.emplace_back(context.normals[index.normalIndex]);
+            }
+            context.mesh.indices.emplace_back(meshIndex);
+            context.vertexMap[index] = meshIndex;
+        } else {
+            context.mesh.indices.emplace_back(pair->second);
+        }
+    }
+}
+
+void Engine::MeshObjLoader::detectPolygonMode(
+    ParsingContext & context,
+    const std::smatch & match
+) {
+    if (match.size() == 3) {
         if (match[2].length() > 0) {
-            uint32_t texIndex = std::stoi(match[2]);
-
-            mesh.texCoordinates.emplace_back(texCoords[texIndex - 1]);
+            context.hasTexCoordinates = true;
+        }
+    } else if (match.size() == 4) {
+        if (match[2].length() > 0) {
+            context.hasTexCoordinates = true;
         }
         if (match[3].length() > 0) {
-            uint32_t normalIndex = std::stoi(match[3]);
-
-            mesh.normals.emplace_back(normals[normalIndex - 1]);
+            context.hasNormals = true;
         }
-        mesh.indices.push_back(mesh.vertices.size() - 1);
+    }
+}
+
+Engine::MeshObjLoader::VertexIndex Engine::MeshObjLoader::parseIndices(
+    const ParsingContext & context,
+    const std::smatch & match
+) {
+    if (match.size() == 2) {
+        if (context.hasNormals || context.hasTexCoordinates) {
+            throw ParsingException("Lines defining polygons don't share the same syntax");
+        }
+    } else if (match.size() == 3) {
+        if (context.hasNormals || !context.hasTexCoordinates) {
+            throw ParsingException("Lines defining polygons don't share the same syntax");
+        }
+    } else if (match.size() == 4) {
+        if ((!context.hasNormals && match[3].length() > 0)
+            || (!context.hasTexCoordinates && match[2].length() > 0)
+        ) {
+            throw ParsingException("Lines defining polygons don't share the same syntax");
+        }
+    }
+    VertexIndex index;
+
+    index.vertexIndex = std::stoi(match[1]) - 1;
+    index.texIndex = (context.hasTexCoordinates) ? std::stoi(match[2]) - 1 : 0;
+    index.normalIndex = (context.hasNormals) ? std::stoi(match[3]) - 1 : 0;
+    return index;
+}
+
+void Engine::MeshObjLoader::validateIndices(
+    const ParsingContext & context,
+    const VertexIndex & index
+) {
+    if (index.vertexIndex >= context.vertices.size()) {
+        throw ParsingException(
+            "Vertex index is greater than the vertex array size"
+        );
+    }
+    if (context.hasTexCoordinates
+        && index.texIndex >= context.texCoords.size())
+    {
+        throw ParsingException(
+            "Texture coordinates index is greater than the texture "
+            "coordinates array size"
+        );
+    }
+    if (context.hasNormals && index.normalIndex >= context.normals.size()) {
+        throw ParsingException(
+            "Texture coordinates index is greater than the texture "
+            "coordinates array size"
+        );
     }
 }
