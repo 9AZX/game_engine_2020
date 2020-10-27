@@ -12,9 +12,11 @@ public:
     ~Device();
 
     std::shared_ptr<vk::PhysicalDevice> getPhysicalDevice();
+    std::shared_ptr<vk::UniqueDevice> getUniqueDevice();
 
 private:
     std::shared_ptr<vk::PhysicalDevice> _physicalDevice;
+    std::shared_ptr<vk::UniqueDevice> _uniqueDevice;
 };
 
 #endif /* !DEVICE_HPP_ */
