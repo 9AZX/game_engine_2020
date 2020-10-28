@@ -10,7 +10,7 @@ namespace Engine {
 
 class Resource {
     public:
-        Resource();
+        Resource() = default;
         virtual ~Resource() = default;
 
         virtual ResourceType getType() const noexcept = 0;

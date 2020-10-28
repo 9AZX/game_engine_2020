@@ -1,7 +1,6 @@
 #include "Engine/Resources/Loaders/Meshes/MeshObjLoader.hpp"
 
 #include "Engine/Exceptions/ParsingException.hpp"
-#include "Engine/Resources/Mesh.hpp"
 #include "Engine/Resources/MeshResource.hpp"
 #include "Engine/StringUtils.hpp"
 
@@ -54,11 +53,12 @@ std::unique_ptr<Engine::Resource> Engine::MeshObjLoader::load(
                     << ": " << exception.what() << std::endl;
         return nullptr;
     }
-    return std::make_unique<MeshResource>(
+    std::unique_ptr<MeshResource> resource = std::make_unique<MeshResource>(
         descriptor.name,
-        descriptor.path,
-        std::move(context.mesh)
+        descriptor.path
     );
+    resource->operator=(std::move(context.mesh));
+    return std::move(resource);
 }
 
 Engine::vec3f Engine::MeshObjLoader::parseVertex(
@@ -114,7 +114,7 @@ void Engine::MeshObjLoader::parsePolygon(
         if (!std::regex_match(elements[i], match, regex)) {
             throw ParsingException("Invalid polygon definition");
         }
-        if (context.mesh.indices.size() == 0) {
+        if (context.mesh.getIndices().size() == 0) {
             detectPolygonMode(context, match);
         }
         VertexIndex index = parseIndices(context, match);
@@ -123,19 +123,25 @@ void Engine::MeshObjLoader::parsePolygon(
         auto pair = context.vertexMap.find(index);
 
         if (pair == context.vertexMap.end()) {
-            std::size_t meshIndex = context.mesh.vertices.size();
+            std::size_t meshIndex = context.mesh.getVertices().size();
 
-            context.mesh.vertices.emplace_back(context.vertices[index.vertexIndex]);
+            context.mesh.getVertices().emplace_back(
+                context.vertices[index.vertexIndex]
+            );
             if (context.hasTexCoordinates) {
-                context.mesh.texCoordinates.emplace_back(context.texCoords[index.texIndex]);
+                context.mesh.getTextureCoordinates().emplace_back(
+                    context.texCoords[index.texIndex]
+                );
             }
             if (context.hasNormals) {
-                context.mesh.normals.emplace_back(context.normals[index.normalIndex]);
+                context.mesh.getNormals().emplace_back(
+                    context.normals[index.normalIndex]
+                );
             }
-            context.mesh.indices.emplace_back(meshIndex);
+            context.mesh.getIndices().emplace_back(meshIndex);
             context.vertexMap[index] = meshIndex;
         } else {
-            context.mesh.indices.emplace_back(pair->second);
+            context.mesh.getIndices().emplace_back(pair->second);
         }
     }
 }

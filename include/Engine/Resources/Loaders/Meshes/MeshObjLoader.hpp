@@ -2,7 +2,7 @@
 #define ENGINE_RESOURCES_LOADERS_MESHES_MESH_OBJ_LOADER_HPP_
 
 #include "Engine/Resources/IResourceLoader.hpp"
-#include "Engine/Resources/Mesh.hpp"
+#include "Engine/Resources/MeshResource.hpp"
 
 #include <functional>
 #include <regex>
@@ -46,7 +46,7 @@ class MeshObjLoader: public IResourceLoader {
             std::unordered_map<VertexIndex, std::size_t, VertexIndexHash> vertexMap;
             bool hasNormals = false;
             bool hasTexCoordinates = false;
-            Mesh mesh;
+            MeshResource mesh;
         };
 
         static vec3f parseVertex(

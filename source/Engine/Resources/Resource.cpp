@@ -1,7 +1,5 @@
 #include "Engine/Resources/Resource.hpp"
 
-Engine::Resource::Resource() {}
-
 Engine::Resource::Resource(
     const std::string & name,
     const std::filesystem::path & path
