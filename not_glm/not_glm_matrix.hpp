@@ -13,7 +13,7 @@ namespace NotGLM {
 	public:
 		float matrixData[9]={0.0};
 		Matrix3d();
-		Matrix3d(float m0, float m3, float m6, float m1, float m4, float m7, float m7, float m2, float m5, float m8);
+		Matrix3d(float m0, float m3, float m6, float m1, float m4, float m7, float m2, float m5, float m8);
 
 		Matrix3d& operator=(const Matrix3d& value);
 
@@ -28,7 +28,7 @@ namespace NotGLM {
 		Vector3 operator*(const Vector3& v) const;
 		Vector3 transformVectorByMatrix(const Vector3& v) const;
 
-		Matrix3 operator*(const Matrix3& m) const;
+		Matrix3d operator*(const Matrix3d& m) const;
 		void operator*=(const Matrix3d& m);
 
 		void setMatrixAsIdentityMatrix();
@@ -55,3 +55,5 @@ namespace NotGLM {
 		void show();
 	};
 }
+
+#endif /* not_glm_matrix.hpp*/

@@ -1,4 +1,5 @@
 #include "not_glm_vector.hpp"
+#include "not_glm_quaternions.hpp"
 
 namespace NotGLM 
 {
@@ -188,7 +189,7 @@ namespace NotGLM
     }
 
     // rotate Vector
-    /*Vector3 Vector3::rotateVectorAboutAngleAndAxis(float uAngle, Vector3& uAxis)
+    Vector3 Vector3::rotateVectorAboutAngleAndAxis(float uAngle, Vector3& uAxis)
     {
         Quaternion p(0, (*this));
         uAxis.normalize();
@@ -200,5 +201,5 @@ namespace NotGLM
         Quaternion rotatedVector = q * p * qInverse;
 
         return rotatedVector.v;
-    }*/
+    }
 }

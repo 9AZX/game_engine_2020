@@ -6,9 +6,10 @@
 #include <cmath>
 #include <iostream>
 #include "Constants.hpp"
-//#include "not_glm_quaternion.hpp"
+//#include "not_glm_quaternions.hpp"
 
 namespace NotGLM {
+    class Quaternion;
     class Vector3
     {
     private:
@@ -67,7 +68,7 @@ namespace NotGLM {
         // Cross product result
         Vector3 cross(const Vector3& v) const;
         // rotate Vector
-        //Vector3 rotateVectorAboutAngleAndAxis(float uAngle, Vector3& uAxis)
+        Vector3 rotateVectorAboutAngleAndAxis(float uAngle, Vector3& uAxis);
 
         // Conjugate the vector
         void conjugate();

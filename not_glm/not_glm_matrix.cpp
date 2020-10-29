@@ -53,7 +53,7 @@ namespace NotGLM {
         return n;
     };
 
-    void Matrix3d::operator+=(const Matric3d& m) {
+    void Matrix3d::operator+=(const Matrix3d& m) {
         matrixData[0] += m.matrixData[0];
         matrixData[3] += m.matrixData[3];
         matrixData[6] += m.matrixData[6];
@@ -85,7 +85,7 @@ namespace NotGLM {
         return n;
     };
 
-    void Matrix3d::operator*=(const dloat s) {
+    void Matrix3d::operator*=(const float s) {
         matrixData[0] *= s;
         matrixData[3] *= s;
         matrixData[6] *= s;
@@ -100,7 +100,7 @@ namespace NotGLM {
     };
 
     Vector3 Matrix3d::operator*(const Vector3& v) const {
-        return R4DVector3n(matrixData[0] * v.x + matrixData[3] * v.y + matrixData[6] * v.z,
+        return Vector3(matrixData[0] * v.x + matrixData[3] * v.y + matrixData[6] * v.z,
             matrixData[1] * v.x + matrixData[4] * v.y + matrixData[7] * v.z,
             matrixData[2] * v.x + matrixData[5] * v.y + matrixData[8] * v.z);
     }
@@ -110,7 +110,7 @@ namespace NotGLM {
     }
 
     Matrix3d Matrix3d::operator*(const Matrix3d& m) const {
-        return R4DMatrix3n(matrixData[0] * m.matrixData[0] + matrixData[3] * m.matrixData[1] + matrixData[6] * m.matrixData[2],
+        return Matrix3d(matrixData[0] * m.matrixData[0] + matrixData[3] * m.matrixData[1] + matrixData[6] * m.matrixData[2],
             matrixData[0] * m.matrixData[3] + matrixData[3] * m.matrixData[4] + matrixData[6] * m.matrixData[5],
             matrixData[0] * m.matrixData[6] + matrixData[3] * m.matrixData[7] + matrixData[6] * m.matrixData[8],
 
@@ -206,9 +206,9 @@ namespace NotGLM {
         matrixData[8] = m8;
     }
 
-    Matrix3d Matrix3d::getInverseOfMAtrix() const {
+    Matrix3d Matrix3d::getInverseOfMatrix() const {
         Matrix3d result;
-        result.setMatrixAsInverseOgGivenMatrix(*this);
+        result.setMatrixAsInverseOfGivenMatrix(*this);
         return result;
     }
 
@@ -229,7 +229,7 @@ namespace NotGLM {
         return det;
     }
 
-    void Matrix3d::setMatrixAsTransposeOfGivenMatrix(const R4DMatrix3n& m) {
+    void Matrix3d::setMatrixAsTransposeOfGivenMatrix(const Matrix3d& m) {
         matrixData[0] = m.matrixData[0];
         matrixData[3] = m.matrixData[1];
         matrixData[6] = m.matrixData[2];
