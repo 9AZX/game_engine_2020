@@ -5,6 +5,7 @@ namespace Engine {
 
 enum ResourceType {
     MeshType,
+    ShaderType,
     TextType,
     TextureType,
     MAX_VALUE

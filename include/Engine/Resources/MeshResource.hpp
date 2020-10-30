@@ -63,7 +63,6 @@ class MeshResource: public Resource {
         std::vector<vec3f> _normals;
         std::vector<vec2f> _textureCoordinates;
         std::vector<std::uint32_t> _indices;
-
 }; /* class MeshResource */
 
 } /* namespace Engine */

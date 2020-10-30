@@ -1,8 +1,9 @@
 #include "Engine/Resources/ResourceManager.hpp"
 
-#include "Engine/Resources/Loaders/Meshes/MeshObjLoader.hpp"
+#include "Engine/Resources/Loaders/Textures/GenericTextureLoader.hpp"
+#include "Engine/Resources/Loaders/Meshes/ObjMeshLoader.hpp"
+#include "Engine/Resources/Loaders/Shaders/SpirvShaderLoader.hpp"
 #include "Engine/Resources/Loaders/Texts/TextTxtLoader.hpp"
-#include "Engine/Resources/Loaders/Textures/TextureGenericLoader.hpp"
 
 Engine::ResourceManager::ResourceManager()
 {
@@ -132,18 +133,23 @@ void Engine::ResourceManager::initializeLoaders() noexcept
     _loaders[ResourceType::MeshType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
     _loaders[ResourceType::MeshType][".obj"]
-        = std::make_unique<MeshObjLoader>();
+        = std::make_unique<ObjMeshLoader>();
+
+    _loaders[ResourceType::ShaderType]
+        = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
+    _loaders[ResourceType::ShaderType][".spv"]
+        = std::make_unique<SpirvShaderLoader>();
 
     _loaders[ResourceType::TextureType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
     _loaders[ResourceType::TextureType][".png"]
-        = std::make_unique<TextureGenericLoader>();
+        = std::make_unique<GenericTextureLoader>();
     _loaders[ResourceType::TextureType][".jpg"]
-        = std::make_unique<TextureGenericLoader>();
+        = std::make_unique<GenericTextureLoader>();
     _loaders[ResourceType::TextureType][".jpeg"]
-        = std::make_unique<TextureGenericLoader>();
+        = std::make_unique<GenericTextureLoader>();
     _loaders[ResourceType::TextureType][".tga"]
-        = std::make_unique<TextureGenericLoader>();
+        = std::make_unique<GenericTextureLoader>();
 
     _loaders[ResourceType::TextType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
