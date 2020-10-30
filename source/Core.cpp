@@ -17,9 +17,10 @@ void Core::init() const noexcept
     try
     {
         EngineWindow window = EngineWindow(_gameName, 1920, 1080);
+        window.initWindow();
+
         Graphics graphic = Graphics(_gameName, std::make_shared<EngineWindow>(window));
 
-        window.initWindow();
         window.run();
     }
     catch (vk::SystemError &err)
