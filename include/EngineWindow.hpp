@@ -27,8 +27,14 @@ public:
         return _hWnd;
     }
 
+    constexpr HINSTANCE getHinstance()
+    {
+        return _hInstance;
+    }
+
 private:
     WNDCLASSEX _wcex;
+    HINSTANCE _hInstance;
     HWND _hWnd;
     std::string _windowName;
     const uint32_t WIDTH = 800;
