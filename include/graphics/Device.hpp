@@ -15,8 +15,11 @@ public:
     std::shared_ptr<vk::UniqueDevice> getUniqueDevice();
 
 private:
-    std::shared_ptr<vk::PhysicalDevice> _physicalDevice;
-    std::shared_ptr<vk::UniqueDevice> _uniqueDevice;
+    std::shared_ptr<vk::PhysicalDevice> _physicalDevice; // Physical device
+    std::shared_ptr<vk::UniqueDevice> _uniqueDevice;     // Logical device
+
+    vk::UniqueCommandPool _commandPool;
+    vk::UniqueCommandBuffer _commandBuffer;
 };
 
 #endif /* !DEVICE_HPP_ */

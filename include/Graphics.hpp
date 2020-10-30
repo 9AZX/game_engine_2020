@@ -4,15 +4,17 @@
 #include <vulkan/vulkan.hpp>
 #include "graphics/Instance.hpp"
 #include "graphics/Device.hpp"
+#include "graphics/Swapchain.hpp"
 
 class Graphics
 {
 public:
-    Graphics(std::string);
+    Graphics(std::string name, std::shared_ptr<EngineWindow> window);
     ~Graphics();
 
     Instance gInstance;
     Device gDevice;
+    Swapchain gSwapChain;
 
 private:
     std::string _appName;

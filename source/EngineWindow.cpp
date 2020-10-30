@@ -60,7 +60,7 @@ void EngineWindow::initWindow()
         WIDTH, HEIGHT,
         NULL,
         NULL,
-        GetModuleHandleW(NULL),
+        _hInstance,
         NULL);
 
     if (!_hWnd)

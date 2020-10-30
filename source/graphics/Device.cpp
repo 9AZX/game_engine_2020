@@ -18,6 +18,13 @@ Device::Device(std::shared_ptr<Instance> gInstance)
 
     _uniqueDevice =
         std::make_shared<vk::UniqueDevice>(_physicalDevice->createDeviceUnique(vk::DeviceCreateInfo(vk::DeviceCreateFlags(), deviceQueueCreateInfo)));
+
+    _commandPool = _uniqueDevice->get().createCommandPoolUnique(
+        vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex));
+
+    _commandBuffer = std::move(_uniqueDevice->get().allocateCommandBuffersUnique(vk::CommandBufferAllocateInfo(
+                                                                                     _commandPool.get(), vk::CommandBufferLevel::ePrimary, 1))
+                                   .front());
 }
 
 Device::~Device()

@@ -17,7 +17,7 @@ void Core::init() const noexcept
     try
     {
         EngineWindow window = EngineWindow(_gameName, 1920, 1080);
-        Graphics graphic = Graphics(_gameName);
+        Graphics graphic = Graphics(_gameName, std::make_shared<EngineWindow>(window));
 
         window.initWindow();
         window.run();
