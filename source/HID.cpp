@@ -3,6 +3,7 @@
 int HID::mouseX = 0;
 int HID::mouseY = 0;
 int HID::lastEvent = -1;
+float HID::scrollPos = 0.0;
 
 HID::HID(WNDCLASSEX* wcex, const HWND& hWnd) : _wcex(wcex), _hWnd(hWnd)
 {
@@ -140,6 +141,11 @@ constexpr float HID::rightTrigger() noexcept
     return state.Gamepad.bRightTrigger / 255.0f;
 }
 
+constexpr float HID::getScrollMagnitude() noexcept
+{
+    return scrollPos;
+}
+
 HID::BUTTON_ID HID::buttonControllerID() noexcept
 {
     return _mapControllerButton[state.Gamepad.wButtons];
@@ -150,6 +156,7 @@ LRESULT CALLBACK HID::CallBackInput(HWND hWnd, UINT message, WPARAM wParam, LPAR
     HID::lastEvent = -1;
     HID::mouseX = GET_X_LPARAM(lParam);
     HID::mouseY = GET_Y_LPARAM(lParam);
+    scrollPos = GET_WHEEL_DELTA_WPARAM(wParam);
 
     switch (message)
     {

@@ -56,7 +56,7 @@ class HID
             X,
             Y
         };
-        
+        constexpr float HID::getScrollMagnitude() noexcept;
         BUTTON_ID buttonControllerID() noexcept;
 
     private:
@@ -66,6 +66,7 @@ class HID
         static int lastEvent;
         static int mouseX;
         static int mouseY;
+        static float scrollPos;
         std::map<int, BUTTON_ID> _mapControllerButton;
         XINPUT_STATE state;
         HACCEL _hAccel;
