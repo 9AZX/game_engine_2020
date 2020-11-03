@@ -21,6 +21,7 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Resources/ResourceManager.cpp
     Engine/Resources/ShaderResource.cpp
     Engine/Resources/TextureResource.cpp
+    Engine/Window.cpp
     ${HEADER_LIST}
 )
 

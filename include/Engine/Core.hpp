@@ -10,6 +10,7 @@ namespace Engine {
 class Core {
     public:
         Core() = default;
+        Core(const std::string & name);
         ~Core();
 
         void init() noexcept;
@@ -19,7 +20,7 @@ class Core {
 
     private:
         ResourceManager * _resourceManager;
-
+        const std::string _gameName = "";
         bool _initialized = false;
 }; /* class Core */
 

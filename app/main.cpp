@@ -2,16 +2,16 @@
 
 int main(void)
 {
-    Engine::Core engine;
+    Engine::Core core("Super jeu");
 
-    engine.init();
-    engine.getResourceManager()->registerResource(
+    core.init();
+    core.getResourceManager()->registerResource(
         {
             Engine::ResourceType::MeshType,
             "skel",
             "resources/skel.obj"
         }
     );
-    engine.getResourceManager()->loadResources();
-    engine.run();
+    core.getResourceManager()->loadResources();
+    core.run();
 }

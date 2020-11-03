@@ -138,10 +138,14 @@ void Engine::ObjMeshLoader::parsePolygon(
                     context.normals[index.normalIndex]
                 );
             }
-            context.mesh.getIndices().emplace_back(meshIndex);
+            context.mesh.getIndices().emplace_back(
+                static_cast<std::uint32_t>(meshIndex)
+            );
             context.vertexMap[index] = meshIndex;
         } else {
-            context.mesh.getIndices().emplace_back(pair->second);
+            context.mesh.getIndices().emplace_back(
+                static_cast<std::uint32_t>(pair->second)
+            );
         }
     }
 }

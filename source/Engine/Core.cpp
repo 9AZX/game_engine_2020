@@ -1,7 +1,14 @@
 #include "Engine/Core.hpp"
 
+#include "Engine/Window.hpp"
+
 #include <chrono>
 #include <thread>
+
+Engine::Core::Core(const std::string & name):
+    _gameName(name)
+{
+}
 
 Engine::Core::~Core()
 {
@@ -18,6 +25,10 @@ void Engine::Core::init() noexcept
     }
     _resourceManager = new ResourceManager();
     _initialized = true;
+    Window window = Window(_gameName, 1920, 1080);
+
+    window.initWindow();
+    window.run();
 }
 
 void Engine::Core::run() noexcept
