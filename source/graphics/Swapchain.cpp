@@ -21,7 +21,8 @@ Swapchain::Swapchain(std::shared_ptr<EngineWindow> window, std::shared_ptr<Insta
     }
     surface = vk::UniqueSurfaceKHR(vk::SurfaceKHR(_surface), _deleter);
   }
-  std::vector<vk::QueueFamilyProperties> queueFamilyProperties = _device->getPhysicalDevice().get()->getQueueFamilyProperties();
+  std::vector<vk::QueueFamilyProperties>
+      queueFamilyProperties = _device->getPhysicalDevice().get()->getQueueFamilyProperties();
 
   size_t presentQueueFamilyIndex =
       _device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(_device->graphicsQueueFamilyIndex), surface.get())
@@ -41,8 +42,6 @@ Swapchain::Swapchain(std::shared_ptr<EngineWindow> window, std::shared_ptr<Insta
     }
     if (_device->graphicsQueueFamilyIndex == queueFamilyProperties.size())
     {
-      // there's nothing like a single family index that supports both graphics and present -> look for an other
-      // family index that supports present
       for (size_t i = 0; i < queueFamilyProperties.size(); i++)
       {
         if (_device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(i), surface.get()))
@@ -60,7 +59,7 @@ Swapchain::Swapchain(std::shared_ptr<EngineWindow> window, std::shared_ptr<Insta
   }
 
   // create a device
-  //_device->createUniqueDevice();
+  _device->createUniqueDevice();
 
   std::vector<vk::SurfaceFormatKHR> formats = _device->getPhysicalDevice().get()->getSurfaceFormatsKHR(surface.get());
   assert(!formats.empty());

@@ -1,10 +1,11 @@
 #include "Device.hpp"
+#include "utils.hpp"
 
 Device::Device(std::shared_ptr<Instance> gInstance)
 {
     _physicalDevice = std::make_shared<vk::PhysicalDevice>(gInstance->getInstance()->get().enumeratePhysicalDevices().front());
     std::vector<vk::QueueFamilyProperties> queueFamilyProperties = _physicalDevice->getQueueFamilyProperties();
-    graphicsQueueFamilyIndex = std::distance(
+    size_t graphicsQueueFamilyIndexTmp = std::distance(
         queueFamilyProperties.begin(),
         std::find_if(
             queueFamilyProperties.begin(), queueFamilyProperties.end(), [](vk::QueueFamilyProperties const &qfp) {
@@ -13,13 +14,6 @@ Device::Device(std::shared_ptr<Instance> gInstance)
     assert(graphicsQueueFamilyIndex < queueFamilyProperties.size());
 
     _physicalDeviceFeatures = _physicalDevice->getFeatures();
-
-    _commandPool = _uniqueDevice->get().createCommandPoolUnique(
-        vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex));
-
-    _commandBuffer = std::move(_uniqueDevice->get().allocateCommandBuffersUnique(vk::CommandBufferAllocateInfo(
-                                                                                     _commandPool.get(), vk::CommandBufferLevel::ePrimary, 1))
-                                   .front());
 }
 
 Device::~Device()
@@ -42,6 +36,14 @@ void Device::createUniqueDevice()
     vk::DeviceCreateInfo deviceCreateInfo(
         vk::DeviceCreateFlags(), deviceQueueCreateInfo, {}, enabledExtensions, &_physicalDeviceFeatures);
     deviceCreateInfo.pNext = nullptr;
+    _uniqueDevice = std::make_shared<vk::UniqueDevice>(_physicalDevice->createDeviceUnique(deviceCreateInfo));
+
+    _commandPool = _uniqueDevice->get().createCommandPoolUnique(
+        vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex));
+
+    _commandBuffer = std::move(_uniqueDevice->get().allocateCommandBuffersUnique(vk::CommandBufferAllocateInfo(
+                                                                                     _commandPool.get(), vk::CommandBufferLevel::ePrimary, 1))
+                                   .front());
 }
 
 std::shared_ptr<vk::PhysicalDevice> Device::getPhysicalDevice()
