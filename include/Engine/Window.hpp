@@ -13,34 +13,31 @@
 
 namespace Engine {
 
-class Window
-{
-public:
-    Window(std::string windowName, int width, int height);
-
-    ~Window() = default;
-
-    void initWindow();
-
-    void run();
-
-    constexpr HWND getHwnd()
+    class Window
     {
-        return _hWnd;
-    }
+    public:
+        Window(std::string windowName, int width, int height);
 
-private:
-    WNDCLASSEX _wcex;
-    HWND _hWnd;
-    std::string _windowName;
-    const uint32_t WIDTH = 800;
-    const uint32_t HEIGHT = 600;
+        ~Window() = default;
 
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+        void initWindow();
 
-    static bool isWindowsClosed;
-}; /* class Window */
+        void run();
 
-} /* namespace Engine */
+        constexpr HWND getHwnd()
+        {
+            return _hWnd;
+        }
+        static bool isWindowsClosed;
 
+    private:
+        WNDCLASSEX _wcex;
+        HWND _hWnd;
+        std::string _windowName;
+        const uint32_t WIDTH = 800;
+        const uint32_t HEIGHT = 600;
+
+        static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+    };
+}
 #endif /* ENGINE_WINDOW_HPP_ */

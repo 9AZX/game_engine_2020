@@ -1,5 +1,8 @@
 #include "Engine/Core.hpp"
 
+#include <iostream>
+#include <map>
+
 int main(void)
 {
     Engine::Core core("Super jeu");
