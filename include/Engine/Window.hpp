@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef Engine_HPP_
-#define Engine_HPP_
+#ifndef ENGINE_WINDOW_HPP_
+#define ENGINE_WINDOW_HPP_
 
 #define NOMINMAX
 #include <Windows.h>
@@ -11,12 +11,14 @@
 #include <stdint.h>
 #include <string>
 
-class EngineWindow
+namespace Engine {
+
+class Window
 {
 public:
-    EngineWindow(std::string windowName, int width, int height);
+    Window(std::string windowName, int width, int height);
 
-    ~EngineWindow() = default;
+    ~Window() = default;
 
     void initWindow();
 
@@ -37,6 +39,8 @@ private:
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
     static bool isWindowsClosed;
-};
+}; /* class Window */
 
-#endif /* Engine_HPP_ */
+} /* namespace Engine */
+
+#endif /* ENGINE_WINDOW_HPP_ */

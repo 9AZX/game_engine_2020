@@ -1,8 +1,17 @@
-#include "Core.hpp"
+#include "Engine/Core.hpp"
 
 int main(void)
 {
-    Core core = Core("Super jeu");
+    Engine::Core core("Super jeu");
 
     core.init();
+    core.getResourceManager()->registerResource(
+        {
+            Engine::ResourceType::MeshType,
+            "skel",
+            "resources/skel.obj"
+        }
+    );
+    core.getResourceManager()->loadResources();
+    core.run();
 }
