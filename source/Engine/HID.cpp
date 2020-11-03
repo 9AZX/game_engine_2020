@@ -1,4 +1,4 @@
-#include "HID.hpp"
+#include "Engine/HID.hpp"
 
 int HID::mouseX = 0;
 int HID::mouseY = 0;
@@ -181,7 +181,7 @@ LRESULT CALLBACK HID::CallBackInput(HWND hWnd, UINT message, WPARAM wParam, LPAR
     }
     case WM_DESTROY:
         PostQuitMessage(0);
-        EngineWindow::isWindowsClosed = true;
+        Engine::Window::isWindowsClosed = true;
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

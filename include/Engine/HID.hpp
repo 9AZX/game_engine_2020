@@ -7,8 +7,8 @@
 #include <map>
 #include <iostream>
 
-#include "resourceAcceleratorTable.h"
-#include "EngineWindow.hpp"
+#include "resourcesHID/resourceAcceleratorTable.h"
+#include "Window.hpp"
 
 template <typename T>
 struct vector2d

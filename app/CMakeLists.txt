@@ -3,7 +3,7 @@ set(EXE_NAME ${PROJECT_NAME})
 add_executable(
 ${EXE_NAME} 
 main.cpp
-${PROJECT_SOURCE_DIR}/resourcesHID/resourceAcceleratorTable.rc
+${PROJECT_SOURCE_DIR}/include/resourcesHID/resourceAcceleratorTable.rc
 )
 
 target_link_libraries(${EXE_NAME} ${PROJECT_SOURCES_LIBRARY})

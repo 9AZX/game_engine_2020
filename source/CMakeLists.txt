@@ -1,7 +1,7 @@
 set(PROJECT_SOURCES_LIBRARY ${PROJECT_NAME}_library PARENT_SCOPE)
 set(PROJECT_SOURCES_LIBRARY ${PROJECT_NAME}_library)
 set(HEADER_DIR "${PROJECT_SOURCE_DIR}/include")
-set(HEADER_RESOURCE "${PROJECT_SOURCE_DIR}/resourcesHID")
+set(HEADER_RESOURCE "${PROJECT_SOURCE_DIR}/include/resourcesHID")
 
 file(
     GLOB HEADER_LIST CONFIGURE_DEPENDS
@@ -24,6 +24,7 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Resources/ShaderResource.cpp
     Engine/Resources/TextureResource.cpp
     Engine/Window.cpp
+    Engine/HID.cpp
     ${HEADER_LIST}
  )
 
