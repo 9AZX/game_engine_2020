@@ -12,12 +12,14 @@ public:
     Graphics(std::string name, std::shared_ptr<EngineWindow> window);
     ~Graphics();
 
-    Instance gInstance;
-    Device gDevice;
-    Swapchain gSwapChain;
+    std::shared_ptr<Instance> gInstance;
+    std::shared_ptr<Device> gDevice;
+    std::shared_ptr<Swapchain> gSwapChain;
 
 private:
     std::string _appName;
+
+    std::shared_ptr<EngineWindow> _window;
 #if !defined(NDEBUG)
     //TODO #8 Vulkan message debuging
 #endif

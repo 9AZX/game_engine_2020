@@ -4,7 +4,7 @@ Device::Device(std::shared_ptr<Instance> gInstance)
 {
     _physicalDevice = std::make_shared<vk::PhysicalDevice>(gInstance->getInstance()->get().enumeratePhysicalDevices().front());
     std::vector<vk::QueueFamilyProperties> queueFamilyProperties = _physicalDevice->getQueueFamilyProperties();
-    size_t graphicsQueueFamilyIndex = std::distance(
+    graphicsQueueFamilyIndex = std::distance(
         queueFamilyProperties.begin(),
         std::find_if(
             queueFamilyProperties.begin(), queueFamilyProperties.end(), [](vk::QueueFamilyProperties const &qfp) {
@@ -12,12 +12,7 @@ Device::Device(std::shared_ptr<Instance> gInstance)
             }));
     assert(graphicsQueueFamilyIndex < queueFamilyProperties.size());
 
-    float queuePriority = 0.0f;
-    vk::DeviceQueueCreateInfo deviceQueueCreateInfo(
-        vk::DeviceQueueCreateFlags(), static_cast<uint32_t>(graphicsQueueFamilyIndex), 1, &queuePriority);
-
-    _uniqueDevice =
-        std::make_shared<vk::UniqueDevice>(_physicalDevice->createDeviceUnique(vk::DeviceCreateInfo(vk::DeviceCreateFlags(), deviceQueueCreateInfo)));
+    _physicalDeviceFeatures = _physicalDevice->getFeatures();
 
     _commandPool = _uniqueDevice->get().createCommandPoolUnique(
         vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex));
@@ -29,6 +24,24 @@ Device::Device(std::shared_ptr<Instance> gInstance)
 
 Device::~Device()
 {
+}
+
+void Device::createUniqueDevice()
+{
+    std::vector<std::string> const extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+    std::vector<char const *> enabledExtensions;
+    enabledExtensions.reserve(extensions.size());
+    for (auto const &ext : extensions)
+    {
+        enabledExtensions.push_back(ext.data());
+    }
+
+    float queuePriority = 0.0f;
+    vk::DeviceQueueCreateInfo deviceQueueCreateInfo(
+        vk::DeviceQueueCreateFlags(), graphicsQueueFamilyIndex, 1, &queuePriority);
+    vk::DeviceCreateInfo deviceCreateInfo(
+        vk::DeviceCreateFlags(), deviceQueueCreateInfo, {}, enabledExtensions, &_physicalDeviceFeatures);
+    deviceCreateInfo.pNext = nullptr;
 }
 
 std::shared_ptr<vk::PhysicalDevice> Device::getPhysicalDevice()

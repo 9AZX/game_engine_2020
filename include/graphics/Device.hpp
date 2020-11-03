@@ -14,10 +14,15 @@ public:
     std::shared_ptr<vk::PhysicalDevice> getPhysicalDevice();
     std::shared_ptr<vk::UniqueDevice> getUniqueDevice();
 
+    void createUniqueDevice();
+
+    size_t graphicsQueueFamilyIndex;
+
 private:
     std::shared_ptr<vk::PhysicalDevice> _physicalDevice; // Physical device
     std::shared_ptr<vk::UniqueDevice> _uniqueDevice;     // Logical device
 
+    vk::PhysicalDeviceFeatures _physicalDeviceFeatures;
     vk::UniqueCommandPool _commandPool;
     vk::UniqueCommandBuffer _commandBuffer;
 };
