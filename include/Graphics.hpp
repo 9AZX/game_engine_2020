@@ -9,7 +9,7 @@
 class Graphics
 {
 public:
-    Graphics(std::string name, std::shared_ptr<EngineWindow> window);
+    Graphics(std::string name, std::shared_ptr<Engine::Window> window);
     ~Graphics();
 
     std::shared_ptr<Instance> gInstance;
@@ -19,7 +19,7 @@ public:
 private:
     std::string _appName;
 
-    std::shared_ptr<EngineWindow> _window;
+    std::shared_ptr<Engine::Window> _window;
 #if !defined(NDEBUG)
     //TODO #8 Vulkan message debuging
 #endif

@@ -1,6 +1,6 @@
 #include "Graphics.hpp"
 
-Graphics::Graphics(std::string _gameName, std::shared_ptr<EngineWindow> window) : _appName(_gameName), _window(window)
+Graphics::Graphics(std::string _gameName, std::shared_ptr<Engine::Window> window) : _appName(_gameName), _window(window)
 {
 
     gInstance = std::make_shared<Instance>(_gameName);
