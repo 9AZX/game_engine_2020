@@ -11,7 +11,8 @@
 #include <stdint.h>
 #include <string>
 
-namespace Engine {
+namespace Engine
+{
 
     class Window
     {
@@ -30,8 +31,14 @@ namespace Engine {
         }
         static bool isWindowsClosed;
 
+        constexpr HINSTANCE getHinstance()
+        {
+            return _hInstance;
+        }
+
     private:
         WNDCLASSEX _wcex;
+        HINSTANCE _hInstance;
         HWND _hWnd;
         std::string _windowName;
         const uint32_t WIDTH = 800;
@@ -39,5 +46,5 @@ namespace Engine {
 
         static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
     };
-}
+} // namespace Engine
 #endif /* ENGINE_WINDOW_HPP_ */

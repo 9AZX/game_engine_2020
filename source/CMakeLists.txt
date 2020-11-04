@@ -1,15 +1,20 @@
 set(PROJECT_SOURCES_LIBRARY ${PROJECT_NAME}_library PARENT_SCOPE)
 set(PROJECT_SOURCES_LIBRARY ${PROJECT_NAME}_library)
 set(HEADER_DIR "${PROJECT_SOURCE_DIR}/include")
+set(HEADER_DIR_GRAPHICS "${PROJECT_SOURCE_DIR}/include/graphics")
 set(HEADER_RESOURCE "${PROJECT_SOURCE_DIR}/include/resourcesHID")
 
 file(
     GLOB HEADER_LIST CONFIGURE_DEPENDS
     "${HEADER_DIR}/*.hpp"
-    "${HEADER_RESOURCE}/*.h"
+    "${HEADER_DIR_GRAPHICS}/*.hpp"
 )
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
+    Graphics.cpp
+    graphics/Instance.cpp
+    graphics/Device.cpp
+    graphics/Swapchain.cpp
     Engine/Core.cpp
     Engine/Exceptions/Exception.cpp
     Engine/Exceptions/ParsingException.cpp
@@ -34,6 +39,9 @@ find_path(STB_INCLUDE_DIRS "stb_image.h")
 
 target_include_directories(
     ${PROJECT_SOURCES_LIBRARY} PUBLIC ${HEADER_DIR} PRIVATE ${STB_INCLUDE_DIRS}
+)
+target_include_directories(
+    ${PROJECT_SOURCES_LIBRARY} PUBLIC ${HEADER_DIR_GRAPHICS}
 )
 target_link_libraries(
     ${PROJECT_SOURCES_LIBRARY} PRIVATE Vulkan::Vulkan portaudio

@@ -28,13 +28,15 @@ void Engine::Window::run()
 
 void Engine::Window::initWindow()
 {
+    _hInstance = GetModuleHandleW(NULL);
+
     _wcex.cbSize = sizeof(WNDCLASSEX);
     _wcex.style = CS_HREDRAW | CS_VREDRAW;
     _wcex.lpfnWndProc = Engine::Window::WndProc;
     _wcex.cbClsExtra = 0;
     _wcex.cbWndExtra = 0;
-    _wcex.hInstance = GetModuleHandleW(NULL);
-    _wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    _wcex.hInstance = _hInstance;
+    _wcex.hIcon = LoadIcon(_hInstance, IDI_APPLICATION);
     _wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
     _wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
     _wcex.lpszMenuName = NULL;
@@ -58,7 +60,7 @@ void Engine::Window::initWindow()
         WIDTH, HEIGHT,
         NULL,
         NULL,
-        GetModuleHandleW(NULL),
+        _hInstance,
         NULL);
 
     if (!_hWnd)
