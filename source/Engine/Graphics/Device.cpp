@@ -12,6 +12,7 @@ Engine::Device::Device(std::shared_ptr<Instance> gInstance)
             queueFamilyProperties.begin(), queueFamilyProperties.end(), [](vk::QueueFamilyProperties const &qfp) {
                 return qfp.queueFlags & vk::QueueFlagBits::eGraphics;
             }));
+    graphicsQueueFamilyIndex = graphicsQueueFamilyIndexTmp;
     assert(graphicsQueueFamilyIndex < queueFamilyProperties.size());
 
     _physicalDeviceFeatures = _physicalDevice->getFeatures();
