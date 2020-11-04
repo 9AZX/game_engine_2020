@@ -3,19 +3,8 @@
 #include "Engine/Graphics.hpp"
 #include "Engine/Window.hpp"
 
-#include <chrono>
-#include <thread>
-
 Engine::Core::Core(const std::string &name) : _gameName(name)
 {
-}
-
-Engine::Core::~Core()
-{
-    if (_initialized)
-    {
-        delete _resourceManager;
-    }
 }
 
 void Engine::Core::init() noexcept
@@ -25,26 +14,19 @@ void Engine::Core::init() noexcept
         // TODO Log the double initialization
         return;
     }
-    _resourceManager = new ResourceManager();
     _initialized = true;
-    Window window = Window(_gameName, 1920, 1080);
-
-    window.initWindow();
-
-    Graphics graphic = Graphics(_gameName, std::make_shared<Engine::Window>(window));
-
-    window.run();
+    _resourceManager = std::make_shared<ResourceManager>();
+    _window = std::make_shared<Window>(_gameName, 1920, 1080);
+    _window->initWindow();
+    _graphics = std::make_shared<Graphics>(_gameName, _window);
 }
 
 void Engine::Core::run() noexcept
 {
-    while (1)
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
+    _window->run();
 }
 
-Engine::ResourceManager *Engine::Core::getResourceManager() noexcept
+std::shared_ptr<Engine::ResourceManager> Engine::Core::getResourceManager() noexcept
 {
     return _resourceManager;
 }
