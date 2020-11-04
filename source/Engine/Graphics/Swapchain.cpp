@@ -1,7 +1,8 @@
-#include "Swapchain.hpp"
-#include "utils.hpp"
+#include "Engine/Graphics/Swapchain.hpp"
 
-Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device) : _window(window), _instance(instance), _device(device)
+#include "Engine/Utils.hpp"
+
+Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device) : _window(window), _instance(instance), _device(device)
 {
   vk::UniqueSurfaceKHR surface;
   {
@@ -129,6 +130,6 @@ Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Ins
   }
 }
 
-Swapchain::~Swapchain()
+Engine::Swapchain::~Swapchain()
 {
 }

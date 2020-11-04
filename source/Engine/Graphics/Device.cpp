@@ -1,7 +1,8 @@
-#include "Device.hpp"
-#include "utils.hpp"
+#include "Engine/Graphics/Device.hpp"
 
-Device::Device(std::shared_ptr<Instance> gInstance)
+#include "Engine/Utils.hpp"
+
+Engine::Device::Device(std::shared_ptr<Instance> gInstance)
 {
     _physicalDevice = std::make_shared<vk::PhysicalDevice>(gInstance->getInstance()->get().enumeratePhysicalDevices().front());
     std::vector<vk::QueueFamilyProperties> queueFamilyProperties = _physicalDevice->getQueueFamilyProperties();
@@ -16,11 +17,11 @@ Device::Device(std::shared_ptr<Instance> gInstance)
     _physicalDeviceFeatures = _physicalDevice->getFeatures();
 }
 
-Device::~Device()
+Engine::Device::~Device()
 {
 }
 
-void Device::createUniqueDevice()
+void Engine::Device::createUniqueDevice()
 {
     std::vector<std::string> const extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
     std::vector<char const *> enabledExtensions;
@@ -46,12 +47,12 @@ void Device::createUniqueDevice()
                                    .front());
 }
 
-std::shared_ptr<vk::PhysicalDevice> Device::getPhysicalDevice()
+std::shared_ptr<vk::PhysicalDevice> Engine::Device::getPhysicalDevice()
 {
     return _physicalDevice;
 }
 
-std::shared_ptr<vk::UniqueDevice> Device::getUniqueDevice()
+std::shared_ptr<vk::UniqueDevice> Engine::Device::getUniqueDevice()
 {
     return _uniqueDevice;
 }

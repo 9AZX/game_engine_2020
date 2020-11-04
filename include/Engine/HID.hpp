@@ -1,5 +1,11 @@
 #pragma once
 
+#ifndef ENGINE_HID_HPP_
+#define ENGINE_HID_HPP_
+
+#include "Engine/ResourcesHID/resourceAcceleratorTable.h"
+#include "Engine/Window.hpp"
+
 #include <Windows.h>
 #include <windowsx.h>
 #include <Xinput.h>
@@ -7,8 +13,7 @@
 #include <map>
 #include <iostream>
 
-#include "resourcesHID/resourceAcceleratorTable.h"
-#include "Window.hpp"
+namespace Engine {
 
 template <typename T>
 struct vector2d
@@ -74,3 +79,7 @@ class HID
         HWND _hWnd;
         WNDPROC _callBackInputEvent;
     };
+
+} /* namespace Engine */
+
+#endif /* ENGINE_HID_HPP */

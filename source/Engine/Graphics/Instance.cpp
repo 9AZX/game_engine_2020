@@ -1,6 +1,6 @@
-#include "graphics/Instance.hpp"
+#include "Engine/Graphics/Instance.hpp"
 
-Instance::Instance(std::string appName) : _appName(appName)
+Engine::Instance::Instance(std::string appName) : _appName(appName)
 {
     _applicationInfo = vk::ApplicationInfo(_appName.c_str(), 1, "3DGE", VK_API_VERSION_1_1);
     _instanceCreateInfo = vk::InstanceCreateInfo({}, &_applicationInfo);
@@ -9,11 +9,11 @@ Instance::Instance(std::string appName) : _appName(appName)
     _instance = std::make_shared<vk::UniqueInstance>(vk::createInstanceUnique(_instanceCreateInfo));
 }
 
-Instance::~Instance()
+Engine::Instance::~Instance()
 {
 }
 
-std::shared_ptr<vk::UniqueInstance> Instance::getInstance()
+std::shared_ptr<vk::UniqueInstance> Engine::Instance::getInstance()
 {
     return _instance;
 }

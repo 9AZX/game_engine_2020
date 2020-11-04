@@ -1,12 +1,15 @@
-#ifndef SWAPCHAIN_HPP_
-#define SWAPCHAIN_HPP_
+#ifndef ENGINE_GRAPHICS_SWAPCHAIN_HPP_
+#define ENGINE_GRAPHICS_SWAPCHAIN_HPP_
 
 #define VK_USE_PLATFORM_WIN32_KHR
 
-#include <vulkan/vulkan.hpp>
+#include "Engine/Graphics/Device.hpp"
+#include "Engine/Graphics/Instance.hpp"
 #include "Engine/Window.hpp"
-#include "graphics/Instance.hpp"
-#include "graphics/Device.hpp"
+
+#include <vulkan/vulkan.hpp>
+
+namespace Engine {
 
 class Swapchain
 {
@@ -19,6 +22,8 @@ private:
     std::shared_ptr<Engine::Window> _window;
     std::shared_ptr<Instance> _instance;
     std::shared_ptr<Device> _device;
-};
+}; /* class Swapchain */
 
-#endif /* !SWAPCHAIN_HPP_ */
+} /* namespace Engine */
+
+#endif /* !ENGINE_GRAPHICS_SWAPCHAIN_HPP_ */

@@ -1,10 +1,13 @@
-#ifndef Graphics_HPP_
-#define Graphics_HPP_
+#ifndef ENGINE_GRAPHICS_HPP_
+#define ENGINE_GRAPHICS_HPP_
+
+#include "Engine/Graphics/Device.hpp"
+#include "Engine/Graphics/Instance.hpp"
+#include "Engine/Graphics/Swapchain.hpp"
 
 #include <vulkan/vulkan.hpp>
-#include "graphics/Instance.hpp"
-#include "graphics/Device.hpp"
-#include "graphics/Swapchain.hpp"
+
+namespace Engine {
 
 class Graphics
 {
@@ -23,6 +26,8 @@ private:
 #if !defined(NDEBUG)
     //TODO #8 Vulkan message debuging
 #endif
-};
+}; /* class Graphics */
 
-#endif /* !Graphics_HPP_ */
+} /* namespace Engine */
+
+#endif /* !ENGINE_GRAPHICS_HPP_ */

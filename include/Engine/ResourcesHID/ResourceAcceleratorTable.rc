@@ -1,4 +1,4 @@
-#include "resourceAcceleratorTable.h"
+#include "Engine/ResourcesHID/ResourceAcceleratorTable.h"
 
 IDR_ACCEL1 ACCELERATORS
 {

@@ -1,3 +1,6 @@
+#ifndef ENGINE_UTILS_HPP_
+#define ENGINE_UTILS_HPP_
+
 #include <vulkan/vulkan.hpp>
 #include <limits>
 #define NOMINMAX
@@ -13,3 +16,5 @@ VULKAN_HPP_INLINE TargetType checked_cast(SourceType value)
     //assert(value <= std::numeric_limits<TargetType>::max());
     return static_cast<TargetType>(value);
 };
+
+#endif /* ENGINE_UTILS_HPP_ */

@@ -1,24 +1,21 @@
 set(PROJECT_SOURCES_LIBRARY ${PROJECT_NAME}_library PARENT_SCOPE)
 set(PROJECT_SOURCES_LIBRARY ${PROJECT_NAME}_library)
 set(HEADER_DIR "${PROJECT_SOURCE_DIR}/include")
-set(HEADER_DIR_GRAPHICS "${PROJECT_SOURCE_DIR}/include/graphics")
-set(HEADER_RESOURCE "${PROJECT_SOURCE_DIR}/include/resourcesHID")
 
 file(
     GLOB HEADER_LIST CONFIGURE_DEPENDS
     "${HEADER_DIR}/*.hpp"
-    "${HEADER_DIR_GRAPHICS}/*.hpp"
 )
 
 add_library(${PROJECT_SOURCES_LIBRARY} STATIC
-    Graphics.cpp
-    graphics/Instance.cpp
-    graphics/Device.cpp
-    graphics/Swapchain.cpp
     Engine/Core.cpp
     Engine/Exceptions/Exception.cpp
     Engine/Exceptions/ParsingException.cpp
-    Engine/StringUtils.cpp
+    Engine/Graphics.cpp
+    Engine/Graphics/Device.cpp
+    Engine/Graphics/Instance.cpp
+    Engine/Graphics/Swapchain.cpp
+    Engine/HID.cpp
     Engine/Resources/Loaders/Meshes/ObjMeshLoader.cpp
     Engine/Resources/Loaders/Shaders/SpirvShaderLoader.cpp
     Engine/Resources/Loaders/Texts/TextTxtLoader.cpp
@@ -28,8 +25,11 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Resources/ResourceManager.cpp
     Engine/Resources/ShaderResource.cpp
     Engine/Resources/TextureResource.cpp
+    Engine/StringUtils.cpp
     Engine/Window.cpp
-    Engine/HID.cpp
+
+    ${HEADER_DIR}/Engine/ResourcesHID/ResourceAcceleratorTable.rc
+
     ${HEADER_LIST}
  )
 

@@ -1,7 +1,7 @@
 #include "Engine/Core.hpp"
 
+#include "Engine/Graphics.hpp"
 #include "Engine/Window.hpp"
-#include "Graphics.hpp"
 
 #include <chrono>
 #include <thread>

@@ -1,7 +1,10 @@
-#ifndef INSTANCE_HPP_
-#define INSTANCE_HPP_
+#ifndef ENGINE_GRAPHICS_INSTANCE_HPP_
+#define ENGINE_GRAPHICS_INSTANCE_HPP_
 
 #include <vulkan/vulkan.hpp>
+
+namespace Engine {
+
 class Instance
 {
 public:
@@ -17,6 +20,8 @@ private:
 
     vk::ApplicationInfo _applicationInfo;
     vk::InstanceCreateInfo _instanceCreateInfo;
-};
+}; /* class Instance */
 
-#endif /* !INSTANCE_HPP_ */
+} /* namespace Engine */
+
+#endif /* !ENGINE_GRAPHICS_INSTANCE_HPP_ */

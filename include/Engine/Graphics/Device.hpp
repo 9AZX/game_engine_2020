@@ -1,8 +1,11 @@
-#ifndef DEVICE_HPP_
-#define DEVICE_HPP_
+#ifndef ENGINE_GRAPHICS_DEVICE_HPP_
+#define ENGINE_GRAPHICS_DEVICE_HPP_
+
+#include "Engine/Graphics/Instance.hpp"
 
 #include <vulkan/vulkan.hpp>
-#include "graphics/Instance.hpp"
+
+namespace Engine {
 
 class Device
 {
@@ -25,6 +28,8 @@ private:
     vk::PhysicalDeviceFeatures _physicalDeviceFeatures;
     vk::UniqueCommandPool _commandPool;
     vk::UniqueCommandBuffer _commandBuffer;
-};
+}; /* class Device */
 
-#endif /* !DEVICE_HPP_ */
+} /* namespace Engine */
+
+#endif /* !ENGINE_GRAPHICS_DEVICE_HPP_ */

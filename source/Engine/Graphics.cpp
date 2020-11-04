@@ -1,6 +1,6 @@
-#include "Graphics.hpp"
+#include "Engine/Graphics.hpp"
 
-Graphics::Graphics(std::string _gameName, std::shared_ptr<Engine::Window> window) : _appName(_gameName), _window(window)
+Engine::Graphics::Graphics(std::string _gameName, std::shared_ptr<Engine::Window> window) : _appName(_gameName), _window(window)
 {
 
     gInstance = std::make_shared<Instance>(_gameName);
@@ -8,6 +8,6 @@ Graphics::Graphics(std::string _gameName, std::shared_ptr<Engine::Window> window
     gSwapChain = std::make_shared<Swapchain>(_window, gInstance, gDevice);
 }
 
-Graphics::~Graphics()
+Engine::Graphics::~Graphics()
 {
 }
