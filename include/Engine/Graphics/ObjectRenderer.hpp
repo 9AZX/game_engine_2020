@@ -11,10 +11,6 @@ public:
 	void updateUniformBuffer(Camera camera);
 	void destroy();
 
-	void createObjectRendererCPP(MeshType modelType, glm::vec3 _position, glm::vec3 _scale);
-	void drawCPP();
-	void updateUniformBufferCPP(Camera camera);
-
 private:
 
 
