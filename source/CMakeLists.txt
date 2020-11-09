@@ -7,8 +7,7 @@ file(
     "${HEADER_DIR}/*.hpp"
 )
 
-# TODO CHANGE THIS TO SHARED
-add_library(${PROJECT_SOURCES_LIBRARY} STATIC
+add_library(${PROJECT_SOURCES_LIBRARY} SHARED
     Engine/Core.cpp
     Engine/Exceptions/Exception.cpp
     Engine/Exceptions/ParsingException.cpp
