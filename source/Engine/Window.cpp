@@ -1,12 +1,12 @@
-#include "EngineWindow.hpp"
+#include "Engine/Window.hpp"
 
-bool EngineWindow::isWindowsClosed = false;
+bool Engine::Window::isWindowsClosed = false;
 
-EngineWindow::EngineWindow(std::string windowName, int width, int height) : _windowName(windowName), WIDTH(width), HEIGHT(height)
+Engine::Window::Window(std::string windowName, int width, int height) : _windowName(windowName), WIDTH(width), HEIGHT(height)
 {
 }
 
-void EngineWindow::run()
+void Engine::Window::run()
 {
     MSG msg;
     while (isWindowsClosed == false)
@@ -26,15 +26,17 @@ void EngineWindow::run()
     //vkDeviceWaitIdle(device);
 }
 
-void EngineWindow::initWindow()
+void Engine::Window::initWindow()
 {
+    _hInstance = GetModuleHandleW(NULL);
+
     _wcex.cbSize = sizeof(WNDCLASSEX);
     _wcex.style = CS_HREDRAW | CS_VREDRAW;
-    _wcex.lpfnWndProc = EngineWindow::WndProc;
+    _wcex.lpfnWndProc = Engine::Window::WndProc;
     _wcex.cbClsExtra = 0;
     _wcex.cbWndExtra = 0;
-    _wcex.hInstance = GetModuleHandleW(NULL);
-    _wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    _wcex.hInstance = _hInstance;
+    _wcex.hIcon = LoadIcon(_hInstance, IDI_APPLICATION);
     _wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
     _wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
     _wcex.lpszMenuName = NULL;
@@ -58,7 +60,7 @@ void EngineWindow::initWindow()
         WIDTH, HEIGHT,
         NULL,
         NULL,
-        GetModuleHandleW(NULL),
+        _hInstance,
         NULL);
 
     if (!_hWnd)
@@ -76,7 +78,7 @@ void EngineWindow::initWindow()
     UpdateWindow(_hWnd);
 }
 
-LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Engine::Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -89,7 +91,7 @@ LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, L
     }
     case WM_DESTROY:
         PostQuitMessage(0);
-        EngineWindow::isWindowsClosed = true;
+        Engine::Window::isWindowsClosed = true;
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

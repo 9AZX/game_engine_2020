@@ -6,6 +6,11 @@ set(
     CACHE STRING "Vcpkg toolchain file"
 )
 
+set(
+   CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS
+   ON
+)
+
 project(3DGE
     VERSION 0.1
     DESCRIPTION "3D Game Engine EPITECH project"
