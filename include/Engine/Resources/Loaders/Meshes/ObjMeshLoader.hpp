@@ -1,8 +1,10 @@
 #ifndef ENGINE_RESOURCES_LOADERS_MESHES_OBJ_MESH_LOADER_HPP_
 #define ENGINE_RESOURCES_LOADERS_MESHES_OBJ_MESH_LOADER_HPP_
 
+#include "Engine/Graphics/Mesh.hpp"
+#include "Engine/Maths/Vector2.hpp"
+#include "Engine/Maths/Vector3.hpp"
 #include "Engine/Resources/IResourceLoader.hpp"
-#include "Engine/Resources/MeshResource.hpp"
 
 #include <functional>
 #include <regex>
@@ -40,22 +42,22 @@ class ObjMeshLoader: public IResourceLoader {
         };
 
         struct ParsingContext {
-            std::vector<vec3f> vertices;
-            std::vector<vec3f> normals;
-            std::vector<vec2f> texCoords;
+            std::vector<Math::vec3f> vertices;
+            std::vector<Math::vec3f> normals;
+            std::vector<Math::vec2f> texCoords;
             std::unordered_map<VertexIndex, std::size_t, VertexIndexHash> vertexMap;
             bool hasNormals = false;
             bool hasTexCoordinates = false;
-            MeshResource mesh;
+            Mesh mesh;
         };
 
-        static vec3f parseVertex(
+        static Math::vec3f parseVertex(
             const std::vector<std::string> & elements
         );
-        static vec3f parseNormal(
+        static Math::vec3f parseNormal(
             const std::vector<std::string> & elements
         );
-        static vec2f parseUvCoordinates(
+        static Math::vec2f parseUvCoordinates(
             const std::vector<std::string> & elements
         );
 

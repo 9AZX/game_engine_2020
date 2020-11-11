@@ -1,7 +1,6 @@
 #include "Engine/Resources/Loaders/Meshes/ObjMeshLoader.hpp"
 
 #include "Engine/Exceptions/ParsingException.hpp"
-#include "Engine/Resources/MeshResource.hpp"
 #include "Engine/StringUtils.hpp"
 
 #include <fstream>
@@ -53,15 +52,15 @@ std::unique_ptr<Engine::Resource> Engine::ObjMeshLoader::load(
                     << ": " << exception.what() << std::endl;
         return nullptr;
     }
-    std::unique_ptr<MeshResource> resource = std::make_unique<MeshResource>(
+    std::unique_ptr<Mesh> resource = std::make_unique<Mesh>(
         descriptor.name,
         descriptor.path
     );
-    resource->operator=(std::move(context.mesh));
+    *resource = std::move(context.mesh);
     return std::move(resource);
 }
 
-Engine::vec3f Engine::ObjMeshLoader::parseVertex(
+Engine::Math::vec3f Engine::ObjMeshLoader::parseVertex(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 4 || elements.size() > 5) {
@@ -74,7 +73,7 @@ Engine::vec3f Engine::ObjMeshLoader::parseVertex(
     };
 }
 
-Engine::vec3f Engine::ObjMeshLoader::parseNormal(
+Engine::Math::vec3f Engine::ObjMeshLoader::parseNormal(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() != 4) {
@@ -87,7 +86,7 @@ Engine::vec3f Engine::ObjMeshLoader::parseNormal(
     };
 }
 
-Engine::vec2f Engine::ObjMeshLoader::parseUvCoordinates(
+Engine::Math::vec2f Engine::ObjMeshLoader::parseUvCoordinates(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 3 || elements.size() > 4) {
@@ -114,7 +113,7 @@ void Engine::ObjMeshLoader::parsePolygon(
         if (!std::regex_match(elements[i], match, regex)) {
             throw ParsingException("Invalid polygon definition");
         }
-        if (context.mesh.getIndices().size() == 0) {
+        if (context.mesh.indices.size() == 0) {
             detectPolygonMode(context, match);
         }
         VertexIndex index = parseIndices(context, match);
@@ -123,27 +122,26 @@ void Engine::ObjMeshLoader::parsePolygon(
         auto pair = context.vertexMap.find(index);
 
         if (pair == context.vertexMap.end()) {
-            std::size_t meshIndex = context.mesh.getVertices().size();
+            //std::cout << "FIRST" << std::endl;
+            std::size_t meshIndex = context.mesh.vertices.size();
+            Vertex vertex {};
 
-            context.mesh.getVertices().emplace_back(
-                context.vertices[index.vertexIndex]
-            );
+            vertex.position = context.vertices[index.vertexIndex];
+            vertex.color = { 0.0f, 0.0f, 0.0f };
             if (context.hasTexCoordinates) {
-                context.mesh.getTextureCoordinates().emplace_back(
-                    context.texCoords[index.texIndex]
-                );
+                vertex.textureCoordinates = context.texCoords[index.texIndex];
             }
             if (context.hasNormals) {
-                context.mesh.getNormals().emplace_back(
-                    context.normals[index.normalIndex]
-                );
+                vertex.normal = context.normals[index.normalIndex];
             }
-            context.mesh.getIndices().emplace_back(
+            context.mesh.vertices.emplace_back(vertex);
+            context.mesh.indices.emplace_back(
                 static_cast<std::uint32_t>(meshIndex)
             );
             context.vertexMap[index] = meshIndex;
         } else {
-            context.mesh.getIndices().emplace_back(
+            //std::cout << "Vertex #" << pair->second << " as index #" << context.mesh.indices.size() << std::endl;
+            context.mesh.indices.emplace_back(
                 static_cast<std::uint32_t>(pair->second)
             );
         }

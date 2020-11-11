@@ -14,13 +14,16 @@ add_library(${PROJECT_SOURCES_LIBRARY} SHARED
     Engine/Graphics.cpp
     Engine/Graphics/Device.cpp
     Engine/Graphics/Instance.cpp
+    Engine/Graphics/Mesh.cpp
     Engine/Graphics/Swapchain.cpp
+    Engine/Graphics/Vertex.cpp
     Engine/HID.cpp
+    Engine/Maths/vector2.cpp
+    Engine/Maths/vector3.cpp
     Engine/Resources/Loaders/Meshes/ObjMeshLoader.cpp
     Engine/Resources/Loaders/Shaders/SpirvShaderLoader.cpp
     Engine/Resources/Loaders/Texts/TextTxtLoader.cpp
     Engine/Resources/Loaders/Textures/GenericTextureLoader.cpp
-    Engine/Resources/MeshResource.cpp
     Engine/Resources/Resource.cpp
     Engine/Resources/ResourceManager.cpp
     Engine/Resources/ShaderResource.cpp
