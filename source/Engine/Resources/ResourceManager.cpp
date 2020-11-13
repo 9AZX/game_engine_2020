@@ -194,12 +194,12 @@ void Engine::ResourceManager::initializeLoaders() noexcept
     _loaders[ResourceType::MeshType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
     _loaders[ResourceType::MeshType][".obj"]
-        = std::make_unique<ObjMeshLoader>();
+        = std::make_unique<ObjMeshLoader>(_logger);
 
     _loaders[ResourceType::ShaderType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
     _loaders[ResourceType::ShaderType][".spv"]
-        = std::make_unique<SpirvShaderLoader>();
+        = std::make_unique<SpirvShaderLoader>(_logger);
 
     _loaders[ResourceType::TextureType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();

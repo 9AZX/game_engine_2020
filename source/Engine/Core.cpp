@@ -18,7 +18,7 @@ void Engine::Core::init() noexcept
     {
         _logger->log(
             Logging::Level::Warning,
-            "Tried to initialize the core another time"
+            " Tried to initialize the core another time"
         );
         return;
     }
@@ -26,9 +26,9 @@ void Engine::Core::init() noexcept
 
     _logger = std::make_shared<Logging::Logger>();
     _logger->createSink<Logging::ConsoleSink>("console-sink", true, std::cout);
-    _logger->log(Logging::Level::Info, "Initializing core");
+    _logger->log(Logging::Level::Info, " Initializing core");
 
-    _resourceManager = std::make_shared<ResourceManager>(_logger, false);
+    _resourceManager = std::make_shared<ResourceManager>(_logger);
 
     _window = std::make_shared<Window>(_gameName, 1920, 1080);
     _window->initWindow();
