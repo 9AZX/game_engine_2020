@@ -7,7 +7,8 @@ file(
     "${HEADER_DIR}/*.hpp"
 )
 
-add_library(${PROJECT_SOURCES_LIBRARY} SHARED
+# TODO CHANGE THIS TO SHARED
+add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Core.cpp
     Engine/Exceptions/Exception.cpp
     Engine/Exceptions/FileException.cpp

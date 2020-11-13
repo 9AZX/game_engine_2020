@@ -28,7 +28,7 @@ void Engine::Core::init() noexcept
     _logger->createSink<Logging::ConsoleSink>("console-sink", true, std::cout);
     _logger->log(Logging::Level::Info, "Initializing core");
 
-    _resourceManager = std::make_shared<ResourceManager>();
+    _resourceManager = std::make_shared<ResourceManager>(_logger, false);
 
     _window = std::make_shared<Window>(_gameName, 1920, 1080);
     _window->initWindow();

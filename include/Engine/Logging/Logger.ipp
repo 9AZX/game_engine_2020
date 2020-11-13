@@ -50,7 +50,7 @@ void Engine::Logging::Logger::log(
             if (pair.second->isLevelEnabled(level)) {
                 if (message.empty()) {
                     message = fmt::format(
-                        "[{:02}:{:02}:{:03}][{}] " + format,
+                        "[{:02}:{:02}:{:03}][{}]" + format,
                         minutes.count(),
                         seconds.count(),
                         elapsedTime.count(),
