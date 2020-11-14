@@ -8,7 +8,10 @@
 #include <string>
 #include <vector>
 
-#include <iostream> // TODO remove once the logger is implemented
+Engine::ObjMeshLoader::ObjMeshLoader(std::shared_ptr<Logging::Logger> logger):
+    _logger(logger)
+{
+}
 
 std::unique_ptr<Engine::Resource> Engine::ObjMeshLoader::load(
     const ResourceDescriptor & descriptor
@@ -41,15 +44,23 @@ std::unique_ptr<Engine::Resource> Engine::ObjMeshLoader::load(
             } else if (elements[0] == "f") {
                 parsePolygon(elements, context);
             } else {
-                std::cerr   << "[MeshLoader][" << descriptor.path << "] "
-                            << "unsupported parameter at line " << lineNumber
-                            << ": " << elements[0] << std::endl;
+                _logger->log(
+                    Logging::Level::Debug,
+                    "[Mesh Loader] {}: unsupported parameter at line {}: {}",
+                    descriptor.path.string(),
+                    lineNumber,
+                    elements[0]
+                );
             }
         }
     } catch (const std::exception & exception) {
-        std::cerr   << "[MeshLoader][" << descriptor.path << "] "
-                    << "Could not parse line " << lineNumber
-                    << ": " << exception.what() << std::endl;
+        _logger->log(
+            Logging::Level::Error,
+            "[Mesh Loader] {}: could not parse line {}: {}",
+            descriptor.path.string(),
+            lineNumber,
+            exception.what()
+        );
         return nullptr;
     }
     std::unique_ptr<Mesh> resource = std::make_unique<Mesh>(
@@ -122,7 +133,6 @@ void Engine::ObjMeshLoader::parsePolygon(
         auto pair = context.vertexMap.find(index);
 
         if (pair == context.vertexMap.end()) {
-            //std::cout << "FIRST" << std::endl;
             std::size_t meshIndex = context.mesh.vertices.size();
             Vertex vertex {};
 
@@ -140,7 +150,6 @@ void Engine::ObjMeshLoader::parsePolygon(
             );
             context.vertexMap[index] = meshIndex;
         } else {
-            //std::cout << "Vertex #" << pair->second << " as index #" << context.mesh.indices.size() << std::endl;
             context.mesh.indices.emplace_back(
                 static_cast<std::uint32_t>(pair->second)
             );

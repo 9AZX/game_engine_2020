@@ -1,8 +1,5 @@
 #include "Engine/Core.hpp"
 
-#include <iostream>
-#include <map>
-
 int main(void)
 {
     Engine::Core core("Super jeu");
@@ -12,7 +9,7 @@ int main(void)
         {
             Engine::ResourceType::MeshType,
             "skel",
-            "resources/skel.obj"
+            "resources/models/viking_room.obj"
         }
     );
     core.getResourceManager()->loadResources();

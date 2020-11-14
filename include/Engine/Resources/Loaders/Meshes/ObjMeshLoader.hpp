@@ -2,11 +2,13 @@
 #define ENGINE_RESOURCES_LOADERS_MESHES_OBJ_MESH_LOADER_HPP_
 
 #include "Engine/Graphics/Mesh.hpp"
+#include "Engine/Logging/Logger.hpp"
 #include "Engine/Maths/Vector2.hpp"
 #include "Engine/Maths/Vector3.hpp"
 #include "Engine/Resources/IResourceLoader.hpp"
 
 #include <functional>
+#include <memory>
 #include <regex>
 #include <unordered_map>
 
@@ -14,6 +16,8 @@ namespace Engine {
 
 class ObjMeshLoader: public IResourceLoader {
     public:
+        ObjMeshLoader(std::shared_ptr<Logging::Logger> logger);
+
         std::unique_ptr<Resource> load(
             const ResourceDescriptor & descriptor
         ) noexcept override;
@@ -80,6 +84,8 @@ class ObjMeshLoader: public IResourceLoader {
             const ParsingContext & context,
             const VertexIndex & index
         );
+
+        std::shared_ptr<Logging::Logger> _logger;
 }; /* class ObjMeshLoader */
 
 } /* namespace Engine */
