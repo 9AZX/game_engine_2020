@@ -1,6 +1,7 @@
 #ifndef ENGINE_RESOURCES_RESOURCE_MANAGER_HPP_
 #define ENGINE_RESOURCES_RESOURCE_MANAGER_HPP_
 
+#include "Engine/Logging/Logger.hpp"
 #include "Engine/Resources/IResourceLoader.hpp"
 #include "Engine/Resources/Resource.hpp"
 #include "Engine/Resources/ResourceDescriptor.hpp"
@@ -10,7 +11,7 @@
 #include <filesystem>
 #include <map>
 #include <memory>
-#include <queue>
+#include <deque>
 #include <set>
 #include <string>
 
@@ -21,8 +22,14 @@ class ResourceManager {
     using ResourceContainer = std::map<std::string, std::unique_ptr<Resource>>;
 
     public:
-        ResourceManager();
-        ResourceManager(bool allowDuplicates);
+        ResourceManager(
+            std::shared_ptr<Logging::Logger> logger,
+            #ifdef NDEBUG
+            bool allowDuplicates = false
+            #else
+            bool allowDuplicates = true
+            #endif
+        );
         ~ResourceManager() = default;
 
         void init() noexcept;
@@ -49,19 +56,16 @@ class ResourceManager {
         void initializeLoaders() noexcept;
         void initializeResourceContainers() noexcept;
 
+        std::shared_ptr<Logging::Logger> _logger;
+
         std::array<std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>, ResourceType::MAX_VALUE> _loaders;
         std::array<ResourceContainer, ResourceType::MAX_VALUE> _resources;
 
-        std::queue<ResourceDescriptor> _loadPendingResources;
-        std::queue<ResourceDescriptor> _unloadPendingResources;
+        std::deque<ResourceDescriptor> _loadPendingResources;
+        std::deque<ResourceDescriptor> _unloadPendingResources;
         std::set<std::filesystem::path> _loadedPathes;
 
-        #ifdef NDEBUG
-        bool _allowDuplicates = false;
-        #else
-        bool _allowDuplicates = true;
-        #endif
-
+        bool _allowDuplicates;
 }; /* class ResourceManager */
 
 } /* namespace Engine */

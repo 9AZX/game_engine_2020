@@ -4,7 +4,12 @@
 
 #include <fstream>
 
-#include <iostream> // TODO Replace this once the logger is implemented
+Engine::SpirvShaderLoader::SpirvShaderLoader(
+    std::shared_ptr<Logging::Logger> logger
+):
+    _logger(logger)
+{
+}
 
 std::unique_ptr<Engine::Resource> Engine::SpirvShaderLoader::load(
     const ResourceDescriptor & descriptor
@@ -12,8 +17,11 @@ std::unique_ptr<Engine::Resource> Engine::SpirvShaderLoader::load(
     std::ifstream file(descriptor.path, std::ios::ate | std::ios::binary);
 
     if (!file.is_open()) {
-        std::cerr   << "[ShaderLoader][" << descriptor.path << "] "
-                    << "Could not load file" << std::endl;
+        _logger->log(
+            Logging::Level::Error,
+            "[Shader Loader] {}: could not load file",
+            descriptor.path.string()
+        );
         return nullptr;
     }
 

@@ -1,10 +1,14 @@
 #ifndef ENGINE_RESOURCES_LOADERS_MESHES_OBJ_MESH_LOADER_HPP_
 #define ENGINE_RESOURCES_LOADERS_MESHES_OBJ_MESH_LOADER_HPP_
 
+#include "Engine/Graphics/Mesh.hpp"
+#include "Engine/Logging/Logger.hpp"
+#include "Engine/Maths/Vector2.hpp"
+#include "Engine/Maths/Vector3.hpp"
 #include "Engine/Resources/IResourceLoader.hpp"
-#include "Engine/Resources/MeshResource.hpp"
 
 #include <functional>
+#include <memory>
 #include <regex>
 #include <unordered_map>
 
@@ -12,6 +16,8 @@ namespace Engine {
 
 class ObjMeshLoader: public IResourceLoader {
     public:
+        ObjMeshLoader(std::shared_ptr<Logging::Logger> logger);
+
         std::unique_ptr<Resource> load(
             const ResourceDescriptor & descriptor
         ) noexcept override;
@@ -40,22 +46,22 @@ class ObjMeshLoader: public IResourceLoader {
         };
 
         struct ParsingContext {
-            std::vector<vec3f> vertices;
-            std::vector<vec3f> normals;
-            std::vector<vec2f> texCoords;
+            std::vector<Math::Vector3> vertices;
+            std::vector<Math::Vector3> normals;
+            std::vector<Math::Vector2> texCoords;
             std::unordered_map<VertexIndex, std::size_t, VertexIndexHash> vertexMap;
             bool hasNormals = false;
             bool hasTexCoordinates = false;
-            MeshResource mesh;
+            Mesh mesh;
         };
 
-        static vec3f parseVertex(
+        static Math::Vector3 parseVertex(
             const std::vector<std::string> & elements
         );
-        static vec3f parseNormal(
+        static Math::Vector3 parseNormal(
             const std::vector<std::string> & elements
         );
-        static vec2f parseUvCoordinates(
+        static Math::Vector2 parseUvCoordinates(
             const std::vector<std::string> & elements
         );
 
@@ -78,6 +84,8 @@ class ObjMeshLoader: public IResourceLoader {
             const ParsingContext & context,
             const VertexIndex & index
         );
+
+        std::shared_ptr<Logging::Logger> _logger;
 }; /* class ObjMeshLoader */
 
 } /* namespace Engine */
