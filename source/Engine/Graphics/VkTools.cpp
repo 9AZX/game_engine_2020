@@ -8,7 +8,7 @@ namespace vkTools {
 			vk::ComponentSwizzle::eR, vk::ComponentSwizzle::eG, vk::ComponentSwizzle::eB, vk::ComponentSwizzle::eA);
 		vk::ImageViewCreateInfo viewInfo(vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, format, componentMapping, vk::ImageSubresourceRange(aspectFlags, 0, 1, 0, 1));
 
-		return Engine::Graphics::getInstance()->getDevice()->logicalDevice->createImageViewUnique(viewInfo);
+		return Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createImageViewUnique(viewInfo);
 	}
 
 	void createBuffer(vk::DeviceSize size, 
@@ -19,19 +19,19 @@ namespace vkTools {
 	{
 		vk::BufferCreateInfo bufferInfo(vk::BufferCreateFlags(), size, usage, vk::SharingMode::eExclusive);
 
-		buffer = Engine::Graphics::getInstance()->getDevice()->logicalDevice->createBufferUnique(bufferInfo);
+		buffer = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createBufferUnique(bufferInfo);
 		
-		vk::MemoryRequirements memrequirements = Engine::Graphics::getInstance()->getDevice()->logicalDevice->getBufferMemoryRequirements(buffer.get());
+		vk::MemoryRequirements memrequirements = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().getBufferMemoryRequirements(buffer.get());
 
 		vk::MemoryAllocateInfo allocInfo(memrequirements.size, findMemoryTypeIndex(memrequirements.memoryTypeBits, propertyFlags));
-		bufferMemory = Engine::Graphics::getInstance()->getDevice()->logicalDevice->allocateMemory(allocInfo);
-		Engine::Graphics::getInstance()->getDevice()->logicalDevice->bindBufferMemory(buffer.get(), bufferMemory, 0);
+		bufferMemory = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().allocateMemory(allocInfo);
+		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().bindBufferMemory(buffer.get(), bufferMemory, 0);
 	}
 
 	uint32_t findMemoryTypeIndex(uint32_t typeFilter, vk::MemoryPropertyFlags properties)
 	{
 		uint32_t typeIndex = uint32_t(~0);
-		vk::PhysicalDeviceMemoryProperties memoryProperties = Engine::Graphics::getInstance()->getDevice()->physicalDevice.getMemoryProperties();
+		vk::PhysicalDeviceMemoryProperties memoryProperties = Engine::Graphics::getInstance()->getDevice()->getPhysicalDevice()->getMemoryProperties();
 
 		for (uint32_t i = 0; i < memoryProperties.memoryTypeCount; i++)
 		{
@@ -51,7 +51,7 @@ namespace vkTools {
 	{
 		vk::CommandBufferAllocateInfo allocInfo(commandPool.get(), vk::CommandBufferLevel::ePrimary, 1);
 		
-		vk::UniqueCommandBuffer commandBuffer = std::move(Engine::Graphics::getInstance()->getDevice()->logicalDevice->allocateCommandBuffersUnique(allocInfo).front());
+		vk::UniqueCommandBuffer commandBuffer = std::move(Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().allocateCommandBuffersUnique(allocInfo).front());
 
 		commandBuffer->begin(vk::CommandBufferBeginInfo(vk::CommandBufferUsageFlags()));
 
@@ -62,12 +62,12 @@ namespace vkTools {
 		vk::UniqueCommandPool commandPool)
 	{
 		commandBuffer->end();
-		vk::UniqueFence fence = Engine::Graphics::getInstance()->getDevice()->logicalDevice->createFenceUnique(vk::FenceCreateInfo());
+		vk::UniqueFence fence = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createFenceUnique(vk::FenceCreateInfo());
 		vk::SubmitInfo submitInfo = vk::SubmitInfo({}, {}, *commandBuffer);
 
 		Engine::Graphics::getInstance()->getDevice()->graphicsQueue.submit(submitInfo, fence.get());
 		Engine::Graphics::getInstance()->getDevice()->graphicsQueue.waitIdle();
-		Engine::Graphics::getInstance()->getDevice()->logicalDevice->freeCommandBuffers(commandPool.get(), *commandBuffer);
+		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().freeCommandBuffers(commandPool.get(), *commandBuffer);
 	}
 
 	void copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::DeviceSize size)
@@ -76,13 +76,13 @@ namespace vkTools {
 
 		vk::CommandPoolCreateInfo cpInfo(vk::CommandPoolCreateFlagBits::eResetCommandBuffer, qFamilyIndices.graphicsFamily);
 
-		vk::UniqueCommandPool commandPool = Engine::Graphics::getInstance()->getDevice()->logicalDevice->createCommandPoolUnique(cpInfo);
+		vk::UniqueCommandPool commandPool = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createCommandPoolUnique(cpInfo);
 		vk::UniqueCommandBuffer commandBuffer = beginSingleTimeCommands(std::move(commandPool));
 
 		vk::BufferCopy copyRegion(0, 0, size);
 		commandBuffer->copyBuffer(srcBuffer, dstBuffer, 1, &copyRegion);
 
 		endSingleTimeCommandsCPP(commandBuffer, std::move(commandPool));
-		Engine::Graphics::getInstance()->getDevice()->logicalDevice->destroyCommandPool(commandPool.get(), nullptr);
+		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyCommandPool(commandPool.get(), nullptr);
 	}
 }

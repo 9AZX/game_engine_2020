@@ -38,12 +38,12 @@ void ObjectBuffers::createVertexBuffer()
 	
 	void* data;
 
-	data = Engine::Graphics::getInstance()->getDevice()->logicalDevice->mapMemory(stagingBufferMemory,
+	data = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().mapMemory(stagingBufferMemory,
 		0, // offet
 		bufferSize);
 	memcpy(data, vertices.data(), (size_t)bufferSize);
 
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->unmapMemory(stagingBufferMemory);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().unmapMemory(stagingBufferMemory);
 
 	vkTools::createBuffer(bufferSize,
 		vk::BufferUsageFlagBits::eTransferSrc | vk::BufferUsageFlagBits::eVertexBuffer,
@@ -55,8 +55,8 @@ void ObjectBuffers::createVertexBuffer()
 		vertexBuffer.get(),
 		bufferSize);
 
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->destroyBuffer(stagingBuffer.get(), nullptr);
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->freeMemory(stagingBufferMemory, nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyBuffer(stagingBuffer.get(), nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().freeMemory(stagingBufferMemory, nullptr);
 }
 
 void ObjectBuffers::createIndexBuffer()
@@ -72,9 +72,9 @@ void ObjectBuffers::createIndexBuffer()
 		stagingBuffer, stagingBufferMemory);
 	void* data;
 
-	data = Engine::Graphics::getInstance()->getDevice()->logicalDevice->mapMemory(stagingBufferMemory, 0, bufferSize);
+	data = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().mapMemory(stagingBufferMemory, 0, bufferSize);
 	memcpy(data, indices.data(), (size_t)bufferSize);
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->unmapMemory(stagingBufferMemory);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().unmapMemory(stagingBufferMemory);
 
 	vkTools::createBuffer(bufferSize,
 		vk::BufferUsageFlagBits::eTransferDst | vk::BufferUsageFlagBits::eIndexBuffer,
@@ -86,8 +86,8 @@ void ObjectBuffers::createIndexBuffer()
 		indexBuffer.get(),
 		bufferSize);
 
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->destroyBuffer(stagingBuffer.get(), nullptr);
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->freeMemory(stagingBufferMemory, nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyBuffer(stagingBuffer.get(), nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().freeMemory(stagingBufferMemory, nullptr);
 }
 
 void ObjectBuffers::createUniformBuffers()
@@ -103,12 +103,12 @@ void ObjectBuffers::createUniformBuffers()
 
 void ObjectBuffers::destroy()
 {
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->destroyBuffer(uniformBuffers.get(), nullptr);
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->freeMemory(uniformBuffersMemory, nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyBuffer(uniformBuffers.get(), nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().freeMemory(uniformBuffersMemory, nullptr);
 
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->destroyBuffer(indexBuffer.get(), nullptr);
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->freeMemory(indexBufferMemory, nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyBuffer(indexBuffer.get(), nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().freeMemory(indexBufferMemory, nullptr);
 
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->destroyBuffer(vertexBuffer.get(), nullptr);
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->freeMemory(vertexBufferMemory, nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyBuffer(vertexBuffer.get(), nullptr);
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().freeMemory(vertexBufferMemory, nullptr);
 }

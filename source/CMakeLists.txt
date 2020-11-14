@@ -15,6 +15,11 @@ add_library(${PROJECT_SOURCES_LIBRARY} SHARED
     Engine/Graphics/Device.cpp
     Engine/Graphics/Instance.cpp
     Engine/Graphics/Swapchain.cpp
+    Engine/Graphics/ObjectRenderer.cpp
+    Engine/Graphics/ObjectBuffers.cpp
+    Engine/Graphics/CommandBuffer.cpp
+    Engine/Graphics/VkTools.cpp
+    Engine/Graphics/Camera.cpp
     Engine/HID.cpp
     Engine/Resources/Loaders/Meshes/ObjMeshLoader.cpp
     Engine/Resources/Loaders/Shaders/SpirvShaderLoader.cpp

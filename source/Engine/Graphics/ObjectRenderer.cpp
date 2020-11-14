@@ -4,8 +4,8 @@
 void ObjectRenderer::createObjectRenderer(MeshType modelType, glm::vec3 _position, glm::vec3 _scale) {
 
 
-	uint32_t swapChainImageCount = VulkanContext::getInstance()->getSwapChain()->swapChainImages.size();
-	VkExtent2D swapChainImageExtent = VulkanContext::getInstance()->getSwapChain()->swapChainImageExtent;
+	uint32_t swapChainImageCount = Engine::Graphics::getInstance()->getSwapchain()->swapChainImages.size();
+	VkExtent2D swapChainImageExtent = Engine::Graphics::getInstance()->getSwapchain()->swapChainImageExtent;
 
 
 
@@ -61,7 +61,7 @@ void ObjectRenderer::draw()
 	cBuffer->bindVertexBuffers(0, 1, vertexBuffers, offsets);
 	cBuffer->bindIndexBuffer(objBuffers.indexBuffer,
 		0,
-		VK_INDEX_TYPE_UINT32);
+		vk::IndexType::eUint32);
 
 	cBuffer->bindDescriptorSets(vk::PipelineBindPoint::eGraphics,
 		gPipeline.pipelineLayout,
@@ -96,11 +96,10 @@ void ObjectRenderer::updateUniformBuffer(Camera camera)
 
 	void* data;
 
-	data = Engine::Graphics::getInstance()->getDevice()->logicalDevice->mapMemory(objBuffers.uniformBuffersMemory, 0, sizeof(ubo));
+	data = Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().mapMemory(objBuffers.uniformBuffersMemory, 0, sizeof(ubo));
 	
 	memcpy(data, &ubo, sizeof(ubo));
-	Engine::Graphics::getInstance()->getDevice()->logicalDevice->unmapMemory(objBuffers.uniformBuffersMemory);
-
+	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().unmapMemory(objBuffers.uniformBuffersMemory);
 }
 
 void ObjectRenderer::destroy() {

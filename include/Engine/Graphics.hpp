@@ -13,16 +13,46 @@ class Graphics
 {
 public:
     Graphics(std::string name, std::shared_ptr<Engine::Window> window);
+    Graphics() {}
     ~Graphics();
 
     std::shared_ptr<Instance> gInstance;
     std::shared_ptr<Device> gDevice;
     std::shared_ptr<Swapchain> gSwapChain;
 
+    static std::shared_ptr<Graphics> graphics;
+
+    static std::shared_ptr<Graphics> getInstance()
+    {
+        if (!graphics)
+        {
+            graphics = std::make_shared<Graphics>();
+        }
+        return graphics;
+    }
+
+    std::shared_ptr<Device> getDevice()
+    {
+        return gDevice;
+    }
+
+    std::shared_ptr<Swapchain> getSwapchain()
+    {
+        return gSwapChain;
+    }
+
+    vk::UniqueCommandBuffer getCurrentCommandBuffer()
+    {
+        return currentCommandBuffer;
+    }
+
 private:
     std::string _appName;
 
     std::shared_ptr<Engine::Window> _window;
+    vk::UniqueCommandBuffer currentCommandBuffer;
+
+
 #if !defined(NDEBUG)
     //TODO #8 Vulkan message debuging
 #endif

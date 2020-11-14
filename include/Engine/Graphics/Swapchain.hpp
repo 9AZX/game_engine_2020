@@ -18,6 +18,11 @@ public:
     Swapchain() = default;
     ~Swapchain();
 
+    vk::SwapchainKHR swapchain;
+    vk::Format swapChainImageFormat;
+    vk::Extent2D swapChainImageExtent;
+    std::vector<vk::Image> swapChainImages;
+
 private:
     std::shared_ptr<Engine::Window> _window;
     std::shared_ptr<Instance> _instance;
