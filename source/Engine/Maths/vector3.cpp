@@ -10,6 +10,7 @@ namespace Math {
 
     // constructor
     Vector3::Vector3() :x(0.0), y(0.0), z(0.0) {};
+    Vector3::Vector3(float setting) :x(setting), y(setting), z(setting) {}
     Vector3::Vector3(float uX, float uY, float uZ) :x(uX), y(uY), z(uZ) {}
 
     // destructor

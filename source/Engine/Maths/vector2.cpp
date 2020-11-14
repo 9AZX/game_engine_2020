@@ -10,6 +10,7 @@ namespace Math {
 
     // constructor
     Vector2::Vector2() :x(0.0), y(0.0) {};
+    Vector2::Vector2(float setting) :x(setting), y(setting) {};
     Vector2::Vector2(float uX, float uY) :x(uX), y(uY) {}
 
     // destructor

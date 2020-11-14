@@ -3,7 +3,6 @@
 #ifndef ENGINE_MATHS_MATRIX_4_HPP_
 #define ENGINE_MATHS_MATRIX_4_HPP_
 
-#include "Engine/Maths/Vector3.hpp"
 #include "Engine/Maths/Vector4.hpp"
 
 #include <cmath>
@@ -36,25 +35,6 @@ class Matrix4 {
 		void operator*=(const Matrix4& m);
 
 		void setMatrixAsIdentityMatrix();
-
-		/*void setMatrixAsInverseOfGivenMatrix(const Matrix4& m);
-		Matrix4 getInverseOfMatrix() const;
-		void invertMatrix();
-
-		float getMatrixDeterminant() const;
-
-		void setMatrixAsTransposeOfGivenMatrix(const Matrix4& m);
-		Matrix4 getTransposeOfMatrix() const;
-
-		void invertAndTransposeMatrix();
-
-		void makeRotationMatrixAboutXAxisByAngle(float uAngle);
-		void makeRotationMatrixAboutYAxisByAngle(float uAngle);
-		void makeRotationMatrixAboutZAxisByAngle(float uAngle);
-
-		void transformMatrixAboutXAxisByAngle(float uAngle);
-		void transformMatrixAboutYAxisByAngle(float uAngle);
-		void transformMatrixAboutZAxisByAngle(float uAngle);*/
 
 		void show();
 		void show(int row);

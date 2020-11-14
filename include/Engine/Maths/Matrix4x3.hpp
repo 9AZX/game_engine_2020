@@ -3,7 +3,6 @@
 #ifndef ENGINE_MATHS_MATRIX_4X3_HPP_
 #define ENGINE_MATHS_MATRIX_4X3_HPP_
 
-#include "Engine/Maths/Vector3.hpp"
 #include "Engine/Maths/Vector4.hpp"
 
 #include <cmath>

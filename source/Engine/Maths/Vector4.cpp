@@ -14,6 +14,7 @@ namespace Math {
 
 	// constructors
 	Vector4::Vector4(void) : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {}
+	Vector4::Vector4(float setting) : x(setting), y(setting), z(setting), w(setting) {}
 	Vector4::Vector4(float x_, float y_, float z_, float w_) : x(x_), y(y_), z(z_), w(w_) {}
 
 	// deconstructor
@@ -115,93 +116,6 @@ namespace Math {
 			y / length,
 			z / length,
 			w / length);
-	}
-
-	/**
-	* Runs a test suite to ensure that all methods are working properly.
-	* If they are, then this method returns EXIT_SUCCESS as defined in
-	* stdlib.h.  Else if one fails, returns EXIT_FAILURE.
-	*/
-	int Vector4::runTestSuite() {
-		std::cout << "Testing Vector4 functionality." << std::endl;
-
-		const float X = 1.0f;
-		const float Y = 2.0f;
-		const float Z = 3.0f;
-		const float W = 1.0f;
-
-		std::cout << "Testing constructor: " << std::endl;
-		// Test that the constructor works as desired
-		Vector4 vec(X, Y, Z, W);
-		bool valuesMatch = vec.x == X &&
-			vec.y == Y &&
-			vec.z == Z &&
-			vec.w == W;
-		assert(valuesMatch);
-
-		std::cout << "Testing default constructor: " << std::endl;
-		Vector4 zeroVector;
-		bool allZeroes = zeroVector.getX() == 0 &&
-			zeroVector.getY() == 0 &&
-			zeroVector.getZ() == 0 &&
-			zeroVector.getW() == 0;
-		assert(allZeroes);
-
-		const float X2 = 2.0f;
-		const float Y2 = 3.0f;
-		const float Z2 = 4.0f;
-		const float W2 = 0.0f;
-
-		Vector4 addend(X2, Y2, Z2, W2);
-
-		Vector4 sum = addend + vec;
-
-		Vector4 correctSum(X + X2, Y + Y2, Z + Z2, W + W2);
-
-		std::cout << "Testing vector addition: " << std::endl;
-		assert(sum == correctSum);
-		assert(correctSum == sum);
-
-		std::cout << "Testing vector subtraction: " << std::endl;
-		// a+(-b) = a - b
-		Vector4 a(5, 10, 15, 0);
-		Vector4 b(2, -10, -234, 0);
-		Vector4 aPlusMinusB = a + (-b);
-		Vector4 aMinusB = a - b;
-		assert(aPlusMinusB == aMinusB);
-
-		// Test scalar multiplication
-		std::cout << "Testing scalar vector multiplication: " << std::endl;
-
-		Vector4 c(5, -10, 0, 0);
-		Vector4 d = c * -5;
-		Vector4 e = c * 14.3;
-		Vector4 f = c * 0;
-		assert(d.magnitude() == c.magnitude() * 5);
-		assert(e.magnitude() == c.magnitude() * 14.3f);
-		assert(f.magnitude() == 0.0);
-
-
-
-		std::cout << "Testing dot product for orthogonal vectors: " << std::endl;
-		// Check dot product for two known orthogonal vectors; should be zero
-		Vector4 xVector(1, 0, 0, 0);
-		Vector4 yVector(0, 1, 0, 0);
-		float dotProduct = xVector.dotProduct(yVector);
-		assert(dotProduct == 0);
-
-		std::cout << "Testing magnitude: " << std::endl;
-		// Make sure magnitude code works
-		float zeroLength = zeroVector.magnitude();
-		assert(zeroLength == 0.0f);
-
-		float xVectorLength = xVector.magnitude();
-		assert(xVectorLength == 1.0f);
-
-		Vector4 toMeasure(sqrt(5.0f), -sqrt(3.0f), 2, 0);
-		assert(toMeasure.magnitude() == sqrt(12.0f));
-
-		return EXIT_SUCCESS;
 	}
 
 	// show

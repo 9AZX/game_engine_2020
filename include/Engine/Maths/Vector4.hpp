@@ -17,6 +17,7 @@ class Vector4 {
 
 		// Default constructor; creates 0 vector
 		Vector4(void);
+		Vector4(float setting);
 		Vector4(float x, float y, float z, float w);
 
 		Vector4(const Vector3& val);
@@ -25,8 +26,6 @@ class Vector4 {
 		static const Vector4 ZERO_VECTOR;
 
 		static float angleBetween(const Vector4& first, const Vector4& second);
-
-		static int runTestSuite();
 
 		// Equality operator
 		const bool operator==(const Vector4& other) const;

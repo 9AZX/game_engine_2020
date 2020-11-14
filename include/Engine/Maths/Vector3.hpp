@@ -19,6 +19,7 @@ class Vector3 {
 
         // Constructor to create a 3D vector with zero vector components.
         Vector3();
+        Vector3(float setting);
 
         // Creates a vector with the given x, yand z components
         Vector3(float uX, float uY, float uZ);
