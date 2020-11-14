@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include <iostream>
-#include "not_glm_vector.hpp"
+#include "not_glm_vector3.hpp"
 #include "not_glm_vector4.hpp"
 
 namespace NotGLM {

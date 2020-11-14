@@ -3,7 +3,7 @@
 #ifndef not_glm_vector4_hpp
 #define not_glm_vector4_hpp
 
-#include "not_glm_vector.hpp"
+#include "not_glm_vector3.hpp"
 
 namespace NotGLM {
 

@@ -1,4 +1,4 @@
-#include "not_glm_vector.hpp"
+#include "not_glm_vector3.hpp"
 #include "not_glm_quaternions.hpp"
 
 namespace NotGLM {
@@ -105,7 +105,8 @@ namespace NotGLM {
     // cross product
     Vector3 Vector3::cross(const Vector3& v) const
     {
-        return Vector3(y * v.z - z * v.y,
+        return Vector3(
+            y * v.z - z * v.y,
             z * v.x - x * v.z,
             x * v.y - y * v.x);
     }
@@ -117,7 +118,8 @@ namespace NotGLM {
 
     Vector3 Vector3::operator %(const Vector3& v) const
     {
-        return Vector3(y * v.z - z * v.y,
+        return Vector3(
+            y * v.z - z * v.y,
             z * v.x - x * v.z,
             x * v.y - y * v.x);
     }

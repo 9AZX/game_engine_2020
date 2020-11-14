@@ -5,7 +5,7 @@
 #define NOT_GLM_QUATERNIONS_HPP_
 
 #include <cmath>
-#include "not_glm_vector.hpp"
+#include "not_glm_vector3.hpp"
 
 //class Vector3;
 namespace NotGLM {
