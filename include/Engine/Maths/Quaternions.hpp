@@ -1,15 +1,17 @@
-
 #pragma once
 
-#ifndef NOT_GLM_QUATERNIONS_HPP_
-#define NOT_GLM_QUATERNIONS_HPP_
+#ifndef ENGINE_MATHS_QUATERNIONS_HPP_
+#define ENGINE_MATHS_QUATERNIONS_HPP_
+
+#include "Engine/Maths/Vector3.hpp"
 
 #include <cmath>
-#include "not_glm_vector3.hpp"
 
-//class Vector3;
-namespace NotGLM {
-	class Quaternion {
+namespace Engine {
+
+namespace Math {
+
+class Quaternion {
 	public:
 		float s;
 		Vector3 v;
@@ -32,7 +34,10 @@ namespace NotGLM {
 		Quaternion conjugate();
 		Quaternion inverse();
 		void convertToUnitNormQuaternion();
-	};
-}
+}; /* namespace Quaternion */
 
-#endif /* not_glm_quaternion */
+} /* namespace Math */
+
+} /* namespace Engine */
+
+#endif /* ENGINE_MATHS_QUATERNIONS_HPP_ */

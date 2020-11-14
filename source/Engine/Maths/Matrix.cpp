@@ -1,7 +1,13 @@
-#include "not_glm_matrix.hpp"
-#include "Constants.hpp"
+#include "Engine/Maths/Matrix.hpp"
 
-namespace NotGLM {
+#include "Engine/Maths/Constants.hpp"
+
+#include <cstdio> // TODO remove this and specialize fmt::formatter
+
+namespace Engine {
+
+namespace Math {
+
     Matrix3d::Matrix3d() {
         for (int i = 0; i < 9; i++) {
             matrixData[i] = 0.0f;
@@ -378,7 +384,7 @@ namespace NotGLM {
     }
 
     void Matrix3d::show() {
-        printf("mat4x3((%.6f, %.6f, %.6f), (%.6f, %.6f, %.6f), (%.6f, %.6f, %.6f))\n",
+        std::printf("mat4x3((%.6f, %.6f, %.6f), (%.6f, %.6f, %.6f), (%.6f, %.6f, %.6f))\n",
             matrixData[0], matrixData[1], matrixData[2],
             matrixData[3], matrixData[4], matrixData[5],
             matrixData[6], matrixData[7], matrixData[8]);
@@ -386,16 +392,19 @@ namespace NotGLM {
 
     void Matrix3d::show(int row) {
         if (row == 1) {
-            printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
+            std::printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
         }
         else if (row == 2) {
-            printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
+            std::printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
         }
         else if (row == 3) {
-            printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
+            std::printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
         }
         else {
-            printf("Outside of matrix scope\n");
+            std::printf("Outside of matrix scope\n");
         }
     }
-}
+
+} /* namespace Math */
+
+} /* namespace Engine */

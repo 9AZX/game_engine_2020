@@ -1,15 +1,17 @@
 #pragma once
 
-#ifndef NOT_GLM_MATRIX_HPP_
-#define NOT_GLM_MATRIX_HPP_
+#ifndef ENGINE_MATHS_MATRIX_HPP_
+#define ENGINE_MATHS_MATRIX_HPP_
+
+#include "Engine/Maths/Vector3.hpp"
 
 #include <cmath>
-#include <iostream>
-#include "not_glm_vector.hpp"
 
-namespace NotGLM {
-	class Matrix3d {
-	private:
+namespace Engine {
+
+namespace Math {
+
+class Matrix3d {
 	public:
 		float matrixData[9]={0.0};
 		Matrix3d();
@@ -55,7 +57,10 @@ namespace NotGLM {
 
 		void show();
 		void show(int row);
-	};
-}
+}; /* class Matrix3D */
 
-#endif /* not_glm_matrix.hpp*/
+} /* namespace Math */
+
+} /* namespace Engine */
+
+#endif /* ENGINE_MATHS_MATRIX_HPP_ */

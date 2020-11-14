@@ -1,7 +1,9 @@
-#include "not_glm_quaternions.hpp"
-//#include "not_glm_vector.hpp"
+#include "Engine/Maths/Quaternions.hpp"
 
-namespace NotGLM {
+namespace Engine {
+
+namespace Math {
+
 	Quaternion::Quaternion(float uS, Vector3& uV) :s(uS), v(uV) {}
 
 	Quaternion::Quaternion(const Quaternion& value) {
@@ -118,4 +120,7 @@ namespace NotGLM {
 		s = cosf(angle * 0.5);
 		v = v * sinf(angle * 0.5);
 	}
-}
+
+} /* namespace Math */
+
+} /* namespace Engine */

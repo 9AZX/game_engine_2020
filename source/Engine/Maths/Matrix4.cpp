@@ -1,13 +1,16 @@
-#include "not_glm_matrix4.hpp"
-#include "Constants.hpp"
+#include "Engine/Maths/Matrix4.hpp"
 
-#include <assert.h>
-#include <stdlib.h>
+#include "Engine/Maths/Constants.hpp"
 
-#include <iostream>
-#include <fstream>
+#include <cassert>
+#include <cstdlib>
 
-namespace NotGLM {
+#include <cstdio> // TODO remove this and specialize fmt::formatter
+
+namespace Engine {
+
+namespace Math {
+
     Matrix4::Matrix4() {
         for (int i = 0; i < 16; i++) {
             matrixData[i] = 0.0f;
@@ -120,7 +123,7 @@ namespace NotGLM {
         n.matrixData[6] = matrixData[6] * s;
         n.matrixData[10] = matrixData[10] * s;
         n.matrixData[14] = matrixData[14] * s;
-        
+
         n.matrixData[3] = matrixData[3] * s;
         n.matrixData[7] = matrixData[7] * s;
         n.matrixData[11] = matrixData[11] * s;
@@ -453,7 +456,7 @@ namespace NotGLM {
     }*/
 
     void Matrix4::show() {
-        printf("mat4x4((%.6f, %.6f, %.6f, %.6f), (%.6f, %.6f, %.6f, %.6f), (%.6f, %.6f, %.6f, %.6f), (%.6f, %.6f, %.6f, %.6f))\n",
+        std::printf("mat4x4((%.6f, %.6f, %.6f, %.6f), (%.6f, %.6f, %.6f, %.6f), (%.6f, %.6f, %.6f, %.6f), (%.6f, %.6f, %.6f, %.6f))\n",
             matrixData[0], matrixData[1], matrixData[2], matrixData[3],
             matrixData[4], matrixData[5], matrixData[6], matrixData[7],
             matrixData[8], matrixData[9], matrixData[10], matrixData[11],
@@ -462,19 +465,22 @@ namespace NotGLM {
 
     void Matrix4::show(int row) {
         if (row == 1) {
-            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2], matrixData[3]);
+            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2], matrixData[3]);
         }
         else if (row == 2) {
-            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[4], matrixData[5], matrixData[6], matrixData[7]);
+            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[4], matrixData[5], matrixData[6], matrixData[7]);
         }
         else if (row == 3) {
-            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[8], matrixData[9], matrixData[10], matrixData[11]);
+            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[8], matrixData[9], matrixData[10], matrixData[11]);
         }
         else if (row == 4) {
-            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[12], matrixData[13], matrixData[14], matrixData[15]);
+            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[12], matrixData[13], matrixData[14], matrixData[15]);
         }
         else {
-            printf("Outside of matrix scope\n");
+            std::printf("Outside of matrix scope\n");
         }
     }
-}
+
+} /* namespace Math */
+
+} /* namespace Engine */

@@ -1,9 +1,16 @@
-#include "not_glm_vector4.hpp"
-#include <assert.h>
-#include <stdlib.h>
-#include "Constants.hpp"
+#include "Engine/Maths/Vector4.hpp"
 
-namespace NotGLM {
+#include "Engine/Maths/Constants.hpp"
+
+#include <cassert>
+#include <cstdlib>
+
+#include <cstdio> // TODO remove this and specialize fmt::formatter
+#include <iostream> // TODO remove this and specialize fmt::formatter
+
+namespace Engine {
+
+namespace Math {
 
 	// constructors
 	Vector4::Vector4(void) : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {}
@@ -32,7 +39,7 @@ namespace NotGLM {
 		float aLength = a.magnitude();
 		float bLength = b.magnitude();
 
-		// They've passed in the zero vector.  
+		// They've passed in the zero vector.
 		if (BasicMath::approxEqual(aLength, 0.0f) ||
 			BasicMath::approxEqual(bLength, 0.0f)) {
 			return 0.0f;
@@ -200,25 +207,27 @@ namespace NotGLM {
 	// show
 	void Vector4::show()
 	{
-		printf("vec3(%.6f, %.6f, %.6f, , %.6f)\n", x, y, z, w);
+		std::printf("vec3(%.6f, %.6f, %.6f, , %.6f)\n", x, y, z, w);
 	}
 
 	void Vector4::show(char coordinate)
 	{
 		if (coordinate == 'x') {
-			printf("vec3.x = %.6f\n", x);
+			std::printf("vec3.x = %.6f\n", x);
 		}
 		else if (coordinate == 'y') {
-			printf("vec3.y = %.6f\n", y);
+			std::printf("vec3.y = %.6f\n", y);
 		}
 		else if (coordinate == 'z') {
-			printf("vec3.z = %.6f\n", z);
+			std::printf("vec3.z = %.6f\n", z);
 		}
 		else if (coordinate == 'w') {
-			printf("vec3.w = %.6f\n", w);
+			std::printf("vec3.w = %.6f\n", w);
 		}
 		else {
-			printf("Out of vector scope\n");
+			std::printf("Out of vector scope\n");
 		}
 	}
-}
+} /* namespace Math */
+
+} /* namespace Engine */

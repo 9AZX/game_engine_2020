@@ -1,17 +1,18 @@
 #pragma once
-#ifndef not_glm_matrix4x3_hpp
-#define not_glm_matrix4x3_hpp
+
+#ifndef ENGINE_MATHS_MATRIX_4X3_HPP_
+#define ENGINE_MATHS_MATRIX_4X3_HPP_
+
+#include "Engine/Maths/Vector3.hpp"
+#include "Engine/Maths/Vector4.hpp"
 
 #include <cmath>
-#include <iostream>
-#include "not_glm_vector3.hpp"
-#include "not_glm_vector4.hpp"
 
-namespace NotGLM {
+namespace Engine {
 
-	class Matrix4x3 {
-	private:
+namespace Math {
 
+class Matrix4x3 {
 	public:
 		float matrixData[12] = { 0.0f };
 		Matrix4x3();
@@ -35,7 +36,10 @@ namespace NotGLM {
 
 		void show();
 		void show(int row);
-	};
-}
+}; /* class Matrix4x3 */
 
-#endif /* not_glm_matrix4x3.hpp*/
+} /* namespace Math */
+
+} /* namespace Engine */
+
+#endif /* ENGINE_MATHS_MATRIX_4X3_HPP_ */

@@ -28,8 +28,14 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Logging/FileSink.cpp
     Engine/Logging/Logger.cpp
     Engine/Logging/Sink.cpp
-    Engine/Maths/vector2.cpp
-    Engine/Maths/vector3.cpp
+    Engine/Maths/Constants.cpp
+    Engine/Maths/Matrix.cpp
+    Engine/Maths/Matrix4.cpp
+    Engine/Maths/Matrix4x3.cpp
+    Engine/Maths/Quaternions.cpp
+    Engine/Maths/Vector2.cpp
+    Engine/Maths/Vector3.cpp
+    Engine/Maths/vector4.cpp
     Engine/Resources/Loaders/Meshes/ObjMeshLoader.cpp
     Engine/Resources/Loaders/Shaders/SpirvShaderLoader.cpp
     Engine/Resources/Loaders/Texts/TextTxtLoader.cpp

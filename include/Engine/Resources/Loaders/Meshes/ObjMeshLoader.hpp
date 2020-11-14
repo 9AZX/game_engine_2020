@@ -46,22 +46,22 @@ class ObjMeshLoader: public IResourceLoader {
         };
 
         struct ParsingContext {
-            std::vector<Math::vec3f> vertices;
-            std::vector<Math::vec3f> normals;
-            std::vector<Math::vec2f> texCoords;
+            std::vector<Math::Vector3> vertices;
+            std::vector<Math::Vector3> normals;
+            std::vector<Math::Vector2> texCoords;
             std::unordered_map<VertexIndex, std::size_t, VertexIndexHash> vertexMap;
             bool hasNormals = false;
             bool hasTexCoordinates = false;
             Mesh mesh;
         };
 
-        static Math::vec3f parseVertex(
+        static Math::Vector3 parseVertex(
             const std::vector<std::string> & elements
         );
-        static Math::vec3f parseNormal(
+        static Math::Vector3 parseNormal(
             const std::vector<std::string> & elements
         );
-        static Math::vec2f parseUvCoordinates(
+        static Math::Vector2 parseUvCoordinates(
             const std::vector<std::string> & elements
         );
 

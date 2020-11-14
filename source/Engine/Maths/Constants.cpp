@@ -1,8 +1,12 @@
-#include "Constants.hpp"
-#include <assert.h>
-#include <cstdlib> 
+#include "Engine/Maths/Constants.hpp"
 
-namespace NotGLM {
+#include <cassert>
+#include <cstdlib>
+
+namespace Engine {
+
+namespace Math {
+
 	bool BasicMath::approxEqual(float A, float B) {
 		return fabs(A - B) < .001;
 	}
@@ -22,4 +26,7 @@ namespace NotGLM {
 	float BasicMath::randBetween(const float min, const float max) {
 		return ((max - min) * ((float)rand() / RAND_MAX)) + min;
 	}
-}
+
+} /* namespace Math */
+
+} /* namespace Engine */
