@@ -75,6 +75,10 @@ namespace NotGLM {
 				return os;
 			}
 
+			// show vector 
+			void show();
+			void show(char coordinate);
+
 		private:
 	};
 

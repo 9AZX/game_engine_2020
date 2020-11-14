@@ -196,4 +196,29 @@ namespace NotGLM {
 
 		return EXIT_SUCCESS;
 	}
+
+	// show
+	void Vector4::show()
+	{
+		printf("vec3(%.6f, %.6f, %.6f, , %.6f)\n", x, y, z, w);
+	}
+
+	void Vector4::show(char coordinate)
+	{
+		if (coordinate == 'x') {
+			printf("vec3.x = %.6f\n", x);
+		}
+		else if (coordinate == 'y') {
+			printf("vec3.y = %.6f\n", y);
+		}
+		else if (coordinate == 'z') {
+			printf("vec3.z = %.6f\n", z);
+		}
+		else if (coordinate == 'w') {
+			printf("vec3.w = %.6f\n", w);
+		}
+		else {
+			printf("Out of vector scope\n");
+		}
+	}
 }

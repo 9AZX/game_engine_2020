@@ -54,6 +54,7 @@ namespace NotGLM {
 		void transformMatrixAboutZAxisByAngle(float uAngle);
 
 		void show();
+		void show(int row);
 	};
 }
 

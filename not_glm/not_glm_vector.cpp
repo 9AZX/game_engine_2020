@@ -191,8 +191,11 @@ namespace NotGLM {
         else if (coordinate == 'y') {
             printf("vec3.y = %.6f\n", y);
         }
-        else {
+        else if (coordinate == 'z') {
             printf("vec3.z = %.6f\n", z);
+        }
+        else {
+            printf("Out of vector scope\n");
         }
     }
 

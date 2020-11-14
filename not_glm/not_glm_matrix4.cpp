@@ -18,7 +18,7 @@ namespace NotGLM {
         for (int i = 0; i < 16; i++) {
             matrixData[i] = 0.0f;
         }
-        matrixData[0] = matrixData[5] = matrixData[10] = matrixData[15] = 1.0f;
+        matrixData[0] = matrixData[5] = matrixData[10] = matrixData[15] = m0;
     };
 
     Matrix4::Matrix4(float m0, float m4, float m8, float m12, float m1, float m5, float m9, float m13, float m2, float m6, float m10, float m14, float m3, float m7, float m11, float m15) {
@@ -461,6 +461,20 @@ namespace NotGLM {
     }
 
     void Matrix4::show(int row) {
-        printf("mat4x4 matrixData[%d] = %.6f\n", row, matrixData[row]);
+        if (row == 1) {
+            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2], matrixData[3]);
+        }
+        else if (row == 2) {
+            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[4], matrixData[5], matrixData[6], matrixData[7]);
+        }
+        else if (row == 3) {
+            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[8], matrixData[9], matrixData[10], matrixData[11]);
+        }
+        else if (row == 4) {
+            printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[12], matrixData[13], matrixData[14], matrixData[15]);
+        }
+        else {
+            printf("Outside of matrix scope\n");
+        }
     }
 }

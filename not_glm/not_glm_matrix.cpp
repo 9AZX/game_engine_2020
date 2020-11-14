@@ -378,8 +378,24 @@ namespace NotGLM {
     }
 
     void Matrix3d::show() {
-        std::cout << "[" << matrixData[0] << "," << matrixData[3] << "," << matrixData[6] << "," << std::endl;
-        std::cout << matrixData[1] << "," << matrixData[4] << "," << matrixData[7] << "," << std::endl;
-        std::cout << matrixData[2] << "," << matrixData[5] << "," << matrixData[8] << "]" << std::endl;
+        printf("mat4x3((%.6f, %.6f, %.6f), (%.6f, %.6f, %.6f), (%.6f, %.6f, %.6f))\n",
+            matrixData[0], matrixData[1], matrixData[2],
+            matrixData[3], matrixData[4], matrixData[5],
+            matrixData[6], matrixData[7], matrixData[8]);
+    }
+
+    void Matrix3d::show(int row) {
+        if (row == 1) {
+            printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
+        }
+        else if (row == 2) {
+            printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
+        }
+        else if (row == 3) {
+            printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
+        }
+        else {
+            printf("Outside of matrix scope\n");
+        }
     }
 }
