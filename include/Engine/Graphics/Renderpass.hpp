@@ -18,9 +18,6 @@ public:
 
 	void beginRenderPass(std::array<vk::ClearValue, 1> clearValues, vk::CommandBuffer commandBuffer, vk::Framebuffer swapChainFrameBuffer, vk::Extent2D swapChainImageExtent);
 	void endRenderPass(VkCommandBuffer commandBuffer);
-
-
-	void destroy();
 };
 
 #endif /* Renderpass_HPP_ */

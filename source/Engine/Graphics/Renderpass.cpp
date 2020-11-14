@@ -54,8 +54,7 @@ void Renderpass::endRenderPass(VkCommandBuffer commandBuffer) {
 	vkCmdEndRenderPass(commandBuffer);
 }
 
-void Renderpass::destroy() {
-
+Renderpass::~Renderpass()
+{
 	vkDestroyRenderPass(VulkanContext::getInstance()->getDevice()->logicalDevice, renderPass, nullptr);
-
 }

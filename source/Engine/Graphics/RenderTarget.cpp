@@ -49,9 +49,8 @@ void RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::Rend
 	}
 }
 
-
-void RenderTarget::destroy() {
-
+RenderTarget::~RenderTarget()
+{
 	// image views
 	for (auto imageView : swapChainImageViews) {
 
@@ -62,5 +61,5 @@ void RenderTarget::destroy() {
 	for (auto framebuffer : swapChainFramebuffers) {
 		vkDestroyFramebuffer(VulkanContext::getInstance()->getDevice()->logicalDevice, framebuffer, nullptr);
 	}
-
 }
+
