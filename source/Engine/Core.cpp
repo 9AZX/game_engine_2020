@@ -33,7 +33,7 @@ void Engine::Core::init() noexcept
     _window = std::make_shared<Window>(_gameName, 1920, 1080);
     _window->initWindow();
 
-    _graphics = std::make_shared<Graphics>(_gameName, _window);
+    _graphics = std::make_shared<Graphics>(_gameName, _window, true);
 }
 
 void Engine::Core::run() noexcept
