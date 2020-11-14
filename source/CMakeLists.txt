@@ -19,6 +19,8 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Graphics/Mesh.cpp
     Engine/Graphics/Swapchain.cpp
     Engine/Graphics/Vertex.cpp
+    Engine/Graphics/Renderpass.cpp
+    Engine/Graphics/RenderTarget.cpp
     Engine/HID.cpp
     Engine/Logging/ConsoleSink.cpp
     Engine/Logging/FileSink.cpp
