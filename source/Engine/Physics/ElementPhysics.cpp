@@ -1,5 +1,5 @@
-#include "ElementPhysics.hpp"
-#include "Bulletlink.hpp"
+#include "Engine/Physics/ElementPhysics.hpp"
+#include "Engine/Physics/Bulletlink.hpp"
 
 namespace engine {
 	ElementPhysics::ElementPhysics(btVector3 size) {
@@ -46,7 +46,7 @@ namespace engine {
 	void ElementPhysics::setupBody(engine::Bulletlink &physic)
 	{
 		this->ElementMotionState = new btDefaultMotionState(physic.PhysicsTransform);
-		this->myBoxRigidBodyConstructionInfo = btRigidBody::btRigidBodyConstructionInfo(this->mass, this->ElementMotionState, this->shape, this->localInertia);
+		btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(this->mass, this->ElementMotionState, this->shape, this->localInertia);
 		this->body = new btRigidBody(this->myBoxRigidBodyConstructionInfo);
 	}
 

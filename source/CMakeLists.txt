@@ -21,6 +21,8 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Graphics/Vertex.cpp
     Engine/Graphics/Renderpass.cpp
     Engine/Graphics/RenderTarget.cpp
+    Engine/Physics/ElementPhysics.cpp
+    Engine/Physics/Bulletlink.cpp
     Engine/HID.cpp
     Engine/Logging/ConsoleSink.cpp
     Engine/Logging/FileSink.cpp

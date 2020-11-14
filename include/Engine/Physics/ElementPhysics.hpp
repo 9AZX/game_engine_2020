@@ -12,7 +12,6 @@ namespace engine {
 		btVector3 localInertia;
 		btScalar mass;
 		btDefaultMotionState* ElementMotionState;
-		btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo = null;
 
 	public:
 		ElementPhysics(btVector3);
