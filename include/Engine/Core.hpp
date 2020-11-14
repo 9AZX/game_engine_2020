@@ -2,7 +2,6 @@
 #define ENGINE_CORE_HPP_
 
 #include "Engine/Graphics.hpp"
-#include "Engine/Logging/Logger.hpp"
 #include "Engine/Resources/ResourceManager.hpp"
 #include "Engine/Window.hpp"
 
@@ -22,16 +21,12 @@ class Core {
 
         std::shared_ptr<ResourceManager> getResourceManager() noexcept;
 
-        static std::shared_ptr<Logging::Logger> getLogger() noexcept;
-
     private:
         std::shared_ptr<Window> _window;
         std::shared_ptr<ResourceManager> _resourceManager;
         std::shared_ptr<Graphics> _graphics;
         const std::string _gameName = "";
         bool _initialized = false;
-
-        static std::shared_ptr<Logging::Logger> _logger;
 }; /* class Core */
 
 } /* namespace Engine */

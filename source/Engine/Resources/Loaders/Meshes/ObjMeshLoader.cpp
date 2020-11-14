@@ -1,6 +1,7 @@
 #include "Engine/Resources/Loaders/Meshes/ObjMeshLoader.hpp"
 
 #include "Engine/Exceptions/ParsingException.hpp"
+#include "Engine/Resources/MeshResource.hpp"
 #include "Engine/StringUtils.hpp"
 
 #include <fstream>
@@ -8,10 +9,7 @@
 #include <string>
 #include <vector>
 
-Engine::ObjMeshLoader::ObjMeshLoader(std::shared_ptr<Logging::Logger> logger):
-    _logger(logger)
-{
-}
+#include <iostream> // TODO remove once the logger is implemented
 
 std::unique_ptr<Engine::Resource> Engine::ObjMeshLoader::load(
     const ResourceDescriptor & descriptor
@@ -44,34 +42,26 @@ std::unique_ptr<Engine::Resource> Engine::ObjMeshLoader::load(
             } else if (elements[0] == "f") {
                 parsePolygon(elements, context);
             } else {
-                _logger->log(
-                    Logging::Level::Debug,
-                    "[Mesh Loader] {}: unsupported parameter at line {}: {}",
-                    descriptor.path.string(),
-                    lineNumber,
-                    elements[0]
-                );
+                std::cerr   << "[MeshLoader][" << descriptor.path << "] "
+                            << "unsupported parameter at line " << lineNumber
+                            << ": " << elements[0] << std::endl;
             }
         }
     } catch (const std::exception & exception) {
-        _logger->log(
-            Logging::Level::Error,
-            "[Mesh Loader] {}: could not parse line {}: {}",
-            descriptor.path.string(),
-            lineNumber,
-            exception.what()
-        );
+        std::cerr   << "[MeshLoader][" << descriptor.path << "] "
+                    << "Could not parse line " << lineNumber
+                    << ": " << exception.what() << std::endl;
         return nullptr;
     }
-    std::unique_ptr<Mesh> resource = std::make_unique<Mesh>(
+    std::unique_ptr<MeshResource> resource = std::make_unique<MeshResource>(
         descriptor.name,
         descriptor.path
     );
-    *resource = std::move(context.mesh);
+    resource->operator=(std::move(context.mesh));
     return std::move(resource);
 }
 
-Engine::Math::vec3f Engine::ObjMeshLoader::parseVertex(
+Engine::vec3f Engine::ObjMeshLoader::parseVertex(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 4 || elements.size() > 5) {
@@ -84,7 +74,7 @@ Engine::Math::vec3f Engine::ObjMeshLoader::parseVertex(
     };
 }
 
-Engine::Math::vec3f Engine::ObjMeshLoader::parseNormal(
+Engine::vec3f Engine::ObjMeshLoader::parseNormal(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() != 4) {
@@ -97,7 +87,7 @@ Engine::Math::vec3f Engine::ObjMeshLoader::parseNormal(
     };
 }
 
-Engine::Math::vec2f Engine::ObjMeshLoader::parseUvCoordinates(
+Engine::vec2f Engine::ObjMeshLoader::parseUvCoordinates(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 3 || elements.size() > 4) {
@@ -124,7 +114,7 @@ void Engine::ObjMeshLoader::parsePolygon(
         if (!std::regex_match(elements[i], match, regex)) {
             throw ParsingException("Invalid polygon definition");
         }
-        if (context.mesh.indices.size() == 0) {
+        if (context.mesh.getIndices().size() == 0) {
             detectPolygonMode(context, match);
         }
         VertexIndex index = parseIndices(context, match);
@@ -133,24 +123,27 @@ void Engine::ObjMeshLoader::parsePolygon(
         auto pair = context.vertexMap.find(index);
 
         if (pair == context.vertexMap.end()) {
-            std::size_t meshIndex = context.mesh.vertices.size();
-            Vertex vertex {};
+            std::size_t meshIndex = context.mesh.getVertices().size();
 
-            vertex.position = context.vertices[index.vertexIndex];
-            vertex.color = { 0.0f, 0.0f, 0.0f };
+            context.mesh.getVertices().emplace_back(
+                context.vertices[index.vertexIndex]
+            );
             if (context.hasTexCoordinates) {
-                vertex.textureCoordinates = context.texCoords[index.texIndex];
+                context.mesh.getTextureCoordinates().emplace_back(
+                    context.texCoords[index.texIndex]
+                );
             }
             if (context.hasNormals) {
-                vertex.normal = context.normals[index.normalIndex];
+                context.mesh.getNormals().emplace_back(
+                    context.normals[index.normalIndex]
+                );
             }
-            context.mesh.vertices.emplace_back(vertex);
-            context.mesh.indices.emplace_back(
+            context.mesh.getIndices().emplace_back(
                 static_cast<std::uint32_t>(meshIndex)
             );
             context.vertexMap[index] = meshIndex;
         } else {
-            context.mesh.indices.emplace_back(
+            context.mesh.getIndices().emplace_back(
                 static_cast<std::uint32_t>(pair->second)
             );
         }

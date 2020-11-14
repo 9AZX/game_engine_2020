@@ -5,13 +5,12 @@
 #include "Engine/Resources/Loaders/Shaders/SpirvShaderLoader.hpp"
 #include "Engine/Resources/Loaders/Texts/TextTxtLoader.hpp"
 
-#include <algorithm>
+Engine::ResourceManager::ResourceManager()
+{
+    defaultInitialize();
+}
 
-Engine::ResourceManager::ResourceManager(
-    std::shared_ptr<Logging::Logger> logger,
-    bool allowDuplicates
-):
-    _logger(logger),
+Engine::ResourceManager::ResourceManager(bool allowDuplicates):
     _allowDuplicates(allowDuplicates)
 {
     defaultInitialize();
@@ -34,45 +33,22 @@ bool Engine::ResourceManager::registerResource(
 ) noexcept {
     if (isResourceLoaded(descriptor.path)) {
         if (_allowDuplicates) {
-            _logger->log(
-                Logging::Level::Warning,
-                "[Resource Manager] Loading {} as {} but already loaded"
-                " as another resource",
-                descriptor.path.string(),
-                descriptor.name
-            );
+            // TODO Log the duplicate ressource
         } else {
-            _logger->log(
-                Logging::Level::Error,
-                "[Resource Manager] Refusing to load {} a second time",
-                descriptor.path.string(),
-                descriptor.name
-            );
+            // TODO Log the register attempt
             return false;
         }
     }
     if (isNameUsed(descriptor.name, descriptor.type)) {
-        _logger->log(
-            Logging::Level::Error,
-            "[Resource Manager] Tried to load {} as {} but the name"
-            " is alreay used",
-            descriptor.path.string(),
-            descriptor.name
-        );
         return false;
     }
 
     std::error_code code;
 
     if (!std::filesystem::exists(descriptor.path, code) || code) {
-        _logger->log(
-            Logging::Level::Error,
-            "[Resource Manager] {} does not exist",
-            descriptor.path.string()
-        );
         return false;
     }
-    _loadPendingResources.emplace_back(descriptor);
+    _loadPendingResources.emplace(descriptor);
     return true;
 }
 
@@ -81,12 +57,7 @@ void Engine::ResourceManager::unregisterResource(
     ResourceType type
 ) noexcept {
     if (isNameUsed(name, type)) {
-        _logger->log(
-            Logging::Level::Warning,
-            "[Resource Manager] Trying to unload an unknown resource: {}",
-            name
-        );
-        _unloadPendingResources.push_back({ type, name });
+        _unloadPendingResources.push({ type, name });
     }
 }
 
@@ -99,23 +70,11 @@ bool Engine::ResourceManager::loadResources() noexcept
         std::unique_ptr<Resource> resource = loadResource(descriptor);
 
         if (resource != nullptr) {
-            _logger->log(
-                Logging::Level::Error,
-                "[Resource Manager] Successfully loaded {} as {}",
-                descriptor.path.string(),
-                descriptor.name
-            );
             _resources[descriptor.type][descriptor.name] = std::move(resource);
         } else {
-            _logger->log(
-                Logging::Level::Error,
-                "[Resource Manager] Could not load {} as {}",
-                descriptor.path.string(),
-                descriptor.name
-            );
             success = false;
         }
-        _loadPendingResources.pop_front();
+        _loadPendingResources.pop();
     }
     return success;
 }
@@ -126,7 +85,7 @@ void Engine::ResourceManager::unloadResources() noexcept
         const ResourceDescriptor & descriptor = _unloadPendingResources.front();
 
         _resources[descriptor.type].erase(descriptor.name);
-        _unloadPendingResources.pop_front();
+        _unloadPendingResources.pop();
     }
 }
 
@@ -142,43 +101,23 @@ Engine::Resource * Engine::ResourceManager::getResource(
 bool Engine::ResourceManager::isResourceLoaded(
     const std::filesystem::path & path
 ) const noexcept {
-    return _loadedPathes.find(path) != _loadedPathes.end()
-        ||  std::find_if(
-                _loadPendingResources.begin(),
-                _loadPendingResources.end(),
-                [path] (const ResourceDescriptor & descriptor) {
-                    return path == descriptor.path;
-                }
-            ) != _loadPendingResources.end();
+    return _loadedPathes.find(path) != _loadedPathes.end();
 }
 
 bool Engine::ResourceManager::isNameUsed(
     const std::string & name,
     ResourceType type
 ) const noexcept {
-    return _resources[type].find(name) != _resources[type].end()
-        ||  std::find_if(
-                _loadPendingResources.begin(),
-                _loadPendingResources.end(),
-                [name, type] (const ResourceDescriptor & descriptor) {
-                    return name == descriptor.name && descriptor.type == type;
-                }
-            ) != _loadPendingResources.end();
+    return _resources[type].find(name) != _resources[type].end();
 }
 
-std::unique_ptr<Engine::Resource> Engine::ResourceManager::loadResource(
-    const ResourceDescriptor & descriptor
-) const noexcept {
+std::unique_ptr<Engine::Resource> Engine::ResourceManager::loadResource(const ResourceDescriptor & descriptor) const noexcept
+{
     auto loader = _loaders[descriptor.type].find(descriptor.path.extension());
 
     if (loader != _loaders[descriptor.type].end()) {
         return loader->second->load(descriptor);
     } else {
-        _logger->log(
-            Logging::Level::Error,
-            "[Resource Manager] No loader available for this type of file: {}",
-            descriptor.path.string()
-        );
         return nullptr;
     }
 }
@@ -194,12 +133,12 @@ void Engine::ResourceManager::initializeLoaders() noexcept
     _loaders[ResourceType::MeshType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
     _loaders[ResourceType::MeshType][".obj"]
-        = std::make_unique<ObjMeshLoader>(_logger);
+        = std::make_unique<ObjMeshLoader>();
 
     _loaders[ResourceType::ShaderType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
     _loaders[ResourceType::ShaderType][".spv"]
-        = std::make_unique<SpirvShaderLoader>(_logger);
+        = std::make_unique<SpirvShaderLoader>();
 
     _loaders[ResourceType::TextureType]
         = std::map<std::filesystem::path, std::unique_ptr<IResourceLoader>>();
