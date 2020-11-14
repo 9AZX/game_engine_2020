@@ -4,43 +4,6 @@
 
 Engine::GraphicsPipeline::GraphicsPipeline(std::shared_ptr<Device> device, std::shared_ptr<Renderpass> renderPass) : _device(device), _renderPass(renderPass)
 {
-    /*
-    std::vector<vk::AttachmentDescription> attachmentDescriptions;
-    attachmentDescriptions.push_back(vk::AttachmentDescription(vk::AttachmentDescriptionFlags(),
-                                                               colorFormat,
-                                                               vk::SampleCountFlagBits::e1,
-                                                               vk::AttachmentLoadOp::eClear,
-                                                               vk::AttachmentStoreOp::eStore,
-                                                               vk::AttachmentLoadOp::eDontCare,
-                                                               vk::AttachmentStoreOp::eDontCare,
-                                                               vk::ImageLayout::eUndefined,
-                                                               vk::ImageLayout::eTransferDstOptimal));
-    if (depthFormat != vk::Format::eUndefined)
-    {
-        attachmentDescriptions.push_back(
-            vk::AttachmentDescription(vk::AttachmentDescriptionFlags(),
-                                      depthFormat,
-                                      vk::SampleCountFlagBits::e1,
-                                      loadOp,
-                                      vk::AttachmentStoreOp::eDontCare,
-                                      vk::AttachmentLoadOp::eDontCare,
-                                      vk::AttachmentStoreOp::eDontCare,
-                                      vk::ImageLayout::eUndefined,
-                                      vk::ImageLayout::eDepthStencilAttachmentOptimal));
-    }
-    vk::AttachmentReference colorAttachment(0, vk::ImageLayout::eColorAttachmentOptimal);
-    vk::AttachmentReference depthAttachment(1, vk::ImageLayout::eDepthStencilAttachmentOptimal);
-    vk::SubpassDescription subpassDescription(vk::SubpassDescriptionFlags(),
-                                              vk::PipelineBindPoint::eGraphics,
-                                              {},
-                                              colorAttachment,
-                                              {},
-                                              (depthFormat != vk::Format::eUndefined) ? &depthAttachment
-                                                                                      : nullptr);
-    _renderPass = _device->getUniqueDevice()->get().createRenderPassUnique(
-        vk::RenderPassCreateInfo(vk::RenderPassCreateFlags(), attachmentDescriptions, subpassDescription));
-*/
-
     std::vector<std::tuple<vk::DescriptorType, uint32_t, vk::ShaderStageFlags>> const &bindingData = {{vk::DescriptorType::eUniformBuffer, 1, vk::ShaderStageFlagBits::eVertex}};
     std::vector<vk::DescriptorSetLayoutBinding> bindings(bindingData.size());
     for (size_t i = 0; i < bindingData.size(); i++)
