@@ -2,7 +2,7 @@
 #include "Utils.hpp"
 #include "Graphics/Vertex.hpp"
 
-Engine::GraphicsPipeline::GraphicsPipeline(std::shared_ptr<Device> device) : _device(device)
+Engine::GraphicsPipeline::GraphicsPipeline(std::shared_ptr<Device> device, std::shared_ptr<Renderpass> renderPass) : _device(device), _renderPass(renderPass)
 {
     /*
     std::vector<vk::AttachmentDescription> attachmentDescriptions;
@@ -146,7 +146,7 @@ void Engine::GraphicsPipeline::createGraphicsPipeline(Engine::ShaderResource *ve
                                                               &pipelineColorBlendStateCreateInfo,
                                                               &pipelineDynamicStateCreateInfo,
                                                               _pipelineLayout.get(),
-                                                              nullptr);
+                                                              _renderPass.get()->renderPass);
 
     auto result = _device->getUniqueDevice()->get().createGraphicsPipelineUnique(_pipelineCache.get(), graphicsPipelineCreateInfo);
     assert(result.result == vk::Result::eSuccess);

@@ -3,19 +3,20 @@
 
 #include <vulkan/vulkan.hpp>
 #include "Engine/Graphics/Device.hpp"
+#include "Engine/Graphics/RenderPass.hpp"
 #include "Engine/Resources/ShaderResource.hpp"
 namespace Engine
 {
     class GraphicsPipeline
     {
     public:
-        GraphicsPipeline(std::shared_ptr<Device> device);
+        GraphicsPipeline(std::shared_ptr<Device> device, std::shared_ptr<Renderpass> renderPass);
         ~GraphicsPipeline();
 
         void createGraphicsPipeline(Engine::ShaderResource *vertexShader, Engine::ShaderResource *fragmentShader);
 
     private:
-        vk::UniqueRenderPass _renderPass;
+        std::shared_ptr<Renderpass> _renderPass;
         vk::UniquePipelineLayout _pipelineLayout;
         vk::UniquePipeline _graphicsPipeline;
         vk::UniquePipelineCache _pipelineCache;
