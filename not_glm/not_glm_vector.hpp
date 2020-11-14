@@ -9,7 +9,7 @@
 //#include "not_glm_quaternions.hpp"
 
 namespace NotGLM {
-    class Quaternion;
+
     class Vector3
     {
     private:
@@ -67,6 +67,7 @@ namespace NotGLM {
         Vector3 operator %(const Vector3& v) const;
         // Cross product result
         Vector3 cross(const Vector3& v) const;
+
         // rotate Vector
         Vector3 rotateVectorAboutAngleAndAxis(float uAngle, Vector3& uAxis);
 
@@ -84,8 +85,17 @@ namespace NotGLM {
         void absolute();
         //  Print vector components
         void show();
+        void show(char coordinate);
         // Negate all components
         void negate();
+
+        const float getX() const { return x; }
+        const float getY() const { return y; }
+        const float getZ() const { return z; }
+
+        void setX(const float _x) { x = _x; }
+        void setY(const float _y) { y = _y; }
+        void setZ(const float _z) { z = _z; }
     };
 }
 

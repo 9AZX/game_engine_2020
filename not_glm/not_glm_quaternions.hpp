@@ -7,7 +7,7 @@
 #include <cmath>
 #include "not_glm_vector.hpp"
 
-class Vector3;
+//class Vector3;
 namespace NotGLM {
 	class Quaternion {
 	public:

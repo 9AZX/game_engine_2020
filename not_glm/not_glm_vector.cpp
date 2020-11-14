@@ -1,8 +1,8 @@
 #include "not_glm_vector.hpp"
 #include "not_glm_quaternions.hpp"
 
-namespace NotGLM 
-{
+namespace NotGLM {
+
     // constructor
     Vector3::Vector3() :x(0.0), y(0.0), z(0.0) {};
     Vector3::Vector3(float uX, float uY, float uZ) :x(uX), y(uY), z(uZ) {}
@@ -88,6 +88,7 @@ namespace NotGLM
     // Angle between vectors
     float Vector3::angle(const Vector3& v)
     {
+
         float theta;
 
         Vector3 u = v;
@@ -98,6 +99,7 @@ namespace NotGLM
         theta = RadToDegrees(acos(theta));
 
         return theta;
+
     }
 
     // cross product
@@ -178,7 +180,20 @@ namespace NotGLM
     // show
     void Vector3::show()
     {
-        std::cout << "(" << x << "," << y << "," << z << ")" << std::endl;
+        printf("vec3(%.6f, %.6f, %.6f)\n", x, y, z);
+    }
+
+    void Vector3::show(char coordinate)
+    {
+        if (coordinate == 'x') {
+            printf("vec3.x = %.6f\n", x);
+        }
+        else if (coordinate == 'y') {
+            printf("vec3.y = %.6f\n", y);
+        }
+        else {
+            printf("vec3.z = %.6f\n", z);
+        }
     }
 
     void Vector3::negate()

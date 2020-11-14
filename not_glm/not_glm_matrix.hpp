@@ -13,6 +13,7 @@ namespace NotGLM {
 	public:
 		float matrixData[9]={0.0};
 		Matrix3d();
+		Matrix3d(float m0);
 		Matrix3d(float m0, float m3, float m6, float m1, float m4, float m7, float m2, float m5, float m8);
 
 		Matrix3d& operator=(const Matrix3d& value);

@@ -1,4 +1,5 @@
 #include "not_glm_quaternions.hpp"
+//#include "not_glm_vector.hpp"
 
 namespace NotGLM {
 	Quaternion::Quaternion(float uS, Vector3& uV) :s(uS), v(uV) {}

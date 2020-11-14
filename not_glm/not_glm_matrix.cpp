@@ -9,6 +9,12 @@ namespace NotGLM {
         matrixData[0] = matrixData[4] = matrixData[8] = 1.0f;
     };
 
+    Matrix3d::Matrix3d(float m0) {
+        for (int i = 0; i < 9; i++) {
+            matrixData[i] = m0;
+        }
+    };
+
     Matrix3d::Matrix3d(float m0, float m3, float m6, float m1, float m4, float m7, float m2, float m5, float m8) {
         matrixData[0] = m0;
         matrixData[3] = m3;
