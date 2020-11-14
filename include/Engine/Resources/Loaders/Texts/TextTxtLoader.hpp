@@ -3,6 +3,8 @@
 
 #include "Engine/Resources/IResourceLoader.hpp"
 
+#include <memory>
+
 namespace Engine {
 
 class TextTxtLoader: public IResourceLoader {
