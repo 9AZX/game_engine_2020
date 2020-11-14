@@ -71,7 +71,7 @@ std::unique_ptr<Engine::Resource> Engine::ObjMeshLoader::load(
     return std::move(resource);
 }
 
-Engine::Math::vec3f Engine::ObjMeshLoader::parseVertex(
+Engine::Math::Vector3 Engine::ObjMeshLoader::parseVertex(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 4 || elements.size() > 5) {
@@ -84,7 +84,7 @@ Engine::Math::vec3f Engine::ObjMeshLoader::parseVertex(
     };
 }
 
-Engine::Math::vec3f Engine::ObjMeshLoader::parseNormal(
+Engine::Math::Vector3 Engine::ObjMeshLoader::parseNormal(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() != 4) {
@@ -97,7 +97,7 @@ Engine::Math::vec3f Engine::ObjMeshLoader::parseNormal(
     };
 }
 
-Engine::Math::vec2f Engine::ObjMeshLoader::parseUvCoordinates(
+Engine::Math::Vector2 Engine::ObjMeshLoader::parseUvCoordinates(
     const std::vector<std::string> & elements
 ) {
     if (elements.size() < 3 || elements.size() > 4) {

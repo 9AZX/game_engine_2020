@@ -11,10 +11,10 @@ namespace Engine {
 
 class Vertex {
     public:
-        Math::vec3f position;
-        Math::vec3f normal;
-        Math::vec3f color;
-        Math::vec2f textureCoordinates;
+        Math::Vector3 position;
+        Math::Vector3 normal;
+        Math::Vector3 color;
+        Math::Vector2 textureCoordinates;
 
         bool operator == (const Vertex & other) const noexcept;
 
