@@ -12,6 +12,7 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Core.cpp
     Engine/Exceptions/Exception.cpp
     Engine/Exceptions/FileException.cpp
+    Engine/Exceptions/GraphicsException.cpp
     Engine/Exceptions/ParsingException.cpp
     Engine/Graphics.cpp
     Engine/Graphics/DebugMessenger.cpp

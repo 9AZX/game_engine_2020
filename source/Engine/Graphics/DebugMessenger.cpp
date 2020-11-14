@@ -1,6 +1,7 @@
 #include "Engine/Graphics/DebugMessenger.hpp"
 
 #include "Engine/Core.hpp"
+#include "Engine/Exceptions/GraphicsException.hpp"
 #include "Engine/Logging/Logger.hpp"
 
 static PFN_vkCreateDebugUtilsMessengerEXT pfnVkCreateDebugUtilsMessengerEXT {};
@@ -23,7 +24,7 @@ void Engine::DebugMessenger::init(std::shared_ptr<Instance> instance)
 
     if (!pfnVkCreateDebugUtilsMessengerEXT
         || !pfnVkDestroyDebugUtilsMessengerEXT) {
-        //TODO throw
+        throw GraphicsException("could not initialize the debug messenger");
     }
     _debugUtilsMessenger
         = instance->getInstance()->get().createDebugUtilsMessengerEXTUnique(
