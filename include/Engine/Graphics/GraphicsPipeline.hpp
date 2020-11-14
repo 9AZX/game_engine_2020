@@ -3,6 +3,7 @@
 
 #include <vulkan/vulkan.hpp>
 #include "Engine/Graphics/Device.hpp"
+#include "Engine/Resources/ShaderResource.hpp"
 namespace Engine
 {
     class GraphicsPipeline
@@ -11,7 +12,7 @@ namespace Engine
         GraphicsPipeline(std::shared_ptr<Device> device);
         ~GraphicsPipeline();
 
-        void createGraphicsPipeline(std::string filePathVertexShader, std::string filePathFragmentShader);
+        void createGraphicsPipeline(Engine::ShaderResource *vertexShader, Engine::ShaderResource *fragmentShader);
 
     private:
         vk::UniqueRenderPass _renderPass;
@@ -21,6 +22,8 @@ namespace Engine
         std::shared_ptr<Device> _device;
         vk::UniqueShaderModule _vertexShaderModule;
         vk::UniqueShaderModule _fragmentShaderModule;
+
+        vk::UniqueShaderModule _createShadermodule(const std::vector<unsigned int> &code);
     };
 } // namespace Engine
 

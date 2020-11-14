@@ -60,19 +60,20 @@ Engine::GraphicsPipeline::~GraphicsPipeline()
 {
 }
 
-void Engine::GraphicsPipeline::createGraphicsPipeline(std::string filePathVertexShader, std::string filePathFragmentShader)
+void Engine::GraphicsPipeline::createGraphicsPipeline(Engine::ShaderResource *vertexShader, Engine::ShaderResource *fragmentShader)
 {
+    vk::UniqueShaderModule vertShaderModule = _createShadermodule(vertexShader->getShader());
+    vk::UniqueShaderModule fragShaderModule = _createShadermodule(fragmentShader->getShader());
+
     std::array<vk::PipelineShaderStageCreateInfo, 2> pipelineShaderStageCreateInfos = {
         vk::PipelineShaderStageCreateInfo(vk::PipelineShaderStageCreateFlags(),
                                           vk::ShaderStageFlagBits::eVertex,
-                                          vertexShaderData.first,
-                                          "main",
-                                          vertexShaderData.second),
+                                          vertShaderModule.get(),
+                                          "main"),
         vk::PipelineShaderStageCreateInfo(vk::PipelineShaderStageCreateFlags(),
                                           vk::ShaderStageFlagBits::eFragment,
-                                          fragmentShaderData.first,
-                                          "main",
-                                          fragmentShaderData.second)};
+                                          fragShaderModule.get(),
+                                          "main")};
 
     std::vector<vk::VertexInputAttributeDescription> vertexInputAttributeDescriptions;
     vk::PipelineVertexInputStateCreateInfo pipelineVertexInputStateCreateInfo;
@@ -145,9 +146,19 @@ void Engine::GraphicsPipeline::createGraphicsPipeline(std::string filePathVertex
                                                               &pipelineColorBlendStateCreateInfo,
                                                               &pipelineDynamicStateCreateInfo,
                                                               _pipelineLayout.get(),
-                                                              renderPass.get());
+                                                              nullptr);
 
     auto result = _device->getUniqueDevice()->get().createGraphicsPipelineUnique(_pipelineCache.get(), graphicsPipelineCreateInfo);
     assert(result.result == vk::Result::eSuccess);
     std::move(result.value);
+}
+
+vk::UniqueShaderModule Engine::GraphicsPipeline::_createShadermodule(const std::vector<unsigned int> &code)
+{
+    vk::ShaderModuleCreateInfo vertexShaderModuleCreateInfo(vk::ShaderModuleCreateFlags(), code);
+
+    vk::UniqueShaderModule shaderModule;
+
+    _device->getUniqueDevice()->get().createShaderModuleUnique(vertexShaderModuleCreateInfo);
+    return shaderModule;
 }
