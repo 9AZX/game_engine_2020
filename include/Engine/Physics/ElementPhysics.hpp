@@ -1,7 +1,7 @@
 #pragma once
-#include "../../../source/bullet3-master/src/btBulletDynamicsCommon.h"
-#include "../not_glm/not_glm_matrix.hpp"
-#include "../not_glm/not_glm_vector.hpp"
+#include "bullet/btBulletDynamicsCommon.h"
+#include "Engine/Maths/Matrix.hpp"
+#include "Engine/Maths/Vector3.hpp"
 
 namespace engine {
 	class Bulletlink;
@@ -17,9 +17,9 @@ namespace engine {
 		ElementPhysics(btVector3);
 		ElementPhysics(float);
 		~ElementPhysics();
-		void setInertia(NotGLM::vector3);
+		void setInertia(Engine::Math::Vector3);
 		void setMasse(float);
-		NotGLM::Vector3 getInertia();
+		Engine::Math::Vector3 getInertia();
 		float getMasse();
 		void calcInertia();
 		void setupBody(engine::Bulletlink &physic);

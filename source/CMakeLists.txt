@@ -54,12 +54,15 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
 
 find_package(fmt CONFIG REQUIRED)
 find_package(portaudio CONFIG REQUIRED)
+find_package(Bullet CONFIG REQUIRED)
+
+
 find_package(Vulkan REQUIRED)
 
 find_path(STB_INCLUDE_DIRS "stb_image.h")
 
 target_link_libraries(
-    ${PROJECT_SOURCES_LIBRARY} PUBLIC fmt::fmt fmt::fmt-header-only portaudio Vulkan::Vulkan
+    ${PROJECT_SOURCES_LIBRARY} PUBLIC fmt::fmt fmt::fmt-header-only portaudio Vulkan::Vulkan LinearMath Bullet3Common BulletDynamics BulletSoftBody
 )
 
 target_include_directories(

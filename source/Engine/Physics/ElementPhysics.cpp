@@ -14,18 +14,18 @@ namespace engine {
 
 	}
 
-	void ElementPhysics::setInertia(NotGLM::Vector3 inertia)
+	void ElementPhysics::setInertia(Engine::Math::Vector3 inertia)
 	{
-		this->localInertia = btVector3(inertia->x, inertia->y, inertia->z);
+		this->localInertia = btVector3(inertia.x, inertia.y, inertia.z);
 
 	}
 
-	NotGLM::Vector3 ElementPhysics::getInertia()
+	Engine::Math::Vector3 ElementPhysics::getInertia()
 	{
 		float x = this->localInertia.getX();
 		float y = this->localInertia.getY();
 		float z = this->localInertia.getZ();
-		return (NotGLM::vector3(x, y, z));
+		return (Engine::Math::Vector3(x, y, z));
 	}
 
 	void ElementPhysics::setMasse(float masse)
@@ -47,7 +47,7 @@ namespace engine {
 	{
 		this->ElementMotionState = new btDefaultMotionState(physic.PhysicsTransform);
 		btRigidBody::btRigidBodyConstructionInfo myBoxRigidBodyConstructionInfo(this->mass, this->ElementMotionState, this->shape, this->localInertia);
-		this->body = new btRigidBody(this->myBoxRigidBodyConstructionInfo);
+		this->body = new btRigidBody(myBoxRigidBodyConstructionInfo);
 	}
 
 	btRigidBody* ElementPhysics::getBody() {

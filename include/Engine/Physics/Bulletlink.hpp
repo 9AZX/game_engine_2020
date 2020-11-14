@@ -1,9 +1,8 @@
 #pragma once
-#include "../../../source/bullet3-master/src/btBulletDynamicsCommon.h"
-#include "../not_glm/not_glm_matrix.hpp"
-#include "../not_glm/not_glm_vector.hpp"
+#include "bullet/btBulletDynamicsCommon.h"
+#include "Engine/Maths/Matrix.hpp"
+#include "Engine/Maths/Vector3.hpp"
 #include "ElementPhysics.hpp"
-
 
 namespace engine
 {
@@ -20,13 +19,13 @@ namespace engine
 		btScalar matrix[16];
 
 		Bulletlink();
-		Bulletlink(NotGLM::Vector3);
+		Bulletlink(Engine::Math::Vector3);
 		~Bulletlink();
 		void Stepsim(float);
-		engine::ElementPhysics CreateSquare(NotGLM::Vector3 position, NotGLM::Vector3 size);
-		engine::ElementPhysics CreateSphere(NotGLM::Vector3 position, float size);
+		engine::ElementPhysics CreateSquare(Engine::Math::Vector3 position, Engine::Math::Vector3 size);
+		engine::ElementPhysics CreateSphere(Engine::Math::Vector3 position, float size);
 		void addBody(ElementPhysics &element);
-		NotGLM::Vector3 getPositionElement(ElementPhysics &element);
+		Engine::Math::Vector3 getPositionElement(ElementPhysics &element);
 
 	};
 }
