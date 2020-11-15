@@ -3,6 +3,7 @@
 #include <vulkan/vulkan.hpp>
 #include "Engine/Maths/Vector3.hpp"
 #include "Engine/Maths/Matrix4.hpp"
+#include "Engine/Graphics/Descriptor.hpp"
 #include "Engine/Graphics/ObjectBuffers.hpp"
 #include "Engine/Graphics/Mesh.hpp"
 #include "Engine/Graphics/Camera.hpp"
@@ -22,7 +23,7 @@ private:
 
 	Engine::GraphicsPipeline gPipeline;
 	ObjectBuffers objBuffers;
-	Descriptor descriptor;
+	Engine::Descriptor descriptor;
 
 	Engine::Math::Vector3 position;
 	Engine::Math::Vector3 scale;

@@ -1,5 +1,7 @@
 #include "Engine/Graphics/ObjectRenderer.hpp"
+
 #include "Engine/Graphics.hpp"
+#include "Engine/Graphics/Descriptor.hpp"
 
 struct UniformBufferObject
 {
@@ -17,7 +19,7 @@ void ObjectRenderer::createObjectRenderer(Engine::Mesh modelType, Engine::Math::
 
 	descriptor.createDescriptorLayoutSetPoolAndAllocate(swapChainImageCount);
 	descriptor.populateDescriptorSets(swapChainImageCount,
-		objBuffers.uniformBuffers);
+		objBuffers.uniformBuffers.get());
 
 	gPipeline.createGraphicsPipelineLayoutAndPipeline(
 		swapChainImageExtent,
