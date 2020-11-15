@@ -8,7 +8,7 @@
 
 namespace vkTools
 {
-	vk::UniqueImageView createImageView(vk::Image image, vk::Format format, vk::ImageAspectFlags aspectFlags);
+	vk::UniqueImageView createImageView(vk::Image image, vk::Format format, vk::ImageAspectFlagBits aspectFlags);
 
 	void createBuffer(vk::DeviceSize size,
 		vk::BufferUsageFlags usage,

@@ -2,7 +2,7 @@
 #include "Engine/Graphics/Device.hpp"
 
 namespace vkTools {
-	vk::UniqueImageView createImageViewCPP(vk::Image image, vk::Format format, vk::ImageAspectFlags aspectFlags)
+	vk::UniqueImageView createImageViewCPP(vk::Image image, vk::Format format, vk::ImageAspectFlagBits aspectFlags)
 	{
 		vk::ComponentMapping componentMapping(
 			vk::ComponentSwizzle::eR, vk::ComponentSwizzle::eG, vk::ComponentSwizzle::eB, vk::ComponentSwizzle::eA);

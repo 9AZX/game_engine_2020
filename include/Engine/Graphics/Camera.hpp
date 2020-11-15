@@ -1,22 +1,21 @@
 #pragma once
 
-#define GLM_FORCE_RADIAN
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
+#include "Engine/Maths/Vector3.hpp"
+#include "Engine/Maths/Matrix4.hpp"
 
 class Camera
 {
 public:
 
 	void init(float FOV, float width, float height, float nearplane, float farPlane);
-	void setCameraPosition(glm::vec3 position);
-	glm::mat4 getViewMatrix();
-	glm::mat4 getprojectionMatrix();
+	void setCameraPosition(Engine::Math::Vector3 position);
+	Engine::Math::Matrix4 getViewMatrix();
+	Engine::Math::Matrix4 getprojectionMatrix();
 
 private:
 
-	glm::mat4 projectionMatrix;
-	glm::mat4 viewMatrix;
-	glm::vec3 cameraPos;
+	Engine::Math::Matrix4 projectionMatrix;
+	Engine::Math::Matrix4 viewMatrix;
+	Engine::Math::Vector3 cameraPos;
 
 };

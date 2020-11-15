@@ -1,5 +1,13 @@
 #include "Engine/Graphics/ObjectBuffers.hpp"
 #include "Engine/Graphics/VkTools.hpp"
+#include "Engine/Maths/Matrix4.hpp"
+
+struct UniformBufferObject
+{
+	Engine::Math::Matrix4 model;
+	Engine::Math::Matrix4 view;
+	Engine::Math::Matrix4 proj;
+};
 
 ObjectBuffers::ObjectBuffers() {}
 

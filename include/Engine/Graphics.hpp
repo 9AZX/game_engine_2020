@@ -47,18 +47,13 @@ public:
     {
         return gSwapChain;
     }
-
-    vk::UniqueCommandBuffer getCurrentCommandBuffer()
-    {
-        return currentCommandBuffer;
-    }
+    vk::UniqueCommandBuffer currentCommandBuffer;
 
 private:
     bool _enableDebugging;
     std::string _appName;
 
     std::shared_ptr<Engine::Window> _window;
-    vk::UniqueCommandBuffer currentCommandBuffer;
 
 
 #if !defined(NDEBUG)
