@@ -29,6 +29,7 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Graphics/Renderpass.cpp
     Engine/Graphics/RenderTarget.cpp
     Engine/HID.cpp
+    Engine/Graphics/GraphicsPipeline.cpp
     Engine/Logging/ConsoleSink.cpp
     Engine/Logging/FileSink.cpp
     Engine/Logging/Logger.cpp
