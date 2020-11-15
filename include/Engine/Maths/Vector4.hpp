@@ -11,97 +11,88 @@ namespace Engine {
 
 namespace Math {
 
-class Vector4 {
-	public:
-		float x, y, z, w;
+    class Vector4
+    {
+    private:
 
-		// Default constructor; creates 0 vector
-		Vector4(void);
-		Vector4(float setting);
-		Vector4(float x, float y, float z, float w);
+    public:
+        float x;
+        float y;
+        float z;
+        float w;
 
-		Vector4(const Vector3& val);
-		~Vector4();
+        // Constructor to create a 3D vector with zero vector components.
+        Vector4();
 
-		static const Vector4 ZERO_VECTOR;
+        Vector4(float setting);
 
-		static float angleBetween(const Vector4& first, const Vector4& second);
+        // Creates a vector with the given x, yand z components
+        Vector4(float uX, float uY, float uZ, float uW);
 
-		// Equality operator
-		const bool operator==(const Vector4& other) const;
+        // Vector desctructor
+        ~Vector4();
 
-		// Inequality operator
-		const bool operator!=(const Vector4& other) const;
+        // Copies the values of the vector
+        Vector4(const Vector4& v);
 
-		// Unary negation; returns vector pointing in opposite direction
-		// but with same magnitude
-		friend Vector4 operator-(const Vector4& other);
+        // Copies the values of the vector
+        Vector4& operator=(const Vector4& v);
 
-		// Addition operator for vectors
-		Vector4& operator+=(const Vector4& rhs);
-		const Vector4 operator+(const Vector4& rhs) const;
+        // Resultant of two vectors.
+        void operator+=(const Vector4& v);
+        // Returns a third vector representing the addition of two 3D vectors
+        Vector4 operator+(const Vector4& v)const;
 
-		// Subtraction operator for vectors
-		Vector4& operator-=(const Vector4& rhs);
-		const Vector4 operator-(const Vector4& rhs) const;
+        // Subtraction result of two vectors
+        void operator-=(const Vector4& v);
+        // Returns a third vector representing the subtraction of two 3D vectors
+        Vector4 operator-(const Vector4& v)const;
 
-		// Scalar multiplication
-		friend Vector4 operator*(const Vector4& vec, float scalar);
-		friend Vector4 operator*(float scalar, const Vector4& vec);
+        // Product of multiplication
+        void operator*=(const float s);
+        // Vector representing product
+        Vector4 operator*(const float s)const;
 
-		// Multiplication operator for scalar and vector
-		Vector4& operator*=(const float scalar);
+        // Quotient of division
+        void operator /=(const float s);
+        // Quotient of division
+        Vector4 operator/(const float s)const;
 
-		// Dot product is a scalar operation
-		const float dotProduct(const Vector4& rhs) const;
+        // dot product
+        float operator*(const Vector4& v) const;
+        float dot(const Vector4& v) const;
 
-		// Returns the normalized version of this vector.
-		const Vector4 normalize();
+        // Returns the angle between vectors in degrees
+        float angle(const Vector4& v);
 
-		const float magnitude() const;
+        // Conjugate the vector
+        void conjugate();
+        //  Normalize the vector
+        void normalize();
+        // Magnitude value
+        float magnitude();
+        // Magnitude squared value
+        float magnitudeSquare();
+        // Convert vector to a zero vector
+        void zero();
+        // Calculate absolute value of vector
+        void absolute();
+        //  Print vector components
+        void show();
+        void show(char coordinate);
+        // Negate all components
+        void negate();
 
-		const float getX() const { return x; }
-		const float getY() const { return y; }
-		const float getZ() const { return z; }
-		const float getW() const { return w; }
+        const float getX() const { return x; }
+        const float getY() const { return y; }
+        const float getZ() const { return z; }
+        const float getW() const { return w; }
 
-		void setX(const float _x) { x = _x; }
-		void setY(const float _y) { y = _y; }
-		void setZ(const float _z) { z = _z; }
-		void setW(const float _w) { w = _w; }
-
-		inline friend std::ostream& operator<<(std::ostream& os, const Vector4& obj) {
-			os << "(" << obj.x << ", " << obj.y << ", " << obj.z << ", " << obj.w << ")";
-			return os;
-		}
-
-		// show vector
-		void show();
-		void show(char coordinate);
-};
-
-/* Friend operator:
-	Scalar multiplication */
-inline Vector4 operator*(const Vector4& vec, float scalar) {
-	return Vector4(scalar * vec.x,
-		scalar * vec.y,
-		scalar * vec.z,
-		scalar * vec.w);
-}
-
-/* Friend operator:
-* Scalar multiplication */
-inline Vector4 operator*(float scalar, const Vector4& vec) {
-	return Vector4(scalar * vec.x,
-		scalar * vec.y,
-		scalar * vec.z,
-		scalar * vec.w);
-}
-
-/* Unary negation.  Returns a vector pointing in opposite direction but with same magnitude */
-inline Vector4 operator-(const Vector4& other) {
-	return Vector4(-other.x, -other.y, -other.z, -other.w);
-}
+        void setX(const float _x) { x = _x; }
+        void setY(const float _y) { y = _y; }
+        void setZ(const float _z) { z = _z; }
+        void setW(const float _w) { w = _w; }
+    };
 
 } /* namespace Math */
 
