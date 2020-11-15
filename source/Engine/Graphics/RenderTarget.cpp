@@ -5,8 +5,8 @@ RenderTarget::RenderTarget() {}
 
 RenderTarget::~RenderTarget() {}
 
-void RenderTarget::createViewsAndFramebuffer(std::vector<vk::Image> swapChainImages, vk::Format swapChainImageFormat, vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass) {
-
+void RenderTarget::createViewsAndFramebuffer(std::vector<vk::Image> swapChainImages, vk::Format swapChainImageFormat, vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass)
+{
 	_swapChainImages = swapChainImages;
 	_swapChainImageExtent = swapChainImageExtent;
 
@@ -14,7 +14,8 @@ void RenderTarget::createViewsAndFramebuffer(std::vector<vk::Image> swapChainIma
 	createFrameBuffer(swapChainImageExtent, renderPass);
 }
 
-void RenderTarget::createImageViews(vk::Format swapChainImageFormat) {
+void RenderTarget::createImageViews(vk::Format swapChainImageFormat)
+{
 
 	swapChainImageViews.resize(_swapChainImages.size());
 
@@ -28,28 +29,29 @@ void RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::Rend
 
 	swapChainFramebuffers.resize(swapChainImageViews.size());
 
-	for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+	for (size_t i = 0; i < swapChainImageViews.size(); i++)
+	{
 
 		std::array<vk::ImageView, 1> attachments = {
-			swapChainImageViews[i],
+			swapChainImageViews[i].get(),
 		};
 
 		vk::FramebufferCreateInfo fbInfo(vk::FramebufferCreateFlags(),
 			renderPass,
-			attachments,
+			static_cast<uint32_t>(attachments.size()),
+			attachments.data(),
 			swapChainImageExtent.width,
 			swapChainImageExtent.height,
 			1);
 
 		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createFramebufferUnique(fbInfo);
-			
 	}
 }
 
-RenderTarget::~RenderTarget()
+void RenderTarget::destroy()
 {
-	for (auto imageView : swapChainImageViews) {
-		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyImageView(imageView);
+	for (auto &imageView : swapChainImageViews) {
+		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyImageView(imageView.get());
 	}
 
 	for (auto framebuffer : swapChainFramebuffers) {

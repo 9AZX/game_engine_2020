@@ -29,24 +29,11 @@ public:
 
     static std::shared_ptr<Graphics> graphics;
 
-    static std::shared_ptr<Graphics> getInstance()
-    {
-        if (!graphics)
-        {
-            graphics = std::make_shared<Graphics>();
-        }
-        return graphics;
-    }
+    static std::shared_ptr<Graphics> getInstance();
 
-    std::shared_ptr<Device> getDevice()
-    {
-        return gDevice;
-    }
+    std::shared_ptr<Device> getDevice();
 
-    std::shared_ptr<Swapchain> getSwapchain()
-    {
-        return gSwapChain;
-    }
+    std::shared_ptr<Swapchain> getSwapchain();
     vk::UniqueCommandBuffer currentCommandBuffer;
 
 private:
