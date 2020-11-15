@@ -5,33 +5,33 @@
 
 #include <vector>
 
-namespace Engine {
+namespace Engine
+{
 
-class ShaderResource: public Resource {
+    class ShaderResource : public Resource
+    {
     public:
         ShaderResource(
-            const std::string & name,
-            const std::filesystem::path & path,
-            const std::vector<char> & shader
-        );
+            const std::string &name,
+            const std::filesystem::path &path,
+            const std::vector<unsigned int> &shader);
         ShaderResource(
-            const std::string & name,
-            const std::filesystem::path & path,
-            std::vector<char> && shader
-        );
-        ShaderResource(const ShaderResource & shader);
-        ShaderResource(ShaderResource && shader);
+            const std::string &name,
+            const std::filesystem::path &path,
+            std::vector<unsigned int> &&shader);
+        ShaderResource(const ShaderResource &shader);
+        ShaderResource(ShaderResource &&shader);
 
-        ShaderResource & operator = (const ShaderResource & resource) noexcept;
-        ShaderResource & operator = (ShaderResource && resource) noexcept;
+        ShaderResource &operator=(const ShaderResource &resource) noexcept;
+        ShaderResource &operator=(ShaderResource &&resource) noexcept;
 
         ResourceType getType() const noexcept override;
-        const std::vector<char> & getShader() const noexcept;
-        std::vector<char> & getShader() noexcept;
+        const std::vector<unsigned int> &getShader() const noexcept;
+        std::vector<unsigned int> &getShader() noexcept;
 
     private:
-        std::vector<char> _shader;
-}; /* class ShaderResource */
+        std::vector<unsigned int> _shader;
+    }; /* class ShaderResource */
 
 } /* namespace Engine */
 

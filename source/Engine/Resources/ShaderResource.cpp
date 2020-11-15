@@ -3,7 +3,7 @@
 Engine::ShaderResource::ShaderResource(
     const std::string & name,
     const std::filesystem::path & path,
-    const std::vector<char> & shader
+    const std::vector<unsigned int> & shader
 ):
     Resource(name, path),
     _shader(shader)
@@ -13,7 +13,7 @@ Engine::ShaderResource::ShaderResource(
 Engine::ShaderResource::ShaderResource(
     const std::string & name,
     const std::filesystem::path & path,
-    std::vector<char> && shader
+    std::vector<unsigned int> && shader
 ):
     Resource(name, path),
     _shader(std::move(shader))
@@ -59,12 +59,12 @@ Engine::ResourceType Engine::ShaderResource::getType() const noexcept
     return Engine::ResourceType::ShaderType;
 }
 
-const std::vector<char> & Engine::ShaderResource::getShader() const noexcept
+const std::vector<unsigned int> & Engine::ShaderResource::getShader() const noexcept
 {
     return _shader;
 }
 
-std::vector<char> & Engine::ShaderResource::getShader() noexcept
+std::vector<unsigned int> & Engine::ShaderResource::getShader() noexcept
 {
     return _shader;
 }

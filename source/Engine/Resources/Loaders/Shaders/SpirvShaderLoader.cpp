@@ -4,7 +4,12 @@
 
 #include <fstream>
 
-#include <iostream> // TODO Replace this once the logger is implemented
+Engine::SpirvShaderLoader::SpirvShaderLoader(
+    std::shared_ptr<Logging::Logger> logger
+):
+    _logger(logger)
+{
+}
 
 std::unique_ptr<Engine::Resource> Engine::SpirvShaderLoader::load(
     const ResourceDescriptor & descriptor
@@ -12,16 +17,22 @@ std::unique_ptr<Engine::Resource> Engine::SpirvShaderLoader::load(
     std::ifstream file(descriptor.path, std::ios::ate | std::ios::binary);
 
     if (!file.is_open()) {
-        std::cerr   << "[ShaderLoader][" << descriptor.path << "] "
-                    << "Could not load file" << std::endl;
+        _logger->log(
+            Logging::Level::Error,
+            "[Shader Loader] {}: could not load file",
+            descriptor.path.string()
+        );
         return nullptr;
     }
 
-    std::size_t fileSize = (std::size_t) file.tellg();
-    std::vector<char> buffer(fileSize);
+    std::size_t fileSize = static_cast<std::size_t>(file.tellg());
+    std::size_t bufferSize = static_cast<std::size_t>(
+        std::floor(fileSize / sizeof(unsigned int))
+    );
+    std::vector<unsigned int> buffer(bufferSize);
 
     file.seekg(0);
-    file.read(buffer.data(), fileSize);
+    file.read(reinterpret_cast<char *>(buffer.data()), fileSize);
     file.close();
 
     return std::make_unique<ShaderResource>(
