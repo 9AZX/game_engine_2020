@@ -13,9 +13,9 @@ ObjectBuffers::ObjectBuffers() {}
 
 ObjectBuffers::~ObjectBuffers() {}
 
-void ObjectBuffers::createVertexIndexUniformsBuffers(MeshType modelType)
+void ObjectBuffers::createVertexIndexUniformsBuffers(Engine::Mesh modelType)
 {
-	switch (modelType)
+	/*switch (modelType)
 	{
 	case kTriangle: Mesh::setTriData(vertices, indices);
 		break;
@@ -26,7 +26,7 @@ void ObjectBuffers::createVertexIndexUniformsBuffers(MeshType modelType)
 	case kSphere:
 		Mesh::setSphereData(vertices, indices);
 		break;
-	}
+	}*/
 	createVertexBuffer();
 	createIndexBuffer();
 	createUniformBuffers();

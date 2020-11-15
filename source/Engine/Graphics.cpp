@@ -38,3 +38,8 @@ std::shared_ptr<Engine::Swapchain> Engine::Graphics::getSwapchain()
 {
     return gSwapChain;
 }
+
+std::shared_ptr<Renderpass> Engine::Graphics::getRenderpass()
+{
+    return gRenderpass;
+}

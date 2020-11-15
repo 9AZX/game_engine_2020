@@ -5,6 +5,7 @@
 #include "Engine/Graphics/Device.hpp"
 #include "Engine/Graphics/Instance.hpp"
 #include "Engine/Graphics/Swapchain.hpp"
+#include "Engine/Graphics/Renderpass.hpp"
 
 #include <vulkan/vulkan.hpp>
 
@@ -24,6 +25,8 @@ public:
     std::shared_ptr<Instance> gInstance;
     std::shared_ptr<Device> gDevice;
     std::shared_ptr<Swapchain> gSwapChain;
+    std::shared_ptr<Renderpass> gRenderpass;
+
     DebugMessenger messenger;
 
     static std::shared_ptr<Graphics> graphics;
@@ -33,6 +36,7 @@ public:
     std::shared_ptr<Device> getDevice();
 
     std::shared_ptr<Swapchain> getSwapchain();
+    std::shared_ptr<Renderpass> getRenderpass();
     vk::UniqueCommandBuffer currentCommandBuffer;
 
 private:

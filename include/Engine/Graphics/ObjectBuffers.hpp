@@ -1,7 +1,9 @@
+#pragma once
+
 #include <vulkan\vulkan.hpp>
 #include <vector>
 
-#include "Mesh.h"
+#include "Engine/Graphics/Mesh.hpp"
 
 class ObjectBuffers
 {
@@ -9,7 +11,7 @@ public:
 	ObjectBuffers();
 	~ObjectBuffers();
 
-	std::vector<Vertex> vertices;
+	std::vector<Engine::Vertex> vertices;
 	vk::UniqueBuffer vertexBuffer;
 	VkDeviceMemory vertexBufferMemory;
 	std::vector<uint32_t> indices;
@@ -17,7 +19,7 @@ public:
 	VkDeviceMemory indexBufferMemory;
 	vk::UniqueBuffer uniformBuffers;
 	vk::DeviceMemory uniformBuffersMemory;
-	void createVertexIndexUniformsBuffers(MeshType modelType);
+	void createVertexIndexUniformsBuffers(Engine::Mesh modelType);
 	void destroy();
 private:
 	void createVertexBuffer();
