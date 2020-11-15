@@ -4,7 +4,7 @@
 #include "Engine/Maths/Vector3.hpp"
 #include "ElementPhysics.hpp"
 
-namespace engine
+namespace Engine
 {
 	class ElementPhysics;
 	class Bulletlink
@@ -22,8 +22,8 @@ namespace engine
 		Bulletlink(Engine::Math::Vector3);
 		~Bulletlink();
 		void Stepsim(float);
-		engine::ElementPhysics CreateSquare(Engine::Math::Vector3 position, Engine::Math::Vector3 size);
-		engine::ElementPhysics CreateSphere(Engine::Math::Vector3 position, float size);
+		Engine::ElementPhysics CreateSquare(Engine::Math::Vector3 position, Engine::Math::Vector3 size);
+		Engine::ElementPhysics CreateSphere(Engine::Math::Vector3 position, float size);
 		void addBody(ElementPhysics &element);
 		Engine::Math::Vector3 getPositionElement(ElementPhysics &element);
 

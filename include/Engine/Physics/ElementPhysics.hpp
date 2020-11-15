@@ -3,7 +3,7 @@
 #include "Engine/Maths/Matrix.hpp"
 #include "Engine/Maths/Vector3.hpp"
 
-namespace engine {
+namespace Engine {
 	class Bulletlink;
 	class ElementPhysics
 	{
@@ -22,7 +22,7 @@ namespace engine {
 		Engine::Math::Vector3 getInertia();
 		float getMasse();
 		void calcInertia();
-		void setupBody(engine::Bulletlink &physic);
+		void setupBody(Engine::Bulletlink &physic);
 		btRigidBody* getBody();
 	};
 }

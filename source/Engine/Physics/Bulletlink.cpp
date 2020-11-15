@@ -1,6 +1,6 @@
 #include "Engine/Physics/Bulletlink.hpp"
 
-namespace engine {
+namespace Engine {
 	Bulletlink::Bulletlink() {
 		PhysicsCollisionConfiguration = new btDefaultCollisionConfiguration();
 		PhysicsDispatcher = new	btCollisionDispatcher(PhysicsCollisionConfiguration);
@@ -29,14 +29,14 @@ namespace engine {
 
 	ElementPhysics Bulletlink::CreateSquare(Engine::Math::Vector3 position, Engine::Math::Vector3 size) {
 		btVector3 btsize(size.x, size.y, size.z);
-		engine::ElementPhysics square(btsize);
+		Engine::ElementPhysics square(btsize);
 		this->PhysicsTransform.setIdentity();
 		this->PhysicsTransform.setOrigin(btVector3(position.x, position.y, position.z));
 		return(square);
 	}
 
 	ElementPhysics Bulletlink::CreateSphere(Engine::Math::Vector3 position, float size) {
-		engine::ElementPhysics sphere(size);
+		Engine::ElementPhysics sphere(size);
 		this->PhysicsTransform.setIdentity();
 		this->PhysicsTransform.setOrigin(btVector3(position.x, position.y, position.z));
 		return(sphere);
