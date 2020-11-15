@@ -29,7 +29,7 @@ void ObjectRenderer::createObjectRenderer(Engine::Mesh modelType, Engine::Math::
 
 void ObjectRenderer::draw()
 {
-	vk::UniqueCommandBuffer cBuffer = Engine::Graphics::getInstance()->currentCommandBuffer;
+	vk::UniqueCommandBuffer cBuffer = std::move(Engine::Graphics::getInstance()->currentCommandBuffer);
 	cBuffer->bindPipeline(vk::PipelineBindPoint::eGraphics, gPipeline._graphicsPipeline.get());
 
 	vk::Buffer vertexBuffers[] = {objBuffers.vertexBuffer.get()};
@@ -82,8 +82,6 @@ Engine::Math::Matrix4 ourScale(Engine::Math::Matrix4 matrix, Engine::Math::Vecto
 
 Engine::Math::Matrix4 ourTranslate(Engine::Math::Matrix4 matrix, Engine::Math::Vector3 vector)
 {
-	Engine::Math::Matrix4 Result(matrix);
-
 	Engine::Math::Matrix4 Result(matrix);
 
 	Result.matrixData[3][0] =
@@ -145,6 +143,8 @@ Engine::Math::Matrix4 ourTranslate(Engine::Math::Matrix4 matrix, Engine::Math::V
 		+ matrix.matrixData[2][2] * vector.z
 		+ matrix.matrixData[2][3] * vector.z
 		+ matrix.matrixData[3][0] + matrix.matrixData[3][1] + matrix.matrixData[3][2] + matrix.matrixData[3][3];
+
+	return Result;
 }
 
 void ObjectRenderer::updateUniformBuffer(Camera camera)

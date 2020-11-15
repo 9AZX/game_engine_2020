@@ -1,5 +1,7 @@
 #include "Engine/Graphics.hpp"
 
+std::shared_ptr<Engine::Graphics> Engine::Graphics::graphics = nullptr;
+
 Engine::Graphics::Graphics(
     std::string _gameName,
     std::shared_ptr<Engine::Window> window,
