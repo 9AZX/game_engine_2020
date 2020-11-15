@@ -237,6 +237,42 @@ namespace Math {
         matrixData[15] = t4;
     }
 
+    float* Matrix4::getRow(int row)
+    {
+        float Result[4] = { 0.0f };
+        int j = 0;
+
+        if (row == 0) {
+            for (int i = 0; i < 4; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 1) {
+            for (int i = 4; i < 8; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 2) {
+            for (int i = 8; i < 12; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 3) {
+            for (int i = 12; i < 16; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else {
+            printf("Outside of matrix scope\n");
+        }
+
+        return Result;
+    }
+
     void Matrix4::setMatrixAsIdentityMatrix() {
         for (int i = 0; i < 16; i++) {
             matrixData[i] = 0.0f;
@@ -254,20 +290,20 @@ namespace Math {
     }
 
     void Matrix4::show(int row) {
-        if (row == 1) {
-            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2], matrixData[3]);
+        if (row == 0) {
+            printf("vec4 row[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2], matrixData[3]);
+        }
+        else if (row == 1) {
+            printf("vec4 row[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[4], matrixData[5], matrixData[6], matrixData[7]);
         }
         else if (row == 2) {
-            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[4], matrixData[5], matrixData[6], matrixData[7]);
+            printf("vec4 row[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[8], matrixData[9], matrixData[10], matrixData[11]);
         }
         else if (row == 3) {
-            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[8], matrixData[9], matrixData[10], matrixData[11]);
-        }
-        else if (row == 4) {
-            std::printf("mat4 matrixData[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[12], matrixData[13], matrixData[14], matrixData[15]);
+            printf("vec4 row[%d] = (%.6f, %.6f, %.6f, %.6f)\n", row, matrixData[12], matrixData[13], matrixData[14], matrixData[15]);
         }
         else {
-            std::printf("Outside of matrix scope\n");
+            printf("Outside of matrix scope\n");
         }
     }
 

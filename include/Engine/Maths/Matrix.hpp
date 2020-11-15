@@ -33,6 +33,8 @@ class Matrix3d {
 
 		Matrix3d operator*(const Matrix3d& m) const;
 		void operator*=(const Matrix3d& m);
+		
+		float* getRow(int row);
 
 		void setMatrixAsIdentityMatrix();
 

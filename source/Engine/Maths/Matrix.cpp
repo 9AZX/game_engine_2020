@@ -166,6 +166,36 @@ namespace Math {
         matrixData[8] = t3;
     }
 
+    float* Matrix3d::getRow(int row)
+    {
+        float Result[3] = { 0.0f };
+        int j = 0;
+
+        if (row == 0) {
+            for (int i = 0; i < 3; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 1) {
+            for (int i = 3; i < 6; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 2) {
+            for (int i = 6; i < 9; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else {
+            printf("Outside of matrix scope\n");
+        }
+
+        return Result;
+    }
+
     void Matrix3d::setMatrixAsIdentityMatrix() {
         for (int i = 0; i < 9; i++) {
             matrixData[i] = 0.0f;
@@ -392,13 +422,13 @@ namespace Math {
 
     void Matrix3d::show(int row) {
         if (row == 1) {
-            std::printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
         }
         else if (row == 2) {
-            std::printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
         }
         else if (row == 3) {
-            std::printf("mat3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
         }
         else {
             std::printf("Outside of matrix scope\n");

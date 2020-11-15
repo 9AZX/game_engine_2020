@@ -31,6 +31,8 @@ class Matrix4x3 {
 		Vector4 operator*(const Vector4& v) const;
 		Vector4 transformVectorByMatrix(const Vector4& v) const;
 
+		float* getRow(int row);
+
 		void setMatrixAsIdentityMatrix();
 
 		void show();

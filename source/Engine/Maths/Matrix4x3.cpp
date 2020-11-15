@@ -141,6 +141,42 @@ namespace Math {
         return(*this) * v;
     }
 
+    float* Matrix4x3::getRow(int row)
+    {
+        float Result[3] = { 0.0f };
+        int j = 0;
+
+        if (row == 0) {
+            for (int i = 0; i < 3; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 1) {
+            for (int i = 3; i < 6; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 2) {
+            for (int i = 6; i < 9; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else if (row == 2) {
+            for (int i = 9; i < 12; i++) {
+                Result[j] = matrixData[i];
+                j++;
+            }
+        }
+        else {
+            printf("Outside of matrix scope\n");
+        }
+
+        return Result;
+    }
+
     void Matrix4x3::setMatrixAsIdentityMatrix() {
         for (int i = 0; i < 12; i++) {
             matrixData[i] = 0.0f;
@@ -157,17 +193,17 @@ namespace Math {
     }
 
     void Matrix4x3::show(int row) {
-        if (row == 1) {
-            std::printf("mat4x3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
+        if (row == 0) {
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[0], matrixData[1], matrixData[2]);
+        }
+        else if (row == 1) {
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
         }
         else if (row == 2) {
-            std::printf("mat4x3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[3], matrixData[4], matrixData[5]);
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
         }
         else if (row == 3) {
-            std::printf("mat4x3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[6], matrixData[7], matrixData[8]);
-        }
-        else if (row == 4) {
-            std::printf("mat4x3 matrixData[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[9], matrixData[10], matrixData[11]);
+            std::printf("vec3 row[%d] = (%.6f, %.6f, %.6f)\n", row, matrixData[9], matrixData[10], matrixData[11]);
         }
         else {
             std::printf("Outside of matrix scope\n");
