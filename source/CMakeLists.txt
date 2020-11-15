@@ -20,10 +20,16 @@ add_library(${PROJECT_SOURCES_LIBRARY} STATIC
     Engine/Graphics/Instance.cpp
     Engine/Graphics/Mesh.cpp
     Engine/Graphics/Swapchain.cpp
+    Engine/Graphics/ObjectRenderer.cpp
+    Engine/Graphics/ObjectBuffers.cpp
+    Engine/Graphics/CommandBuffer.cpp
+    Engine/Graphics/VkTools.cpp
+    Engine/Graphics/Camera.cpp
     Engine/Graphics/Vertex.cpp
     Engine/Graphics/Renderpass.cpp
     Engine/Graphics/RenderTarget.cpp
     Engine/HID.cpp
+    Engine/Graphics/GraphicsPipeline.cpp
     Engine/Logging/ConsoleSink.cpp
     Engine/Logging/FileSink.cpp
     Engine/Logging/Logger.cpp

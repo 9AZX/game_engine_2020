@@ -5,6 +5,7 @@
 #include "Engine/Graphics/Device.hpp"
 #include "Engine/Graphics/RenderPass.hpp"
 #include "Engine/Resources/ShaderResource.hpp"
+
 namespace Engine
 {
     class GraphicsPipeline
@@ -14,11 +15,11 @@ namespace Engine
         ~GraphicsPipeline();
 
         void createGraphicsPipeline(Engine::ShaderResource *vertexShader, Engine::ShaderResource *fragmentShader);
+        vk::UniquePipelineLayout _pipelineLayout;
+        vk::UniquePipeline _graphicsPipeline;
 
     private:
         std::shared_ptr<Renderpass> _renderPass;
-        vk::UniquePipelineLayout _pipelineLayout;
-        vk::UniquePipeline _graphicsPipeline;
         vk::UniquePipelineCache _pipelineCache;
         std::shared_ptr<Device> _device;
         vk::UniqueShaderModule _vertexShaderModule;

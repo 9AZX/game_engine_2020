@@ -13,16 +13,18 @@ public:
     RenderTarget();
     ~RenderTarget();
 
-	std::vector<VkImage> _swapChainImages;
+	std::vector<vk::Image> _swapChainImages;
 	vk::Extent2D _swapChainImageExtent;
 
-	std::vector<VkImageView> swapChainImageViews;
-	std::vector<VkFramebuffer> swapChainFramebuffers;
+	std::vector<vk::UniqueImageView> swapChainImageViews;
+	std::vector<vk::Framebuffer> swapChainFramebuffers;
 
-	void createViewsAndFramebuffer(std::vector<VkImage> swapChainImages, VkFormat swapChainImageFormat, vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass);
+	void createViewsAndFramebuffer(std::vector<vk::Image> swapChainImages, vk::Format swapChainImageFormat, vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass);
 
-	void createImageViews(VkFormat swapChainImageFormat);
+	void createImageViews(vk::Format swapChainImageFormat);
 	void createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass);
+
+	void destroy();
 };
 
 
