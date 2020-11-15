@@ -19,3 +19,27 @@ Engine::Graphics::Graphics(
 Engine::Graphics::~Graphics()
 {
 }
+
+std::shared_ptr<Engine::Graphics> Engine::Graphics::getInstance()
+{
+    if (!graphics)
+    {
+        graphics = std::make_shared<Graphics>();
+    }
+    return graphics;
+}
+
+std::shared_ptr<Engine::Device> Engine::Graphics::getDevice()
+{
+    return gDevice;
+}
+
+std::shared_ptr<Engine::Swapchain> Engine::Graphics::getSwapchain()
+{
+    return gSwapChain;
+}
+
+std::shared_ptr<Renderpass> Engine::Graphics::getRenderpass()
+{
+    return gRenderpass;
+}

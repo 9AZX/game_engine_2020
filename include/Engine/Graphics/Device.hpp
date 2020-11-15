@@ -7,6 +7,15 @@
 
 namespace Engine {
 
+    struct QueueFamilyIndices {
+        int graphicsFamily = -1;
+        int presentFamily = -1;
+        bool arePresent() {
+            return graphicsFamily >= 0 && presentFamily >= 0;
+        }
+    };
+
+
 class Device
 {
 public:
@@ -19,15 +28,25 @@ public:
 
     void createUniqueDevice();
 
-    size_t graphicsQueueFamilyIndex;
+    QueueFamilyIndices Device::getQueueFamiliesIndicesOfCurrentDevice()
+    {
+        return queueFamiliyIndices;
+    }
 
+    size_t graphicsQueueFamilyIndex;
+    vk::Queue graphicsQueue;
+    vk::Queue presentQueue;
 private:
+    QueueFamilyIndices queueFamiliyIndices;
     std::shared_ptr<vk::PhysicalDevice> _physicalDevice; // Physical device
     std::shared_ptr<vk::UniqueDevice> _uniqueDevice;     // Logical device
 
     vk::PhysicalDeviceFeatures _physicalDeviceFeatures;
     vk::UniqueCommandPool _commandPool;
     vk::UniqueCommandBuffer _commandBuffer;
+
+
+    
 }; /* class Device */
 
 } /* namespace Engine */

@@ -2,8 +2,9 @@
     "name": "engine",
     "version-string": "0.1.0",
     "dependencies": [
-        "portaudio",
-        "stb",
-        "fmt"
+      "portaudio",
+      "bullet3",
+      "stb",
+      "fmt"
     ]
 }
