@@ -12,136 +12,202 @@ namespace Engine {
 
 namespace Math {
 
-	// constructors
-	Vector4::Vector4(void) : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {}
-	Vector4::Vector4(float setting) : x(setting), y(setting), z(setting), w(setting) {}
-	Vector4::Vector4(float x_, float y_, float z_, float w_) : x(x_), y(y_), z(z_), w(w_) {}
+    // constructor
+    Vector4::Vector4() :x(0.0), y(0.0), z(0.0), w(1.0) {};
+    Vector4::Vector4(float content) : x(content), y(content), z(content), w(content) {};
+    Vector4::Vector4(float uX, float uY, float uZ, float uW) :x(uX), y(uY), z(uZ), w(uW) {}
 
-	// deconstructor
-	Vector4::~Vector4() {}
+    // destructor
+    Vector4::~Vector4() {}
 
-	const Vector4 Vector4::ZERO_VECTOR(0, 0, 0, 0);
+    // copy constructors 
+    Vector4::Vector4(const Vector4& v) : x(v.x), y(v.y), z(v.z), w(v.w) {}
 
-	// constructor that makes a Vector4 from a Vector3
-	Vector4::Vector4(const Vector3& val) : x(val.getX()), y(val.getY()), z(val.getZ()), w(1) {}
+    Vector4& Vector4::operator=(const Vector4& v)
+    {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = v.w;
 
-	// addition operator for vectors
-	Vector4& Vector4::operator+=(const Vector4& rhs) {
-		x += rhs.x;
-		y += rhs.y;
-		z += rhs.z;
-		w += rhs.w;
-		return *this;
-	}
+        return *this;
+    }
 
-	// calculates the angle in radians between a and b
-	float Vector4::angleBetween(const Vector4& a, const Vector4& b) {
-		float dotProd = a.dotProduct(b);
-		float aLength = a.magnitude();
-		float bLength = b.magnitude();
+    // add
+    void Vector4::operator+=(const Vector4& v)
+    {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        w += v.w;
+    }
 
-		// They've passed in the zero vector.
-		if (BasicMath::approxEqual(aLength, 0.0f) ||
-			BasicMath::approxEqual(bLength, 0.0f)) {
-			return 0.0f;
-		}
-		else {
-			return acos(dotProd / (aLength * bLength));
-		}
-	}
+    Vector4 Vector4::operator+(const Vector4& v)const
+    {
+        return Vector4(x + v.x, y + v.y, z + v.z, w + v.w);
+    }
 
-	// addition operator
-	const Vector4 Vector4::operator+(const Vector4& rhs) const {
-		// Make a copy
-		Vector4 result = *this;
-		result += rhs;
-		return result;
-	}
+    // subtract
+    void Vector4::operator-=(const Vector4& v)
+    {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
+        w -= v.w;
+    }
 
-	// subtraction operator
-	Vector4& Vector4::operator-=(const Vector4& rhs) {
-		x -= rhs.x;
-		y -= rhs.y;
-		z -= rhs.z;
-		w -= rhs.w;
-		return *this;
-	}
+    Vector4 Vector4::operator-(const Vector4& v)const
+    {
+        return Vector4(x - v.x, y - v.y, z - v.z, w - v.w);
+    }
 
-	// subtraction operator
-	const Vector4 Vector4::operator-(const Vector4& rhs) const {
-		// Make a copy
-		Vector4 result = *this;
-		result -= rhs;
-		return result;
-	}
+    // multiply
+    void Vector4::operator*=(const float s)
+    {
+        x *= s;
+        y *= s;
+        z *= s;
+        w *= s;
+    }
 
+    Vector4 Vector4::operator*(const float s) const
+    {
+        return Vector4(s * x, s * y, s * z, s * w);
+    }
 
+    // divide
+    void Vector4::operator /=(const float s)
+    {
+        x = x / s;
+        y = y / s;
+        z = z / s;
+        w = w / s;
+    }
 
-	// multiplication operator for scalar and vector
-	Vector4& Vector4::operator*=(const float scalar) {
-		x *= scalar;
-		y *= scalar;
-		z *= scalar;
-		w *= scalar;
-		return *this;
-	}
+    Vector4 Vector4::operator/(const float s)const
+    {
+        return Vector4(x / s, y / s, z / s, w / s);
+    }
 
-	// two vectors are the same if they have the same x, y, z, and w magnitude.
-	const bool Vector4::operator==(const Vector4& other) const {
-		return	BasicMath::approxEqual(x, other.x) &&
-			BasicMath::approxEqual(y, other.y) &&
-			BasicMath::approxEqual(z, other.z) &&
-			BasicMath::approxEqual(w, other.w);
-	}
+    // dot product
+    float Vector4::operator*(const Vector4& v) const
+    {
+        return x * v.x + y * v.y + z * v.z + w * v.w;
+    }
 
-	const bool Vector4::operator!=(const Vector4& other) const {
-		return !((*this) == other);
-	}
+    float Vector4::dot(const Vector4& v) const
+    {
+        return x * v.x + y * v.y + z * v.z + w * v.w;
+    }
 
-	// dot product between two vectors.
-	const float Vector4::dotProduct(const Vector4& rhs) const {
-		return (x * rhs.x) + (y * rhs.y) + (z * rhs.z) + (w * rhs.w);
-	}
+    // Angle between vectors
+    float Vector4::angle(const Vector4& v)
+    {
 
-	// return the length (magnitude) of the vector.
-	const float Vector4::magnitude() const {
-		return sqrt((x * x) + (y * y) + (z * z) + (w * w));
-	}
+        float theta;
 
-	// return a vector of unit length that points in the same direction as this vector.
-	const Vector4 Vector4::normalize() {
-		float length = magnitude();
-		assert(length != 0.0f);
-		return Vector4(x / length,
-			y / length,
-			z / length,
-			w / length);
-	}
+        Vector4 u = v;
+        Vector4 m = *this;
 
-	// show
-	void Vector4::show()
-	{
-		std::printf("vec3(%.6f, %.6f, %.6f, , %.6f)\n", x, y, z, w);
-	}
+        theta = dot(u) / (m.magnitude() * u.magnitude());
 
-	void Vector4::show(char coordinate)
-	{
-		if (coordinate == 'x') {
-			std::printf("vec3.x = %.6f\n", x);
-		}
-		else if (coordinate == 'y') {
-			std::printf("vec3.y = %.6f\n", y);
-		}
-		else if (coordinate == 'z') {
-			std::printf("vec3.z = %.6f\n", z);
-		}
-		else if (coordinate == 'w') {
-			std::printf("vec3.w = %.6f\n", w);
-		}
-		else {
-			std::printf("Out of vector scope\n");
-		}
-	}
+        theta = RadToDegrees(acos(theta));
+
+        return theta;
+
+    }
+
+    // conjugate
+    void Vector4::conjugate()
+    {
+        x = -1 * x;
+        y = -1 * y;
+        z = -1 * z;
+        w = -1 * w;
+    }
+
+    // normalize
+    void Vector4::normalize()
+    {
+        float mag = std::sqrt(x * x + y * y + z * z + w * w);
+
+        if (mag > 0.0f)
+        {
+            float oneOverMag = 1.0f / mag;
+
+            x = x * oneOverMag;
+            y = y * oneOverMag;
+            z = z * oneOverMag;
+            w = w * oneOverMag;
+
+        }
+    }
+
+    // magnitude
+    float Vector4::magnitude()
+    {
+        float magnitude = std::sqrt(x * x + y * y + z * z + w * w);
+
+        return magnitude;
+
+    }
+
+    float Vector4::magnitudeSquare()
+    {
+        float magnitude = x * x + y * y + z * z + w * w;
+
+        return magnitude;
+    }
+
+    // clear
+    void Vector4::zero()
+    {
+        x = 0;
+        y = 0;
+        z = 0;
+        w = 0;
+    }
+
+    void Vector4::absolute()
+    {
+        x = std::abs(x);
+        y = std::abs(y);
+        z = std::abs(z);
+        w = std::abs(w);
+    }
+
+    // show
+    void Vector4::show()
+    {
+        printf("vec4(%.6f, %.6f, %.6f, %.6f)\n", x, y, z, w);
+    }
+
+    void Vector4::show(char coordinate)
+    {
+        if (coordinate == 'x') {
+            printf("vec4.x = %.6f\n", x);
+        }
+        else if (coordinate == 'y') {
+            printf("vec4.y = %.6f\n", y);
+        }
+        else if (coordinate == 'z') {
+            printf("vec4.z = %.6f\n", z);
+        }
+        else if (coordinate == 'w') {
+            printf("vec4.w = %.6f\n", w);
+        }
+        else {
+            printf("Out of vector scope\n");
+        }
+    }
+
+    void Vector4::negate()
+    {
+        x = -1 * x;
+        y = -1 * y;
+        z = -1 * z;
+        w = -1 * w;
+    }
 } /* namespace Math */
 
 } /* namespace Engine */
