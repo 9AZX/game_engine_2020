@@ -56,25 +56,26 @@ Engine::Math::Matrix4 ourScale(Engine::Math::Matrix4 matrix, Engine::Math::Vecto
 {
 	Engine::Math::Matrix4 Result;
 
-	Result.matrixData[0] = matrix.matrixData[0] * vector.x;
-	Result.matrixData[1] = matrix.matrixData[1] * vector.x;
-	Result.matrixData[2] = matrix.matrixData[2] * vector.x;
-	Result.matrixData[3] = matrix.matrixData[3] * vector.x;
+	Result.matrixData[0][0] = matrix.matrixData[0][0] * vector.x;
+	Result.matrixData[0][1] = matrix.matrixData[0][1] * vector.x;
+	Result.matrixData[0][2] = matrix.matrixData[0][2] * vector.x;
+	Result.matrixData[0][3] = matrix.matrixData[0][3] * vector.x;
 
-	Result.matrixData[4] = matrix.matrixData[4] * vector.y;
-	Result.matrixData[5] = matrix.matrixData[5] * vector.y;
-	Result.matrixData[6] = matrix.matrixData[6] * vector.y;
-	Result.matrixData[7] = matrix.matrixData[7] * vector.y;
 
-	Result.matrixData[8] = matrix.matrixData[8] * vector.z;
-	Result.matrixData[9] = matrix.matrixData[9] * vector.z;
-	Result.matrixData[10] = matrix.matrixData[10] * vector.z;
-	Result.matrixData[11] = matrix.matrixData[11] * vector.z;
+	Result.matrixData[1][0] = matrix.matrixData[1][0] * vector.y;
+	Result.matrixData[1][1] = matrix.matrixData[1][1] * vector.y;
+	Result.matrixData[1][2] = matrix.matrixData[1][2] * vector.y;
+	Result.matrixData[1][3] = matrix.matrixData[1][3] * vector.y;
 
-	Result.matrixData[12] = matrix.matrixData[12];
-	Result.matrixData[13] = matrix.matrixData[13];
-	Result.matrixData[14] = matrix.matrixData[14];
-	Result.matrixData[15] = matrix.matrixData[15];
+	Result.matrixData[2][0] = matrix.matrixData[2][0] * vector.z;
+	Result.matrixData[2][1] = matrix.matrixData[2][1] * vector.z;
+	Result.matrixData[2][2] = matrix.matrixData[2][2] * vector.z;
+	Result.matrixData[2][3] = matrix.matrixData[2][3] * vector.z;
+
+	Result.matrixData[3][0] = matrix.matrixData[3][0];
+	Result.matrixData[3][1] = matrix.matrixData[3][1];
+	Result.matrixData[3][2] = matrix.matrixData[3][2];
+	Result.matrixData[3][3] = matrix.matrixData[3][3];
 
 	return Result;
 }
@@ -83,13 +84,67 @@ Engine::Math::Matrix4 ourTranslate(Engine::Math::Matrix4 matrix, Engine::Math::V
 {
 	Engine::Math::Matrix4 Result(matrix);
 
-	Result.matrixData[12] = matrix.matrixData[0] * vector.x + matrix.matrixData[1] * vector.x + matrix.matrixData[2] * vector.x + matrix.matrixData[3] * vector.x + matrix.matrixData[4] * vector.y + matrix.matrixData[5] * vector.y + matrix.matrixData[6] * vector.y + matrix.matrixData[7] * vector.y + matrix.matrixData[8] * vector.z + matrix.matrixData[9] * vector.z + matrix.matrixData[10] * vector.z + matrix.matrixData[11] * vector.z + matrix.matrixData[12] + matrix.matrixData[13] + matrix.matrixData[14] + matrix.matrixData[15];
+	Engine::Math::Matrix4 Result(matrix);
 
-	Result.matrixData[13] = matrix.matrixData[0] * vector.x + matrix.matrixData[1] * vector.x + matrix.matrixData[2] * vector.x + matrix.matrixData[3] * vector.x + matrix.matrixData[4] * vector.y + matrix.matrixData[5] * vector.y + matrix.matrixData[6] * vector.y + matrix.matrixData[7] * vector.y + matrix.matrixData[8] * vector.z + matrix.matrixData[9] * vector.z + matrix.matrixData[10] * vector.z + matrix.matrixData[11] * vector.z + matrix.matrixData[12] + matrix.matrixData[13] + matrix.matrixData[14] + matrix.matrixData[15];
+	Result.matrixData[3][0] =
+		matrix.matrixData[0][0] * vector.x
+		+ matrix.matrixData[0][1] * vector.x
+		+ matrix.matrixData[0][2] * vector.x
+		+ matrix.matrixData[0][3] * vector.x
+		+ matrix.matrixData[1][0] * vector.y
+		+ matrix.matrixData[1][1] * vector.y
+		+ matrix.matrixData[1][2] * vector.y
+		+ matrix.matrixData[1][3] * vector.y
+		+ matrix.matrixData[2][0] * vector.z
+		+ matrix.matrixData[2][1] * vector.z
+		+ matrix.matrixData[2][2] * vector.z
+		+ matrix.matrixData[2][3] * vector.z
+		+ matrix.matrixData[3][0] + matrix.matrixData[3][1] + matrix.matrixData[3][2] + matrix.matrixData[3][3];
 
-	Result.matrixData[14] = matrix.matrixData[0] * vector.x + matrix.matrixData[1] * vector.x + matrix.matrixData[2] * vector.x + matrix.matrixData[3] * vector.x + matrix.matrixData[4] * vector.y + matrix.matrixData[5] * vector.y + matrix.matrixData[6] * vector.y + matrix.matrixData[7] * vector.y + matrix.matrixData[8] * vector.z + matrix.matrixData[9] * vector.z + matrix.matrixData[10] * vector.z + matrix.matrixData[11] * vector.z + matrix.matrixData[12] + matrix.matrixData[13] + matrix.matrixData[14] + matrix.matrixData[15];
+	Result.matrixData[3][1] =
+		matrix.matrixData[0][0] * vector.x
+		+ matrix.matrixData[0][1] * vector.x
+		+ matrix.matrixData[0][2] * vector.x
+		+ matrix.matrixData[0][3] * vector.x
+		+ matrix.matrixData[1][0] * vector.y
+		+ matrix.matrixData[1][1] * vector.y
+		+ matrix.matrixData[1][2] * vector.y
+		+ matrix.matrixData[1][3] * vector.y
+		+ matrix.matrixData[2][0] * vector.z
+		+ matrix.matrixData[2][1] * vector.z
+		+ matrix.matrixData[2][2] * vector.z
+		+ matrix.matrixData[2][3] * vector.z
+		+ matrix.matrixData[3][0] + matrix.matrixData[3][1] + matrix.matrixData[3][2] + matrix.matrixData[3][3];
 
-	Result.matrixData[15] = matrix.matrixData[0] * vector.x + matrix.matrixData[1] * vector.x + matrix.matrixData[2] * vector.x + matrix.matrixData[3] * vector.x + matrix.matrixData[4] * vector.y + matrix.matrixData[5] * vector.y + matrix.matrixData[6] * vector.y + matrix.matrixData[7] * vector.y + matrix.matrixData[8] * vector.z + matrix.matrixData[9] * vector.z + matrix.matrixData[10] * vector.z + matrix.matrixData[11] * vector.z + matrix.matrixData[12] + matrix.matrixData[13] + matrix.matrixData[14] + matrix.matrixData[15];
+	Result.matrixData[3][2] =
+		matrix.matrixData[0][0] * vector.x
+		+ matrix.matrixData[0][1] * vector.x
+		+ matrix.matrixData[0][2] * vector.x
+		+ matrix.matrixData[0][3] * vector.x
+		+ matrix.matrixData[1][0] * vector.y
+		+ matrix.matrixData[1][1] * vector.y
+		+ matrix.matrixData[1][2] * vector.y
+		+ matrix.matrixData[1][3] * vector.y
+		+ matrix.matrixData[2][0] * vector.z
+		+ matrix.matrixData[2][1] * vector.z
+		+ matrix.matrixData[2][2] * vector.z
+		+ matrix.matrixData[2][3] * vector.z
+		+ matrix.matrixData[3][0] + matrix.matrixData[3][1] + matrix.matrixData[3][2] + matrix.matrixData[3][3];
+
+	Result.matrixData[3][3] =
+		matrix.matrixData[0][0] * vector.x
+		+ matrix.matrixData[0][1] * vector.x
+		+ matrix.matrixData[0][2] * vector.x
+		+ matrix.matrixData[0][3] * vector.x
+		+ matrix.matrixData[1][0] * vector.y
+		+ matrix.matrixData[1][1] * vector.y
+		+ matrix.matrixData[1][2] * vector.y
+		+ matrix.matrixData[1][3] * vector.y
+		+ matrix.matrixData[2][0] * vector.z
+		+ matrix.matrixData[2][1] * vector.z
+		+ matrix.matrixData[2][2] * vector.z
+		+ matrix.matrixData[2][3] * vector.z
+		+ matrix.matrixData[3][0] + matrix.matrixData[3][1] + matrix.matrixData[3][2] + matrix.matrixData[3][3];
 }
 
 void ObjectRenderer::updateUniformBuffer(Camera camera)
@@ -109,7 +164,7 @@ void ObjectRenderer::updateUniformBuffer(Camera camera)
 
 	ubo.proj = camera.getprojectionMatrix();
 
-	ubo.proj.matrixData[5] *= -1;
+	ubo.proj.matrixData[1][1] *= -1;
 
 	void *data;
 

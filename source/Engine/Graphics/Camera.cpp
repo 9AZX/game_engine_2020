@@ -21,18 +21,19 @@ Engine::Math::Matrix4 ourLookAt(Engine::Math::Vector3 eye, Engine::Math::Vector3
     Engine::Math::Vector3 u(cross(s, f));
 
     Engine::Math::Matrix4 Result = Engine::Math::Matrix4(1.0);
-    Result.matrixData[0] = s.x;
-    Result.matrixData[4] = s.y;
-    Result.matrixData[8] = s.z;
-    Result.matrixData[1] = u.x;
-    Result.matrixData[5] = u.y;
-    Result.matrixData[9] = u.z;
-    Result.matrixData[2] = -f.x;
-    Result.matrixData[6] = -f.y;
-    Result.matrixData[10] = -f.z;
-    Result.matrixData[12] = -s.dot(eye);
-    Result.matrixData[13] = -u.dot(eye);
-    Result.matrixData[14] = f.dot(eye);
+
+    Result.matrixData[0][0] = s.x;
+    Result.matrixData[1][0] = s.y;
+    Result.matrixData[2][0] = s.z;
+    Result.matrixData[0][1] = u.x;
+    Result.matrixData[1][1] = u.y;
+    Result.matrixData[2][1] = u.z;
+    Result.matrixData[0][2] = -f.x;
+    Result.matrixData[1][2] = -f.y;
+    Result.matrixData[2][2] = -f.z;
+    Result.matrixData[3][0] = -s.dot(eye);
+    Result.matrixData[3][1] = -u.dot(eye);
+    Result.matrixData[3][2] = f.dot(eye);
     return Result;
 }
 
@@ -40,11 +41,11 @@ Engine::Math::Matrix4 ourPerspective(float fovy, float aspect, float zNear, floa
 {
     auto tanD = tan(fovy / 2.0);
     Engine::Math::Matrix4 Result = Engine::Math::Matrix4(0.0);
-    Result.matrixData[0] = 1.0 / (aspect * tanD);
-    Result.matrixData[5] = 1.0 / (tanD);
-    Result.matrixData[10] = zFar / (zNear - zFar);
-    Result.matrixData[11] = -1.0;
-    Result.matrixData[14] = -(zFar * zNear) / (zFar - zNear);
+    Result.matrixData[0][0] = 1.0 / (aspect * tanD);
+    Result.matrixData[1][1] = 1.0 / (tanD);
+    Result.matrixData[2][2] = zFar / (zNear - zFar);
+    Result.matrixData[2][3] = -1.0;
+    Result.matrixData[3][2] = -(zFar * zNear) / (zFar - zNear);
     return Result;
 }
 
