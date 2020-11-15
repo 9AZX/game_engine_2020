@@ -1,6 +1,6 @@
-#include "GraphicsPipeline.hpp"
-#include "Utils.hpp"
-#include "Graphics/Vertex.hpp"
+#include "Engine/Graphics/GraphicsPipeline.hpp"
+#include "Engine/Utils.hpp"
+#include "Engine/Graphics/Vertex.hpp"
 
 Engine::GraphicsPipeline::GraphicsPipeline(std::shared_ptr<Device> device, std::shared_ptr<Renderpass> renderPass) : _device(device), _renderPass(renderPass)
 {
