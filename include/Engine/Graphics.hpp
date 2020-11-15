@@ -13,7 +13,6 @@ namespace Engine {
 class Graphics
 {
 public:
-    Graphics(std::string name, std::shared_ptr<Engine::Window> window);
     Graphics() {}
     Graphics(
         std::string name,
