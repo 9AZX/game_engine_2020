@@ -16,7 +16,6 @@ void RenderTarget::createViewsAndFramebuffer(std::vector<vk::Image> swapChainIma
 
 void RenderTarget::createImageViews(vk::Format swapChainImageFormat)
 {
-
 	swapChainImageViews.resize(_swapChainImages.size());
 
 	for (size_t i = 0; i < _swapChainImages.size(); i++) {
