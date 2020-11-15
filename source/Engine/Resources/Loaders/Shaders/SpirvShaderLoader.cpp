@@ -25,11 +25,14 @@ std::unique_ptr<Engine::Resource> Engine::SpirvShaderLoader::load(
         return nullptr;
     }
 
-    std::size_t fileSize = (std::size_t) file.tellg();
-    std::vector<char> buffer(fileSize);
+    std::size_t fileSize = static_cast<std::size_t>(file.tellg());
+    std::size_t bufferSize = static_cast<std::size_t>(
+        std::floor(fileSize / sizeof(unsigned int))
+    );
+    std::vector<unsigned int> buffer(bufferSize);
 
     file.seekg(0);
-    file.read(buffer.data(), fileSize);
+    file.read(reinterpret_cast<char *>(buffer.data()), fileSize);
     file.close();
 
     return std::make_unique<ShaderResource>(
