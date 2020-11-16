@@ -1,20 +1,19 @@
 #include "Engine/Graphics/RenderTarget.hpp"
 #include "Engine/Graphics/VkTools.hpp"
 
-RenderTarget::RenderTarget() {}
-
-RenderTarget::~RenderTarget() {}
-
-void RenderTarget::createViewsAndFramebuffer(std::vector<vk::Image> swapChainImages, vk::Format swapChainImageFormat, vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass)
+Engine::RenderTarget::RenderTarget(std::shared_ptr<Swapchain> gSwapChain, vk::RenderPass renderPass) : _swapChain(gSwapChain)
 {
-	_swapChainImages = swapChainImages;
-	_swapChainImageExtent = swapChainImageExtent;
+	_swapChainImages = _swapChain->swapChainImages;
+	_swapChainImageExtent = _swapChain->swapChainImageExtent;
 
-	createImageViews(swapChainImageFormat);
-	createFrameBuffer(swapChainImageExtent, renderPass);
+	createImageViews(_swapChain->swapChainImageFormat);
+	createFrameBuffer(_swapChain->swapChainImageExtent, renderPass);
 }
 
-void RenderTarget::createImageViews(vk::Format swapChainImageFormat)
+Engine::RenderTarget::~RenderTarget() {}
+
+
+void Engine::RenderTarget::createImageViews(vk::Format swapChainImageFormat)
 {
 	swapChainImageViews.resize(_swapChainImages.size());
 
@@ -24,7 +23,7 @@ void RenderTarget::createImageViews(vk::Format swapChainImageFormat)
 	}
 }
 
-void RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass) {
+void Engine::RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass) {
 
 	swapChainFramebuffers.resize(swapChainImageViews.size());
 
@@ -47,7 +46,7 @@ void RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::Rend
 	}
 }
 
-void RenderTarget::destroy()
+void Engine::RenderTarget::destroy()
 {
 	for (auto &imageView : swapChainImageViews) {
 		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyImageView(imageView.get());

@@ -1,17 +1,12 @@
 #include "Engine/Graphics/Renderpass.hpp"
 #include "Engine/Graphics.hpp"
+#include <iostream>
 
-Renderpass::Renderpass() {}
-
-
-Renderpass::~Renderpass() {}
-
-
-void Renderpass::createRenderPass(vk::Format swapChainImageFormat)
+Engine::Renderpass::Renderpass(std::shared_ptr<Engine::Device> gDevice, std::shared_ptr<Engine::Swapchain> gSwapChain)
+	:_device(gDevice), _swapchain(gSwapChain)
 {
-	std::array<vk::AttachmentDescription, 1> attachmentDescriptions;
-	attachmentDescriptions[0] = vk::AttachmentDescription(vk::AttachmentDescriptionFlags(),
-		swapChainImageFormat,
+	vk::AttachmentDescription colorAttachment(vk::AttachmentDescriptionFlags(),
+		_swapchain->swapChainImageFormat,
 		vk::SampleCountFlagBits::e1,
 		vk::AttachmentLoadOp::eClear,
 		vk::AttachmentStoreOp::eStore,
@@ -24,11 +19,16 @@ void Renderpass::createRenderPass(vk::Format swapChainImageFormat)
 	vk::SubpassDescription subpass(
 		vk::SubpassDescriptionFlags(), vk::PipelineBindPoint::eGraphics, {}, colorReference);
 
-	Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createRenderPassUnique(
-		vk::RenderPassCreateInfo(vk::RenderPassCreateFlags(), attachmentDescriptions, subpass));
+	std::array<vk::AttachmentDescription, 1> attachment = { colorAttachment };
+
+	renderPass = _device->getUniqueDevice()->get().createRenderPass(
+		vk::RenderPassCreateInfo(vk::RenderPassCreateFlags(), attachment, subpass));
 }
 
-void Renderpass::beginRenderPass(std::array<vk::ClearValue, 1> clearValues,
+Engine::Renderpass::~Renderpass() {}
+
+
+void Engine::Renderpass::beginRenderPass(std::array<vk::ClearValue, 1> clearValues,
 	vk::CommandBuffer commandBuffer,
 	vk::Framebuffer swapChainFrameBuffer,
 	vk::Extent2D swapChainImageExtent)
@@ -46,12 +46,12 @@ void Renderpass::beginRenderPass(std::array<vk::ClearValue, 1> clearValues,
 	commandBuffer.beginRenderPass(brp, vk::SubpassContents::eInline);
 }
 
-void Renderpass::endRenderPass(VkCommandBuffer commandBuffer)
+void Engine::Renderpass::endRenderPass(VkCommandBuffer commandBuffer)
 {
 	vkCmdEndRenderPass(commandBuffer);
 }
 
-void Renderpass::destroy()
+void Engine::Renderpass::destroy()
 {
-	vkDestroyRenderPass(Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get(), renderPass, nullptr);
+	vkDestroyRenderPass(_device->getUniqueDevice()->get(), renderPass, nullptr);
 }

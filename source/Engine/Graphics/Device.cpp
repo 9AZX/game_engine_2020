@@ -57,3 +57,8 @@ std::shared_ptr<vk::UniqueDevice> Engine::Device::getUniqueDevice()
 {
     return _uniqueDevice;
 }
+
+size_t Engine::Device::getGraphicsQueueFamilyIndex()
+{
+    return graphicsQueueFamilyIndex;
+}

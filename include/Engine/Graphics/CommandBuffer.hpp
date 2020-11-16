@@ -3,10 +3,14 @@
 #include <vulkan\vulkan.hpp>
 #include <vector>
 
+#include "Engine/Graphics/Device.hpp"
+
+namespace Engine
+{
 class CommandBuffer
 {
 public:
-	CommandBuffer();
+	CommandBuffer(std::shared_ptr<Engine::Device> device);
 	~CommandBuffer();
 	vk::UniqueCommandPool commandPool;
 	std::vector<vk::CommandBuffer> commandBuffers;
@@ -16,4 +20,9 @@ public:
 	void createCommandPool();
 	void allocateCommandBuffers(size_t imageCount);
 	void destroy();
+
+private:
+	std::shared_ptr<Engine::Device> _device;
 };
+
+}

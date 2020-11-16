@@ -33,9 +33,11 @@ public:
         return queueFamiliyIndices;
     }
 
-    size_t graphicsQueueFamilyIndex;
+    size_t getGraphicsQueueFamilyIndex();
+
     vk::Queue graphicsQueue;
     vk::Queue presentQueue;
+    size_t graphicsQueueFamilyIndex;
 private:
     QueueFamilyIndices queueFamiliyIndices;
     std::shared_ptr<vk::PhysicalDevice> _physicalDevice; // Physical device

@@ -1,8 +1,9 @@
 #include "Engine/Graphics/VkTools.hpp"
 #include "Engine/Graphics/Device.hpp"
 
+
 namespace vkTools {
-	vk::UniqueImageView createImageViewCPP(vk::Image image, vk::Format format, vk::ImageAspectFlagBits aspectFlags)
+	vk::UniqueImageView createImageView(vk::Image image, vk::Format format, vk::ImageAspectFlagBits aspectFlags)
 	{
 		vk::ComponentMapping componentMapping(
 			vk::ComponentSwizzle::eR, vk::ComponentSwizzle::eG, vk::ComponentSwizzle::eB, vk::ComponentSwizzle::eA);
@@ -58,7 +59,7 @@ namespace vkTools {
 		return commandBuffer;
 	}
 
-	void endSingleTimeCommandsCPP(vk::UniqueCommandBuffer &commandBuffer, 
+	void endSingleTimeCommands(vk::UniqueCommandBuffer &commandBuffer, 
 		vk::UniqueCommandPool commandPool)
 	{
 		commandBuffer->end();
@@ -82,7 +83,7 @@ namespace vkTools {
 		vk::BufferCopy copyRegion(0, 0, size);
 		commandBuffer->copyBuffer(srcBuffer, dstBuffer, 1, &copyRegion);
 
-		endSingleTimeCommandsCPP(commandBuffer, std::move(commandPool));
+		endSingleTimeCommands(commandBuffer, std::move(commandPool));
 		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().destroyCommandPool(commandPool.get(), nullptr);
 	}
 }

@@ -128,6 +128,8 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
         vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, format, componentMapping, subResourceRange);
     imageViews.push_back(_device->getUniqueDevice()->get().createImageViewUnique(imageViewCreateInfo));
   }
+  swapChainImageFormat = format;
+  this->swapChainImageExtent = swapchainExtent;
 }
 
 Engine::Swapchain::~Swapchain()
