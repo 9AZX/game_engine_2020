@@ -115,7 +115,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
 
   vk::UniqueSwapchainKHR swapChain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
 
-  std::vector<vk::Image> swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapChain.get());
+  /*std::vector<vk::Image> */swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapChain.get());
 
   std::vector<vk::UniqueImageView> imageViews;
   imageViews.reserve(swapChainImages.size());

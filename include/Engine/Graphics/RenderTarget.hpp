@@ -8,13 +8,14 @@
 #include <array>
 
 #include "Engine/Graphics/Swapchain.hpp"
+#include "Engine/Graphics/Device.hpp"
 
 namespace Engine
 {
 class RenderTarget
 {
 public:
-    RenderTarget(std::shared_ptr<Swapchain> gSwapChain, vk::RenderPass renderPass);
+    RenderTarget(std::shared_ptr<Swapchain> gSwapChain, vk::RenderPass renderPass, std::shared_ptr<Device> gdevice);
     ~RenderTarget();
 
 	std::vector<vk::Image> _swapChainImages;
@@ -30,6 +31,7 @@ public:
 
 private:
 	std::shared_ptr<Swapchain> _swapChain;
+	std::shared_ptr<Device> _device;
 };
 }
 

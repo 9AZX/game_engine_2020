@@ -3,13 +3,13 @@
 
 
 namespace vkTools {
-	vk::UniqueImageView createImageView(vk::Image image, vk::Format format, vk::ImageAspectFlagBits aspectFlags)
+	vk::UniqueImageView createImageView(vk::Image image, vk::Format format, vk::ImageAspectFlagBits aspectFlags, std::shared_ptr<Engine::Device> gdevice)
 	{
 		vk::ComponentMapping componentMapping(
 			vk::ComponentSwizzle::eR, vk::ComponentSwizzle::eG, vk::ComponentSwizzle::eB, vk::ComponentSwizzle::eA);
 		vk::ImageViewCreateInfo viewInfo(vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, format, componentMapping, vk::ImageSubresourceRange(aspectFlags, 0, 1, 0, 1));
 
-		return Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createImageViewUnique(viewInfo);
+		return gdevice->getUniqueDevice()->get().createImageViewUnique(viewInfo);
 	}
 
 	void createBuffer(vk::DeviceSize size, 

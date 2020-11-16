@@ -1,5 +1,8 @@
 #include "Engine/Graphics.hpp"
 
+#include <filesystem>
+#include <fstream>
+
 std::shared_ptr<Engine::Graphics> Engine::Graphics::graphics = nullptr;
 
 Engine::Graphics::Graphics(
@@ -20,17 +23,18 @@ Engine::Graphics::Graphics(
     gRenderpass = std::make_shared<Renderpass>(gDevice, gSwapChain);
 
     gGraphicsPipeline = std::make_shared<GraphicsPipeline>(gDevice, gRenderpass);
-
+    auto i = getInstance();
     std::string name = "vert";
     std::vector<unsigned int> v(10, 10);
-    Engine::ShaderResource shader1(name, "C:/Users/CHAUVIN/source/repos/C++Vulkan/vert.spv", v);
+    std::filesystem::path vert = "C:\\Users\\CHAUVIN\\ource\\repos\\C++Vulkan\\vert.spv";
+    Engine::ShaderResource shader1(name, "C:\\Users\\CHAUVIN\\source\\repos\\C++Vulkan\\vert.spv", v);
     Engine::ShaderResource shader2(name, "C:/Users/CHAUVIN/source/repos/C++Vulkan/frag.spv", v);
     gGraphicsPipeline->createGraphicsPipeline(&shader1, &shader2);
 
-    gRenderTarget = std::make_shared<RenderTarget>(gSwapChain, gRenderpass->renderPass);
+    gRenderTarget = std::make_shared<RenderTarget>(gSwapChain, gRenderpass->renderPass, gDevice);
 
 
-    gDescriptor = std::shared_ptr<Descriptor>();
+    gDescriptor = std::make_shared<Descriptor>(gDevice);
     gDescriptor->createDescriptorLayoutSetPoolAndAllocate(gSwapChain->swapChainImages.size());
 
 
@@ -55,7 +59,7 @@ std::shared_ptr<Engine::Graphics> Engine::Graphics::getInstance()
 {
     if (!graphics)
     {
-        graphics = std::make_shared<Graphics>();
+        graphics = std::shared_ptr<Graphics>();
     }
     return graphics;
 }
