@@ -27,9 +27,9 @@ void ObjectRenderer::createObjectRenderer(Engine::Mesh modelType, Engine::Math::
 	scale = _scale;
 }
 
-void ObjectRenderer::draw()
+void ObjectRenderer::draw(/*vk::UniqueCommandBuffer commndbuffer*/)
 {
-	vk::UniqueCommandBuffer cBuffer = std::move(Engine::Graphics::getInstance()->currentCommandBuffer);
+	vk::UniqueCommandBuffer cBuffer/* = commndbuffer*/;
 	cBuffer->bindPipeline(vk::PipelineBindPoint::eGraphics, gPipeline._graphicsPipeline.get());
 
 	vk::Buffer vertexBuffers[] = {objBuffers.vertexBuffer.get()};

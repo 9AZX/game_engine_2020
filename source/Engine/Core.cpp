@@ -36,9 +36,11 @@ void Engine::Core::init() noexcept
     _graphics = std::make_shared<Graphics>(_gameName, _window, true);
 }
 
-void Engine::Core::run() noexcept
+void Engine::Core::update() noexcept
 {
+    _graphics->DrawStart();
     _window->run();
+    _graphics->DrawEnd();
 }
 
 std::shared_ptr<Engine::ResourceManager> Engine::Core::getResourceManager() noexcept

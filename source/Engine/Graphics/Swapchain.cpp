@@ -64,7 +64,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
 
   std::vector<vk::SurfaceFormatKHR> formats = _device->getPhysicalDevice().get()->getSurfaceFormatsKHR(surface.get());
   assert(!formats.empty());
-  vk::Format format =
+  swapChainImageFormat =
       (formats[0].format == vk::Format::eUndefined) ? vk::Format::eB8G8R8A8Unorm : formats[0].format;
 
   vk::SurfaceCapabilitiesKHR surfaceCapabilities = _device->getPhysicalDevice().get()->getSurfaceCapabilitiesKHR(surface.get());
@@ -91,7 +91,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
   vk::SwapchainCreateInfoKHR swapChainCreateInfo(vk::SwapchainCreateFlagsKHR(),
                                                  surface.get(),
                                                  surfaceCapabilities.minImageCount,
-                                                 format,
+                                                 swapChainImageFormat,
                                                  vk::ColorSpaceKHR::eSrgbNonlinear,
                                                  swapchainExtent,
                                                  1,
@@ -113,11 +113,10 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     swapChainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
   }
 
-  vk::UniqueSwapchainKHR swapChain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
+  /*vk::UniqueSwapchainKHR */swapchain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
 
-  /*std::vector<vk::Image> */swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapChain.get());
+  /*std::vector<vk::Image> */swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapchain.get());
 
-  std::vector<vk::UniqueImageView> imageViews;
   imageViews.reserve(swapChainImages.size());
   vk::ComponentMapping componentMapping(
       vk::ComponentSwizzle::eR, vk::ComponentSwizzle::eG, vk::ComponentSwizzle::eB, vk::ComponentSwizzle::eA);
@@ -125,10 +124,10 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
   for (auto image : swapChainImages)
   {
     vk::ImageViewCreateInfo imageViewCreateInfo(
-        vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, format, componentMapping, subResourceRange);
+        vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, swapChainImageFormat, componentMapping, subResourceRange);
     imageViews.push_back(_device->getUniqueDevice()->get().createImageViewUnique(imageViewCreateInfo));
   }
-  swapChainImageFormat = format;
+  //swapChainImageFormat = format;
   this->swapChainImageExtent = swapchainExtent;
 }
 

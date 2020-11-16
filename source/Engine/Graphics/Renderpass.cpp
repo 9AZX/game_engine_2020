@@ -16,6 +16,7 @@ Engine::Renderpass::Renderpass(std::shared_ptr<Engine::Device> gDevice, std::sha
 		vk::ImageLayout::ePresentSrcKHR);
 
 	vk::AttachmentReference colorReference(0, vk::ImageLayout::eColorAttachmentOptimal);
+	uint32_t inputAttachmentCount_ = 1;
 	vk::SubpassDescription subpass(
 		vk::SubpassDescriptionFlags(), vk::PipelineBindPoint::eGraphics, {}, colorReference);
 

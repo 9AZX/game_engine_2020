@@ -27,6 +27,9 @@ public:
     );
     ~Graphics();
 
+    void DrawStart();
+    void DrawEnd();
+
     std::shared_ptr<Instance> gInstance;
     std::shared_ptr<Device> gDevice;
     std::shared_ptr<Swapchain> gSwapChain;
@@ -47,8 +50,8 @@ public:
 
     std::shared_ptr<Swapchain> getSwapchain();
     std::shared_ptr<Renderpass> getRenderpass();
-    vk::UniqueCommandBuffer currentCommandBuffer;
 
+    vk::CommandBuffer currentCommandBuffer;
 private:
     bool _enableDebugging;
     std::string _appName;
@@ -56,6 +59,7 @@ private:
     std::shared_ptr<Engine::Window> _window;
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
+    uint32_t indexImage = 0;
     std::vector<vk::Fence> inFlightFences;
     vk::Semaphore imageAvailableSemaphore;
     vk::Semaphore renderFinishedSemaphore;
