@@ -21,8 +21,8 @@ public:
 	vk::DeviceMemory uniformBuffersMemory;
 	void createVertexIndexUniformsBuffers(Engine::Mesh modelType);
 	void destroy();
+	void createUniformBuffers();
 private:
 	void createVertexBuffer();
 	void createIndexBuffer();
-	void createUniformBuffers();
 };

@@ -4,24 +4,14 @@
 
 Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device) : _window(window), _instance(instance), _device(device)
 {
-  vk::UniqueSurfaceKHR surface;
-  {
-    VkSurfaceKHR _surface;
-    vk::ObjectDestroy<vk::Instance, VULKAN_HPP_DEFAULT_DISPATCHER_TYPE> _deleter(_instance->getInstance()->get());
+  VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
+  surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+  surfaceCreateInfo.hinstance = _window->getHinstance();
+  surfaceCreateInfo.hwnd = _window->getHwnd();
+  surfaceCreateInfo.pNext = NULL;
+  surfaceCreateInfo.flags = 0;
+  surface = _instance->getInstance()->get().createWin32SurfaceKHRUnique(surfaceCreateInfo);
 
-    VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
-    surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-    surfaceCreateInfo.hinstance = _window->getHinstance();
-    surfaceCreateInfo.hwnd = _window->getHwnd();
-    surfaceCreateInfo.pNext = NULL;
-    surfaceCreateInfo.flags = 0;
-    VkResult result = vkCreateWin32SurfaceKHR(_instance->getInstance()->get(), &surfaceCreateInfo, nullptr, &_surface);
-    if (result != VK_SUCCESS)
-    {
-      throw std::runtime_error("failed to create window surface!");
-    }
-    surface = vk::UniqueSurfaceKHR(vk::SurfaceKHR(_surface), _deleter);
-  }
   std::vector<vk::QueueFamilyProperties>
       queueFamilyProperties = _device->getPhysicalDevice().get()->getQueueFamilyProperties();
 
@@ -64,7 +54,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
 
   std::vector<vk::SurfaceFormatKHR> formats = _device->getPhysicalDevice().get()->getSurfaceFormatsKHR(surface.get());
   assert(!formats.empty());
-  vk::Format format =
+  swapChainImageFormat =
       (formats[0].format == vk::Format::eUndefined) ? vk::Format::eB8G8R8A8Unorm : formats[0].format;
 
   vk::SurfaceCapabilitiesKHR surfaceCapabilities = _device->getPhysicalDevice().get()->getSurfaceCapabilitiesKHR(surface.get());
@@ -91,7 +81,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
   vk::SwapchainCreateInfoKHR swapChainCreateInfo(vk::SwapchainCreateFlagsKHR(),
                                                  surface.get(),
                                                  surfaceCapabilities.minImageCount,
-                                                 format,
+                                                 swapChainImageFormat,
                                                  vk::ColorSpaceKHR::eSrgbNonlinear,
                                                  swapchainExtent,
                                                  1,
@@ -112,12 +102,17 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     swapChainCreateInfo.queueFamilyIndexCount = 2;
     swapChainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
   }
+  else
+  {
+    swapChainCreateInfo.imageSharingMode = vk::SharingMode::eExclusive;
+    swapChainCreateInfo.queueFamilyIndexCount = 0;
+    swapChainCreateInfo.pQueueFamilyIndices = nullptr;
+  }
 
-  vk::UniqueSwapchainKHR swapChain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
+  swapchain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
 
-  std::vector<vk::Image> swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapChain.get());
+  swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapchain.get());
 
-  std::vector<vk::UniqueImageView> imageViews;
   imageViews.reserve(swapChainImages.size());
   vk::ComponentMapping componentMapping(
       vk::ComponentSwizzle::eR, vk::ComponentSwizzle::eG, vk::ComponentSwizzle::eB, vk::ComponentSwizzle::eA);
@@ -125,9 +120,10 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
   for (auto image : swapChainImages)
   {
     vk::ImageViewCreateInfo imageViewCreateInfo(
-        vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, format, componentMapping, subResourceRange);
+        vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, swapChainImageFormat, componentMapping, subResourceRange);
     imageViews.push_back(_device->getUniqueDevice()->get().createImageViewUnique(imageViewCreateInfo));
   }
+  this->swapChainImageExtent = swapchainExtent;
 }
 
 Engine::Swapchain::~Swapchain()

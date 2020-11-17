@@ -26,6 +26,7 @@ namespace Engine
         vk::UniqueShaderModule _fragmentShaderModule;
 
         vk::UniqueShaderModule _createShadermodule(const std::vector<unsigned int> &code);
+        vk::UniqueShaderModule _createShadermodule(const std::vector<char> &code);
     };
 } // namespace Engine
 

@@ -13,5 +13,10 @@ int main(void)
         }
     );
     core.getResourceManager()->loadResources();
-    core.run();
+
+    while (1)
+    {
+
+        core.update();
+    }
 }

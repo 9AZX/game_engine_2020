@@ -9,8 +9,8 @@ Engine::Window::Window(std::string windowName, int width, int height) : _windowN
 void Engine::Window::run()
 {
     MSG msg;
-    while (isWindowsClosed == false)
-    {
+    /*while (isWindowsClosed == false)
+    {*/
         while (PeekMessage(&msg, _hWnd, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
@@ -22,7 +22,7 @@ void Engine::Window::run()
         {
             //drawFrame();
         }
-    }
+    //}
     //vkDeviceWaitIdle(device);
 }
 
