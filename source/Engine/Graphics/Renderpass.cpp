@@ -30,7 +30,7 @@ Engine::Renderpass::~Renderpass() {}
 
 
 void Engine::Renderpass::beginRenderPass(std::array<vk::ClearValue, 1> clearValues,
-	vk::CommandBuffer commandBuffer,
+	vk::CommandBuffer &commandBuffer,
 	vk::Framebuffer swapChainFrameBuffer,
 	vk::Extent2D swapChainImageExtent)
 {
@@ -47,9 +47,9 @@ void Engine::Renderpass::beginRenderPass(std::array<vk::ClearValue, 1> clearValu
 	commandBuffer.beginRenderPass(brp, vk::SubpassContents::eInline);
 }
 
-void Engine::Renderpass::endRenderPass(VkCommandBuffer commandBuffer)
+void Engine::Renderpass::endRenderPass(vk::CommandBuffer &commandBuffer)
 {
-	vkCmdEndRenderPass(commandBuffer);
+	commandBuffer.endRenderPass();
 }
 
 void Engine::Renderpass::destroy()

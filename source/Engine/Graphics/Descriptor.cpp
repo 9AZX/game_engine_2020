@@ -60,8 +60,6 @@ void Engine::Descriptor::createDescriptorSetLayout()
 
     layoutCreateInfo.setBindings(layoutBindings);
 
-    //vk::Device device = Engine::Graphics::getInstance()->gDevice->getUniqueDevice()->get();
-
     descriptorSetLayout = _device->getUniqueDevice()->get().createDescriptorSetLayout(layoutCreateInfo);
 }
 
@@ -69,28 +67,21 @@ void Engine::Descriptor::createDescriptorPoolAndAllocateSets(
     std::uint32_t swapchainImageCount
 ) {
     //vk::Device device = _device->getUniqueDevice()->get();
-    //std::array<vk::DescriptorPoolSize, 1> poolSizes {};
-    std::vector<vk::DescriptorPoolSize> const& poolSizes = { { vk::DescriptorType::eUniformBuffer, 1 } };
-    /*poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
-    poolSizes[0].descriptorCount = swapchainImageCount;*/
-    uint32_t maxSets =
-        std::accumulate(poolSizes.begin(), poolSizes.end(), 0, [](uint32_t sum, vk::DescriptorPoolSize const& dps) {
-        return sum + dps.descriptorCount;
-            });
-    //vk::DescriptorPoolCreateInfo poolCreateInfo {};
+    std::array<vk::DescriptorPoolSize, 1> poolSizes {};
+    poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
+    poolSizes[0].descriptorCount = swapchainImageCount;
+    vk::DescriptorPoolCreateInfo poolCreateInfo {};
 
-    //poolCreateInfo.setPoolSizes(poolSizes);
-    ////poolCreateInfo.sType = vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet;
-    //poolCreateInfo.maxSets = swapchainImageCount;
-    //poolCreateInfo.pPoolSizes = poolSizes.data();
-    //poolCreateInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
+    poolCreateInfo.setPoolSizes(poolSizes);
+    //poolCreateInfo.sType = vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet;
+    poolCreateInfo.maxSets = swapchainImageCount;
+    poolCreateInfo.pPoolSizes = poolSizes.data();
+    poolCreateInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
 
-    vk::DescriptorPoolCreateInfo poolCreateInfo(
-        vk::DescriptorPoolCreateFlags(), maxSets, poolSizes);
 
     descriptorPool = _device->getUniqueDevice()->get().createDescriptorPool(poolCreateInfo);
 
-    std::vector<vk::DescriptorSetLayout> layouts(maxSets, descriptorSetLayout);
+    std::vector<vk::DescriptorSetLayout> layouts(swapchainImageCount, descriptorSetLayout);
     vk::DescriptorSetAllocateInfo allocateInfo;
 
     allocateInfo.descriptorPool = descriptorPool;

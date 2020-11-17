@@ -58,10 +58,9 @@ Engine::Graphics::~Graphics()
 
 void Engine::Graphics::DrawStart()
 {
-    vk::ResultValue<uint32_t> 
         currentBuffer = gDevice->getUniqueDevice()->get().acquireNextImageKHR(
             gSwapChain->swapchain.get(),
-            std::numeric_limits<uint64_t>::max(),
+            100000000,
             imageAvailableSemaphore,
             nullptr
             );
@@ -84,13 +83,26 @@ void Engine::Graphics::DrawEnd()
 {
     gRenderpass->endRenderPass(currentCommandBuffer);
     gCommandBuffer->endCommandBuffer(currentCommandBuffer);
-
     vk::PipelineStageFlags waitDestinationStageMask(vk::PipelineStageFlagBits::eColorAttachmentOutput);
-    vk::SubmitInfo submitInfo(imageAvailableSemaphore, waitDestinationStageMask, currentCommandBuffer);
+    vk::SubmitInfo submitInfo = {};
 
-    gDevice->graphicsQueue.submit(submitInfo, inFlightFences[indexImage]);
 
-    vk::PresentInfoKHR presentInfo({}, gSwapChain->swapchain.get(), indexImage);
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &currentCommandBuffer;
+
+    submitInfo.setPWaitDstStageMask(&waitDestinationStageMask);
+
+    submitInfo.waitSemaphoreCount = 1;
+    submitInfo.pWaitSemaphores = &imageAvailableSemaphore;
+
+    // Semaphore to be signaled when command buffers have completed
+    submitInfo.signalSemaphoreCount = 1;
+    submitInfo.pSignalSemaphores = &renderFinishedSemaphore;
+
+    //(1, imageAvailableSemaphore, waitDestinationStageMask, 1, currentCommandBuffer, 1, renderFinishedSemaphore);
+    gDevice->graphicsQueue.submit(1, &submitInfo, inFlightFences[currentBuffer]);
+
+    vk::PresentInfoKHR presentInfo({}, gSwapChain->swapchain.get(), currentBuffer);
 
     gDevice->presentQueue.presentKHR(presentInfo);
     gDevice->presentQueue.waitIdle();

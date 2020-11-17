@@ -26,16 +26,16 @@ void Engine::CommandBuffer::allocateCommandBuffers(size_t imageCount)
 {
 	commandBuffers.resize(imageCount);
 	vk::CommandBufferAllocateInfo cbInfo(commandPool.get(), vk::CommandBufferLevel::ePrimary, (uint32_t)commandBuffers.size());
-	_device->getUniqueDevice()->get().allocateCommandBuffersUnique(cbInfo);
+	commandBuffers = _device->getUniqueDevice()->get().allocateCommandBuffers(cbInfo);
 }
 
-void Engine::CommandBuffer::beginCommandBuffer(vk::CommandBuffer commandBuffer)
+void Engine::CommandBuffer::beginCommandBuffer(vk::CommandBuffer &commandBuffer)
 {
 	vk::CommandBufferBeginInfo cbBeginInfo(vk::CommandBufferUsageFlagBits::eSimultaneousUse);
 	commandBuffer.begin(cbBeginInfo);
 }
 
-void Engine::CommandBuffer::endCommandBuffer(vk::CommandBuffer commandBuffer)
+void Engine::CommandBuffer::endCommandBuffer(vk::CommandBuffer &commandBuffer)
 {
 	commandBuffer.end();
 }

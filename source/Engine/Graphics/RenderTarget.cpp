@@ -26,7 +26,7 @@ void Engine::RenderTarget::createImageViews(vk::Format swapChainImageFormat)
 
 void Engine::RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, vk::RenderPass renderPass) {
 
-	swapChainFramebuffers.resize(swapChainImageViews.size());
+	swapChainFramebuffers.resize(_swapChain->imageViews.size());
 
 	for (size_t i = 0; i < swapChainImageViews.size(); i++)
 	{
