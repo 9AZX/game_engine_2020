@@ -4,10 +4,12 @@
 #include "Engine/Graphics/UniformBufferObject.hpp"
 
 #include <array>
+#include <numeric>
 
 void Engine::Descriptor::createDescriptorLayoutSetPoolAndAllocate(
     std::uint32_t swapchainImageCount
-) {
+)
+{
     createDescriptorSetLayout();
     createDescriptorPoolAndAllocateSets(swapchainImageCount);
 }
@@ -58,26 +60,26 @@ void Engine::Descriptor::createDescriptorSetLayout()
 
     layoutCreateInfo.setBindings(layoutBindings);
 
-    vk::Device device = Engine::Graphics::getInstance()->gDevice->getUniqueDevice()->get();
-
-    descriptorSetLayout = device.createDescriptorSetLayout(layoutCreateInfo);
+    descriptorSetLayout = _device->getUniqueDevice()->get().createDescriptorSetLayout(layoutCreateInfo);
 }
 
 void Engine::Descriptor::createDescriptorPoolAndAllocateSets(
     std::uint32_t swapchainImageCount
 ) {
-    vk::Device device = Engine::Graphics::getInstance()->gDevice->getUniqueDevice()->get();
+    //vk::Device device = _device->getUniqueDevice()->get();
     std::array<vk::DescriptorPoolSize, 1> poolSizes {};
-
     poolSizes[0].type = vk::DescriptorType::eUniformBuffer;
     poolSizes[0].descriptorCount = swapchainImageCount;
-
     vk::DescriptorPoolCreateInfo poolCreateInfo {};
 
     poolCreateInfo.setPoolSizes(poolSizes);
+    //poolCreateInfo.sType = vk::DescriptorPoolCreateFlagBits::eFreeDescriptorSet;
     poolCreateInfo.maxSets = swapchainImageCount;
+    poolCreateInfo.pPoolSizes = poolSizes.data();
+    poolCreateInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
 
-    descriptorPool = device.createDescriptorPool(poolCreateInfo);
+
+    descriptorPool = _device->getUniqueDevice()->get().createDescriptorPool(poolCreateInfo);
 
     std::vector<vk::DescriptorSetLayout> layouts(swapchainImageCount, descriptorSetLayout);
     vk::DescriptorSetAllocateInfo allocateInfo;
@@ -85,7 +87,7 @@ void Engine::Descriptor::createDescriptorPoolAndAllocateSets(
     allocateInfo.descriptorPool = descriptorPool;
     allocateInfo.setSetLayouts(layouts);
 
-    auto descriptorSetResult = device.allocateDescriptorSets(allocateInfo);
+    auto descriptorSetResult = _device->getUniqueDevice()->get().allocateDescriptorSets(allocateInfo);
 
     descriptorSet = descriptorSetResult[0];
 }

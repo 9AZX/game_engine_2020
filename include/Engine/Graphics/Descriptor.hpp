@@ -4,11 +4,16 @@
 #include <cstdint>
 #include <vulkan/vulkan.hpp>
 
+#include "Engine/Graphics/Device.hpp"
+
 namespace Engine {
 
 class Descriptor {
     public:
-        Descriptor() = default;
+        Descriptor(std::shared_ptr<Device> device) :_device(device)
+        {
+
+        }
         ~Descriptor() = default;
 
         vk::DescriptorSetLayout descriptorSetLayout;
@@ -30,6 +35,7 @@ class Descriptor {
         void createDescriptorPoolAndAllocateSets(
             std::uint32_t swapchainImageCount
         );
+        std::shared_ptr<Device> _device;
 }; /* class Descriptor */
 
 } /* namespace Engine */

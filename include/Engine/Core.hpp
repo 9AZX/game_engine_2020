@@ -18,7 +18,7 @@ class Core {
         ~Core() = default;
 
         void init() noexcept;
-        void run() noexcept;
+        void update() noexcept;
 
         std::shared_ptr<ResourceManager> getResourceManager() noexcept;
 
