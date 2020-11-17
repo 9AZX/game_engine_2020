@@ -4,22 +4,14 @@
 
 Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device) : _window(window), _instance(instance), _device(device)
 {
-    //VkSurfaceKHR _surface2;
-    //vk::ObjectDestroy<vk::Instance, VULKAN_HPP_DEFAULT_DISPATCHER_TYPE> _deleter(_instance->getInstance()->get());
+  VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
+  surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+  surfaceCreateInfo.hinstance = _window->getHinstance();
+  surfaceCreateInfo.hwnd = _window->getHwnd();
+  surfaceCreateInfo.pNext = NULL;
+  surfaceCreateInfo.flags = 0;
+  surface = _instance->getInstance()->get().createWin32SurfaceKHRUnique(surfaceCreateInfo);
 
-    VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
-    surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-    surfaceCreateInfo.hinstance = _window->getHinstance();
-    surfaceCreateInfo.hwnd = _window->getHwnd();
-    surfaceCreateInfo.pNext = NULL;
-    surfaceCreateInfo.flags = 0;
-    //VkResult result = vkCreateWin32SurfaceKHR(_instance->getInstance()->get(), &surfaceCreateInfo, nullptr, &_surface2);
-    surface = _instance->getInstance()->get().createWin32SurfaceKHRUnique(surfaceCreateInfo);
-    /*if (result != VK_SUCCESS)
-    {
-      throw std::runtime_error("failed to create window surface!");
-    }*/
-    //surface = vk::UniqueSurfaceKHR(vk::SurfaceKHR(_surface2), _deleter);
   std::vector<vk::QueueFamilyProperties>
       queueFamilyProperties = _device->getPhysicalDevice().get()->getQueueFamilyProperties();
 
@@ -110,15 +102,16 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     swapChainCreateInfo.queueFamilyIndexCount = 2;
     swapChainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
   }
-  else {
-      swapChainCreateInfo.imageSharingMode = vk::SharingMode::eExclusive;
-      swapChainCreateInfo.queueFamilyIndexCount = 0;
-      swapChainCreateInfo.pQueueFamilyIndices = nullptr;
+  else
+  {
+    swapChainCreateInfo.imageSharingMode = vk::SharingMode::eExclusive;
+    swapChainCreateInfo.queueFamilyIndexCount = 0;
+    swapChainCreateInfo.pQueueFamilyIndices = nullptr;
   }
 
-  /*vk::UniqueSwapchainKHR */swapchain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
+  swapchain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
 
-  /*std::vector<vk::Image> */swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapchain.get());
+  swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapchain.get());
 
   imageViews.reserve(swapChainImages.size());
   vk::ComponentMapping componentMapping(
@@ -130,7 +123,6 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
         vk::ImageViewCreateFlags(), image, vk::ImageViewType::e2D, swapChainImageFormat, componentMapping, subResourceRange);
     imageViews.push_back(_device->getUniqueDevice()->get().createImageViewUnique(imageViewCreateInfo));
   }
-  //swapChainImageFormat = format;
   this->swapChainImageExtent = swapchainExtent;
 }
 

@@ -8,11 +8,9 @@ std::shared_ptr<Engine::Graphics> Engine::Graphics::graphics = nullptr;
 Engine::Graphics::Graphics(
     std::string _gameName,
     std::shared_ptr<Engine::Window> window,
-    bool enableDebugging
-):
-    _appName(_gameName),
-    _window(window),
-    _enableDebugging(enableDebugging)
+    bool enableDebugging) : _appName(_gameName),
+                            _window(window),
+                            _enableDebugging(enableDebugging)
 {
 
     gInstance = std::make_shared<Instance>(_gameName, _enableDebugging);
@@ -26,23 +24,19 @@ Engine::Graphics::Graphics(
     auto i = getInstance();
     std::string name = "vert";
     std::vector<unsigned int> v(10, 10);
-    std::filesystem::path vert = "C:\\Users\\CHAUVIN\\source\\repos\\C++Vulkan\\vert.spv";
-    Engine::ShaderResource shader1(name, "C:\\Users\\CHAUVIN\\source\\repos\\C++Vulkan\\vert.spv", v);
-    Engine::ShaderResource shader2(name, "C:/Users/CHAUVIN/source/repos/C++Vulkan/frag.spv", v);
+    std::filesystem::path vert = "vert.spv";
+    Engine::ShaderResource shader1(name, "Shader/vert.spv", v);
+    Engine::ShaderResource shader2(name, "Shader/frag.spv", v);
     gGraphicsPipeline->createGraphicsPipeline(&shader1, &shader2);
 
     gRenderTarget = std::make_shared<RenderTarget>(gSwapChain, gRenderpass->renderPass, gDevice);
 
-
     gDescriptor = std::make_shared<Descriptor>(gDevice);
     gDescriptor->createDescriptorLayoutSetPoolAndAllocate(gSwapChain->swapChainImages.size());
-
 
     gCommandBuffer = std::make_shared<CommandBuffer>(gDevice);
     gCommandBuffer->createCommandPoolAndBuffer(gSwapChain->swapChainImages.size());
 
-
-    
     imageAvailableSemaphore = gDevice->getUniqueDevice()->get().createSemaphore(vk::SemaphoreCreateInfo(vk::SemaphoreCreateFlags()));
     renderFinishedSemaphore = gDevice->getUniqueDevice()->get().createSemaphore(vk::SemaphoreCreateInfo(vk::SemaphoreCreateFlags()));
     inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
@@ -58,25 +52,23 @@ Engine::Graphics::~Graphics()
 
 void Engine::Graphics::DrawStart()
 {
-        currentBuffer = gDevice->getUniqueDevice()->get().acquireNextImageKHR(
-            gSwapChain->swapchain.get(),
-            100000000,
-            imageAvailableSemaphore,
-            nullptr
-            );
+    currentBuffer = gDevice->getUniqueDevice()->get().acquireNextImageKHR(
+        gSwapChain->swapchain.get(),
+        100000000,
+        imageAvailableSemaphore,
+        nullptr);
     gDevice->getUniqueDevice()->get().waitForFences(1, &inFlightFences[currentBuffer], VK_TRUE, 100000000);
     gDevice->getUniqueDevice()->get().resetFences(1, &inFlightFences[currentBuffer]);
 
     currentCommandBuffer = gCommandBuffer->commandBuffers[currentBuffer];
     gCommandBuffer->beginCommandBuffer(currentCommandBuffer);
 
-    vk::ClearValue clearcolor(std::array<float, 4>({ { 0.2f, 0.2f, 0.2f, 0.2f } }));
-    std::array<vk::ClearValue, 1> clearValues = { clearcolor };
+    vk::ClearValue clearcolor(std::array<float, 4>({{0.2f, 0.2f, 0.2f, 0.2f}}));
+    std::array<vk::ClearValue, 1> clearValues = {clearcolor};
 
-    gRenderpass->beginRenderPass(clearValues, currentCommandBuffer, 
-        gRenderTarget->swapChainFramebuffers[currentBuffer],
-        gRenderTarget->_swapChainImageExtent);
-
+    gRenderpass->beginRenderPass(clearValues, currentCommandBuffer,
+                                 gRenderTarget->swapChainFramebuffers[currentBuffer],
+                                 gRenderTarget->_swapChainImageExtent);
 }
 
 void Engine::Graphics::DrawEnd()
@@ -85,7 +77,6 @@ void Engine::Graphics::DrawEnd()
     gCommandBuffer->endCommandBuffer(currentCommandBuffer);
     vk::PipelineStageFlags waitDestinationStageMask(vk::PipelineStageFlagBits::eColorAttachmentOutput);
     vk::SubmitInfo submitInfo = {};
-
 
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &currentCommandBuffer;

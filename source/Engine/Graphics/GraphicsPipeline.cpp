@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 
+namespace fs = std::filesystem;
+
 Engine::GraphicsPipeline::GraphicsPipeline(std::shared_ptr<Device> device, std::shared_ptr<Renderpass> renderPass) : _device(device), _renderPass(renderPass)
 {
     std::vector<std::tuple<vk::DescriptorType, uint32_t, vk::ShaderStageFlags>> const &bindingData = {{vk::DescriptorType::eUniformBuffer, 1, vk::ShaderStageFlagBits::eVertex}};
@@ -26,10 +28,12 @@ Engine::GraphicsPipeline::~GraphicsPipeline()
 {
 }
 
-static std::vector<char> readFile(const std::string& filename) {
+static std::vector<char> readFile(const std::string &filename)
+{
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         throw std::runtime_error("failed to open file!");
     }
 
@@ -44,14 +48,12 @@ static std::vector<char> readFile(const std::string& filename) {
     return buffer;
 }
 
-
 void Engine::GraphicsPipeline::createGraphicsPipeline(Engine::ShaderResource *vertexShader, Engine::ShaderResource *fragmentShader)
 {
+    auto vert = readFile("C:/Users/joni/tek/game_engine_2020/include/Engine/Shader/vert.spv");
 
-    auto vert = readFile("C:/Users/CHAUVIN/source/repos/C++Vulkan/vert.spv");
-
-    auto frag = readFile("C:/Users/CHAUVIN/source/repos/C++Vulkan/frag.spv");
-   /* vk::UniqueShaderModule vertShaderModule = _createShadermodule(vertexShader->getShader());
+    auto frag = readFile("C:/Users/joni/tek/game_engine_2020/include/Engine/Shader/frag.spv");
+    /* vk::UniqueShaderModule vertShaderModule = _createShadermodule(vertexShader->getShader());
     vk::UniqueShaderModule fragShaderModule = _createShadermodule(fragmentShader->getShader());*/
 
     vk::UniqueShaderModule vertShaderModule = _createShadermodule(vert);
@@ -168,9 +170,9 @@ vk::UniqueShaderModule Engine::GraphicsPipeline::_createShadermodule(const std::
     return shaderModule;
 }
 
-vk::UniqueShaderModule Engine::GraphicsPipeline::_createShadermodule(const std::vector<char>& code)
+vk::UniqueShaderModule Engine::GraphicsPipeline::_createShadermodule(const std::vector<char> &code)
 {
-    vk::ShaderModuleCreateInfo vertexShaderModuleCreateInfo(vk::ShaderModuleCreateFlags(), code.size(), reinterpret_cast<const uint32_t*>(code.data()));
+    vk::ShaderModuleCreateInfo vertexShaderModuleCreateInfo(vk::ShaderModuleCreateFlags(), code.size(), reinterpret_cast<const uint32_t *>(code.data()));
 
     vk::UniqueShaderModule shaderModule;
     shaderModule = _device->getUniqueDevice()->get().createShaderModuleUnique(vertexShaderModuleCreateInfo);
