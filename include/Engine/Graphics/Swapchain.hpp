@@ -9,25 +9,28 @@
 
 #include <vulkan/vulkan.hpp>
 
-namespace Engine {
-
-class Swapchain
+namespace Engine
 {
-public:
-    Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device);
-    Swapchain() = default;
-    ~Swapchain();
 
-    vk::UniqueSwapchainKHR swapchain;
-    vk::Format swapChainImageFormat;
-    vk::Extent2D swapChainImageExtent;
-    std::vector<vk::Image> swapChainImages;
-    std::vector<vk::UniqueImageView> imageViews;
-private:
-    std::shared_ptr<Engine::Window> _window;
-    std::shared_ptr<Instance> _instance;
-    std::shared_ptr<Device> _device;
-}; /* class Swapchain */
+    class Swapchain
+    {
+    public:
+        Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device);
+        Swapchain() = default;
+        ~Swapchain();
+
+        vk::UniqueSwapchainKHR swapchain;
+        vk::Format swapChainImageFormat;
+        vk::Extent2D swapChainImageExtent;
+        std::vector<vk::Image> swapChainImages;
+        std::vector<vk::UniqueImageView> imageViews;
+        vk::UniqueSurfaceKHR _surface;
+
+    private:
+        std::shared_ptr<Engine::Window> _window;
+        std::shared_ptr<Instance> _instance;
+        std::shared_ptr<Device> _device;
+    }; /* class Swapchain */
 
 } /* namespace Engine */
 

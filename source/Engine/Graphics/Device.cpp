@@ -6,13 +6,12 @@ Engine::Device::Device(std::shared_ptr<Instance> gInstance)
 {
     _physicalDevice = std::make_shared<vk::PhysicalDevice>(gInstance->getInstance()->get().enumeratePhysicalDevices().front());
     std::vector<vk::QueueFamilyProperties> queueFamilyProperties = _physicalDevice->getQueueFamilyProperties();
-    size_t graphicsQueueFamilyIndexTmp = std::distance(
+    size_t graphicsQueueFamilyIndex = std::distance(
         queueFamilyProperties.begin(),
         std::find_if(
             queueFamilyProperties.begin(), queueFamilyProperties.end(), [](vk::QueueFamilyProperties const &qfp) {
                 return qfp.queueFlags & vk::QueueFlagBits::eGraphics;
             }));
-    graphicsQueueFamilyIndex = graphicsQueueFamilyIndexTmp;
     assert(graphicsQueueFamilyIndex < queueFamilyProperties.size());
 
     _physicalDeviceFeatures = _physicalDevice->getFeatures();
@@ -39,6 +38,9 @@ void Engine::Device::createUniqueDevice()
         vk::DeviceCreateFlags(), deviceQueueCreateInfo, {}, enabledExtensions, &_physicalDeviceFeatures);
     deviceCreateInfo.pNext = nullptr;
     _uniqueDevice = std::make_shared<vk::UniqueDevice>(_physicalDevice->createDeviceUnique(deviceCreateInfo));
+
+    graphicsQueue = _uniqueDevice->get().getQueue(graphicsQueueFamilyIndex, 0);
+    presentQueue = _uniqueDevice->get().getQueue(graphicsQueueFamilyIndex, 0);
 
     _commandPool = _uniqueDevice->get().createCommandPoolUnique(
         vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex));
