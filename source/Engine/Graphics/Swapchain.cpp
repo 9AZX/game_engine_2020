@@ -4,11 +4,8 @@
 
 Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared_ptr<Instance> instance, std::shared_ptr<Device> device) : _window(window), _instance(instance), _device(device)
 {
-  _surface;
-  {
-    VkSurfaceKHR surface;
-
-    vk::ObjectDestroy<vk::Instance, VULKAN_HPP_DEFAULT_DISPATCHER_TYPE> _deleter(_instance->getInstance()->get());
+    //VkSurfaceKHR _surface2;
+    //vk::ObjectDestroy<vk::Instance, VULKAN_HPP_DEFAULT_DISPATCHER_TYPE> _deleter(_instance->getInstance()->get());
 
     VkWin32SurfaceCreateInfoKHR surfaceCreateInfo{};
     surfaceCreateInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -16,18 +13,18 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     surfaceCreateInfo.hwnd = _window->getHwnd();
     surfaceCreateInfo.pNext = NULL;
     surfaceCreateInfo.flags = 0;
-    VkResult result = vkCreateWin32SurfaceKHR(_instance->getInstance()->get(), &surfaceCreateInfo, nullptr, &surface);
-    if (result != VK_SUCCESS)
+    //VkResult result = vkCreateWin32SurfaceKHR(_instance->getInstance()->get(), &surfaceCreateInfo, nullptr, &_surface2);
+    surface = _instance->getInstance()->get().createWin32SurfaceKHRUnique(surfaceCreateInfo);
+    /*if (result != VK_SUCCESS)
     {
       throw std::runtime_error("failed to create window surface!");
-    }
-    _surface = vk::UniqueSurfaceKHR(vk::SurfaceKHR(surface), _deleter);
-  }
+    }*/
+    //surface = vk::UniqueSurfaceKHR(vk::SurfaceKHR(_surface2), _deleter);
   std::vector<vk::QueueFamilyProperties>
       queueFamilyProperties = _device->getPhysicalDevice().get()->getQueueFamilyProperties();
 
   size_t presentQueueFamilyIndex =
-      _device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(_device->graphicsQueueFamilyIndex), _surface.get())
+      _device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(_device->graphicsQueueFamilyIndex), surface.get())
           ? _device->graphicsQueueFamilyIndex
           : queueFamilyProperties.size();
   if (presentQueueFamilyIndex == queueFamilyProperties.size())
@@ -35,7 +32,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     for (size_t i = 0; i < queueFamilyProperties.size(); i++)
     {
       if ((queueFamilyProperties[i].queueFlags & vk::QueueFlagBits::eGraphics) &&
-          _device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(i), _surface.get()))
+          _device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(i), surface.get()))
       {
         _device->graphicsQueueFamilyIndex = checked_cast<uint32_t>(i);
         presentQueueFamilyIndex = i;
@@ -46,7 +43,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     {
       for (size_t i = 0; i < queueFamilyProperties.size(); i++)
       {
-        if (_device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(i), _surface.get()))
+        if (_device->getPhysicalDevice().get()->getSurfaceSupportKHR(static_cast<uint32_t>(i), surface.get()))
         {
           presentQueueFamilyIndex = i;
           break;
@@ -63,12 +60,12 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
   // create a device
   _device->createUniqueDevice();
 
-  std::vector<vk::SurfaceFormatKHR> formats = _device->getPhysicalDevice().get()->getSurfaceFormatsKHR(_surface.get());
+  std::vector<vk::SurfaceFormatKHR> formats = _device->getPhysicalDevice().get()->getSurfaceFormatsKHR(surface.get());
   assert(!formats.empty());
   swapChainImageFormat =
       (formats[0].format == vk::Format::eUndefined) ? vk::Format::eB8G8R8A8Unorm : formats[0].format;
 
-  vk::SurfaceCapabilitiesKHR surfaceCapabilities = _device->getPhysicalDevice().get()->getSurfaceCapabilitiesKHR(_surface.get());
+  vk::SurfaceCapabilitiesKHR surfaceCapabilities = _device->getPhysicalDevice().get()->getSurfaceCapabilitiesKHR(surface.get());
   VkExtent2D swapchainExtent;
 
   swapchainExtent = surfaceCapabilities.currentExtent;
@@ -90,7 +87,7 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
                       : vk::CompositeAlphaFlagBitsKHR::eOpaque;
 
   vk::SwapchainCreateInfoKHR swapChainCreateInfo(vk::SwapchainCreateFlagsKHR(),
-                                                 _surface.get(),
+                                                 surface.get(),
                                                  surfaceCapabilities.minImageCount,
                                                  swapChainImageFormat,
                                                  vk::ColorSpaceKHR::eSrgbNonlinear,
@@ -113,10 +110,15 @@ Engine::Swapchain::Swapchain(std::shared_ptr<Engine::Window> window, std::shared
     swapChainCreateInfo.queueFamilyIndexCount = 2;
     swapChainCreateInfo.pQueueFamilyIndices = queueFamilyIndices;
   }
+  else {
+      swapChainCreateInfo.imageSharingMode = vk::SharingMode::eExclusive;
+      swapChainCreateInfo.queueFamilyIndexCount = 0;
+      swapChainCreateInfo.pQueueFamilyIndices = nullptr;
+  }
 
-  /*vk::UniqueSwapchainKHR */ swapchain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
+  /*vk::UniqueSwapchainKHR */swapchain = _device->getUniqueDevice()->get().createSwapchainKHRUnique(swapChainCreateInfo);
 
-  /*std::vector<vk::Image> */ swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapchain.get());
+  /*std::vector<vk::Image> */swapChainImages = _device->getUniqueDevice()->get().getSwapchainImagesKHR(swapchain.get());
 
   imageViews.reserve(swapChainImages.size());
   vk::ComponentMapping componentMapping(

@@ -6,7 +6,7 @@ Engine::Device::Device(std::shared_ptr<Instance> gInstance)
 {
     _physicalDevice = std::make_shared<vk::PhysicalDevice>(gInstance->getInstance()->get().enumeratePhysicalDevices().front());
     std::vector<vk::QueueFamilyProperties> queueFamilyProperties = _physicalDevice->getQueueFamilyProperties();
-    size_t graphicsQueueFamilyIndex = std::distance(
+    graphicsQueueFamilyIndex = std::distance(
         queueFamilyProperties.begin(),
         std::find_if(
             queueFamilyProperties.begin(), queueFamilyProperties.end(), [](vk::QueueFamilyProperties const &qfp) {

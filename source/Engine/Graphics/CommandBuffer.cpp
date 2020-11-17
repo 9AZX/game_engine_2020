@@ -18,7 +18,7 @@ void Engine::CommandBuffer::createCommandPoolAndBuffer(size_t imageCount)
 
 void Engine::CommandBuffer::createCommandPool()
 {
-	vk::CommandPoolCreateInfo cpInfo(vk::CommandPoolCreateFlags(), _device->graphicsQueueFamilyIndex);
+	vk::CommandPoolCreateInfo cpInfo(vk::CommandPoolCreateFlags(vk::CommandPoolCreateFlagBits::eResetCommandBuffer), _device->graphicsQueueFamilyIndex);
 	commandPool = _device->getUniqueDevice()->get().createCommandPoolUnique(cpInfo);
 }
 

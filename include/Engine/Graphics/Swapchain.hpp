@@ -24,7 +24,7 @@ namespace Engine
         vk::Extent2D swapChainImageExtent;
         std::vector<vk::Image> swapChainImages;
         std::vector<vk::UniqueImageView> imageViews;
-        vk::UniqueSurfaceKHR _surface;
+        vk::UniqueSurfaceKHR surface;
 
     private:
         std::shared_ptr<Engine::Window> _window;

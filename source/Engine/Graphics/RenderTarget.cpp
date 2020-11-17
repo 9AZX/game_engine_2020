@@ -28,11 +28,11 @@ void Engine::RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, 
 
 	swapChainFramebuffers.resize(_swapChain->imageViews.size());
 
-	for (size_t i = 0; i < swapChainImageViews.size(); i++)
+	for (size_t i = 0; i < _swapChain->imageViews.size(); i++)
 	{
 
 		std::array<vk::ImageView, 1> attachments = {
-			swapChainImageViews[i].get(),
+			_swapChain->imageViews[i].get(),
 		};
 
 		vk::FramebufferCreateInfo fbInfo(vk::FramebufferCreateFlags(),
@@ -43,7 +43,7 @@ void Engine::RenderTarget::createFrameBuffer(vk::Extent2D swapChainImageExtent, 
 			swapChainImageExtent.height,
 			1);
 
-		Engine::Graphics::getInstance()->getDevice()->getUniqueDevice()->get().createFramebufferUnique(fbInfo);
+		swapChainFramebuffers[i] = _device->getUniqueDevice()->get().createFramebuffer(fbInfo);
 	}
 }
 

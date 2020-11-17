@@ -64,8 +64,8 @@ void Engine::Graphics::DrawStart()
             imageAvailableSemaphore,
             nullptr
             );
-    gDevice->getUniqueDevice()->get().waitForFences(inFlightFences, VK_TRUE, 100000000);
-    gDevice->getUniqueDevice()->get().resetFences(inFlightFences);
+    gDevice->getUniqueDevice()->get().waitForFences(1, &inFlightFences[currentBuffer], VK_TRUE, 100000000);
+    gDevice->getUniqueDevice()->get().resetFences(1, &inFlightFences[currentBuffer]);
 
     currentCommandBuffer = gCommandBuffer->commandBuffers[currentBuffer];
     gCommandBuffer->beginCommandBuffer(currentCommandBuffer);
@@ -103,6 +103,8 @@ void Engine::Graphics::DrawEnd()
     gDevice->graphicsQueue.submit(1, &submitInfo, inFlightFences[currentBuffer]);
 
     vk::PresentInfoKHR presentInfo({}, gSwapChain->swapchain.get(), currentBuffer);
+    presentInfo.setWaitSemaphoreCount(1);
+    presentInfo.pWaitSemaphores = &renderFinishedSemaphore;
 
     gDevice->presentQueue.presentKHR(presentInfo);
     gDevice->presentQueue.waitIdle();
